@@ -65,8 +65,8 @@ const Auth = (() => {
         phone,
         role: 'customer',
       });
-      // Sync to CRM
-      await CRM.syncContact({ email, fullName, phone, source: 'signup' });
+      // Sync to CRM (non-blocking — must never break signup)
+      try { if (typeof CRM !== 'undefined' && CRM.syncContact) await CRM.syncContact({ email, fullName, phone, source: 'signup' }); } catch (e) { /* CRM optional */ }
     }
     return data;
   };
