@@ -12,16 +12,16 @@ const EKRPT_CONFIG = {
     tagline: 'Digital & Networking Equipment',
     email:   'office@ekrpt.com',
     smtp:    'mail@ekrpt.com',
-    phone:   '+234 800 000 0000',
-    address: 'Lagos, Nigeria',
+    phone:   '+234 707 659 5032',
+    address: 'Computer Village, Ikeja, Lagos, Nigeria',
     domain:  'https://ekrpt.com',
   },
 
   // ── SUPABASE ─────────────────────────────────────────────
   // Sign up free at supabase.com → Project Settings → API
   supabase: {
-    url:     'https://YOUR_PROJECT.supabase.co',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+    url:     'https://vpbxcysyulbvgmluwoxv.supabase.co',
+    anonKey: 'sb_publishable_-guolUgI8XHhL_sPMMurFQ_RJ8GXv-L',
   },
 
   // ── PAYMENTS (public keys only) ───────────────────────────
