@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Super Admin — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--accent:#d94040}
+.pside-logo-mark{background:var(--red)}
+.role-tag{color:#ff9b9b}
+.pside-av{background:var(--red)}
+.key-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
+.key-card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.key-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.key-ps{background:#e5f6f0}.key-fw{background:#fef3e2}.key-pp{background:#e8f1fb}.key-cr{background:#edecfd}
+.key-name{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--gray-900)}
+.key-status{font-size:11px;font-family:var(--font-mono);margin-top:2px}
+.secret-input{font-family:var(--font-mono);letter-spacing:1px}
+.masked{-webkit-text-security:disc}
+.security-banner{background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:var(--radius-lg);padding:18px 22px;color:white;margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.security-banner .lock{font-size:28px}
+.security-banner h3{font-family:var(--font-head);font-size:15px;font-weight:700;margin-bottom:3px}
+.security-banner p{font-size:12px;opacity:.8;line-height:1.5}
+.twofa-box{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px;max-width:420px}
+.qr-wrap{background:white;border:1px solid var(--gray-100);border-radius:var(--radius);padding:16px;display:flex;justify-content:center;margin:16px 0}
+.qr-wrap img,.qr-wrap svg{width:160px;height:160px}
+.otp-input{font-family:var(--font-mono);font-size:24px;letter-spacing:8px;text-align:center;padding:12px}
+.role-chip{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;color:white;font-family:var(--font-mono)}
+</style>
+</head>
+<body class="portal">
+
+<aside class="pside">
+  <div class="pside-logo">
+    <div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div>
+    <div class="pside-brand">EKRPT Labs<span class="role-tag">Super Admin</span></div>
+  </div>
+  <nav class="pside-nav">
+    <div class="pside-section">Overview</div>
+    <button class="pside-link active" onclick="nav('dashboard',this)"><span class="ic">📊</span>Command Center</button>
+    <div class="pside-section">Administration</div>
+    <button class="pside-link" onclick="nav('staff',this)"><span class="ic">👤</span>Staff &amp; Roles</button>
+    <button class="pside-link" onclick="nav('payments',this)"><span class="ic">🔐</span>Payment Keys</button>
+    <button class="pside-link" onclick="nav('integrations',this)"><span class="ic">🔌</span>Integrations</button>
+    <button class="pside-link" onclick="nav('security',this)"><span class="ic">🛡️</span>Security &amp; 2FA</button>
+    <button class="pside-link" onclick="nav('audit',this)"><span class="ic">📋</span>Audit Log</button>
+    <div class="pside-section">Operations</div>
+    <button class="pside-link" onclick="nav('orders',this)"><span class="ic">📦</span>Orders<span class="badge" id="b-pending">0</span></button>
+    <button class="pside-link" onclick="nav('inventory',this)"><span class="ic">🛒</span>Inventory</button>
+    <button class="pside-link" onclick="nav('customers',this)"><span class="ic">👥</span>Customers</button>
+    <div class="pside-section">Business</div>
+    <button class="pside-link" onclick="nav('finance',this)"><span class="ic">💰</span>Finance</button>
+    <button class="pside-link" onclick="nav('marketing',this)"><span class="ic">📣</span>Marketing</button>
+    <div class="pside-section">Content</div>
+    <a class="pside-link" href="appearance.html"><span class="ic">🎨</span>Site Appearance</a>
+    <a class="pside-link" href="blog-editor.html"><span class="ic">✍️</span>Blog Manager</a>
+    <div class="pside-section">External</div>
+    <a class="pside-link" href="../index.html" target="_blank"><span class="ic">🌐</span>View Store</a>
+  </nav>
+  <div class="pside-foot">
+    <div class="pside-user">
+      <div class="pside-av" id="sa-av">SA</div>
+      <div><div class="pside-uname" id="sa-name">Super Admin</div><div class="pside-urole">Full Access</div></div>
+      <button class="pside-out" onclick="Auth.signOut()" title="Sign out">⏻</button>
+    </div>
+  </div>
+</aside>
+
+<div class="pmain">
+  <div class="ptop">
+    <div class="ptop-title" id="ptitle">Command Center</div>
+    <span class="ptop-meta" id="pmeta"></span>
+    <button class="pbtn pbtn-primary" onclick="refreshAll()">↻ Refresh</button>
+  </div>
+  <div class="pcontent">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div id="v-dashboard" class="pview active">
+      <div class="pmetrics">
+        <div class="pmetric"><div class="pmetric-label">Total Revenue</div><div class="pmetric-val" id="d-rev">₦0</div><div class="pmetric-sub">All paid orders</div><div class="pmetric-ic">💰</div></div>
+        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Orders</div><div class="pmetric-val" id="d-orders">0</div><div class="pmetric-sub" id="d-pending-sub">0 pending</div><div class="pmetric-ic">📦</div></div>
+        <div class="pmetric" style="--accent:#9333ea"><div class="pmetric-label">Staff Members</div><div class="pmetric-val" id="d-staff">0</div><div class="pmetric-sub">Active accounts</div><div class="pmetric-ic">👥</div></div>
+        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">Customers</div><div class="pmetric-val" id="d-customers">0</div><div class="pmetric-sub">Registered</div><div class="pmetric-ic">🧑</div></div>
+      </div>
+      <div class="ppanel">
+        <div class="ppanel-head"><span class="ppanel-title">Revenue (last 7 days)</span></div>
+        <div class="ppanel-body"><div class="pchart"><canvas id="rev-chart"></canvas></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div class="ppanel">
+          <div class="ppanel-head"><span class="ppanel-title">Recent Activity</span></div>
+          <div class="ppanel-body flush"><table class="ptable"><tbody id="recent-activity"></tbody></table></div>
+        </div>
+        <div class="ppanel">
+          <div class="ppanel-head"><span class="ppanel-title">Gateway Status</span></div>
+          <div class="ppanel-body" id="gateway-status"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ STAFF & ROLES ═══ -->
+    <div id="v-staff" class="pview">
+      <div class="palert palert-info">ℹ️ Only you (Super Admin) can create, suspend, or delete staff. Assign each person the minimum role they need.</div>
+      <div class="ptoolbar">
+        <input class="psearch" id="staff-search" placeholder="Search staff…" oninput="renderStaff()"/>
+        <button class="pbtn pbtn-primary" onclick="openStaffModal()">+ Add staff member</button>
+        <button class="pbtn pbtn-ghost" onclick="loadStaff()">↻ Refresh</button>
+      </div>
+      <div class="ppanel">
+        <div class="ppanel-body flush">
+          <table class="ptable">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="staff-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ppanel">
+        <div class="ppanel-head"><span class="ppanel-title">Role Reference</span></div>
+        <div class="ppanel-body">
+          <div class="pcards" id="roles-reference"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAYMENT KEYS ═══ -->
+    <div id="v-payments" class="pview">
+      <div class="security-banner">
+        <div class="lock">🔐</div>
+        <div>
+          <h3>Super Admin Only — Payment Processor Credentials</h3>
+          <p>Public keys are stored in the database. Secret keys are sent to a secure server function and never stored in browser-accessible code. Changes are logged in the audit trail.</p>
+        </div>
+      </div>
+      <div id="payment-keys-container"></div>
+    </div>
+
+    <!-- ═══ INTEGRATIONS ═══ -->
+    <div id="v-integrations" class="pview">
+      <div class="security-banner" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">
+        <div class="lock">🔌</div>
+        <div>
+          <h3>Service Integrations — fill these in after go-live</h3>
+          <p>Add the API keys and tokens for each non-payment service here. Public values (sender email, portal ID, client ID) are saved to your database; secret API keys are sent to a secure server function and never stored in browser-readable code.</p>
+        </div>
+      </div>
+      <div id="integrations-container"></div>
+    </div>
+
+    <!-- ═══ SECURITY & 2FA ═══ -->
+    <div id="v-security" class="pview">
+      <div class="palert palert-warn">🛡️ Two-factor authentication is strongly recommended for the Super Admin account. It uses an authenticator app (Google Authenticator, Authy, 1Password).</div>
+      <div class="twofa-box" id="twofa-box">
+        <div style="font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--gray-900);margin-bottom:6px">Two-Factor Authentication</div>
+        <div id="twofa-status" style="font-size:13px;color:var(--gray-400);margin-bottom:16px">Checking status…</div>
+        <div id="twofa-actions"></div>
+      </div>
+    </div>
+
+    <!-- ═══ AUDIT LOG ═══ -->
+    <div id="v-audit" class="pview">
+      <div class="ptoolbar">
+        <button class="pbtn pbtn-ghost" onclick="loadAudit()">↻ Refresh</button>
+        <span style="font-size:13px;color:var(--gray-400)">Every sensitive action is recorded here.</span>
+      </div>
+      <div class="ppanel">
+        <div class="ppanel-body flush">
+          <table class="ptable">
+            <thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Target</th></tr></thead>
+            <tbody id="audit-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ORDERS (shared) ═══ -->
+    <div id="v-orders" class="pview">
+      <div class="ptoolbar">
+        <input class="psearch" id="o-search" placeholder="Search orders…" oninput="renderOrders()"/>
+        <select class="pselect" id="o-status" onchange="renderOrders()">
+          <option value="">All statuses</option>
+          <option>pending</option><option>confirmed</option><option>processing</option>
+          <option>shipped</option><option>delivered</option><option>cancelled</option>
+        </select>
+        <button class="pbtn pbtn-ghost" onclick="loadOrders()">↻ Refresh</button>
+      </div>
+      <div class="ppanel"><div class="ppanel-body flush">
+        <table class="ptable">
+          <thead><tr><th>Order #</th><th>Date</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th></tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <!-- ═══ INVENTORY (shared) ═══ -->
+    <div id="v-inventory" class="pview">
+      <div class="ptoolbar">
+        <input class="psearch" id="i-search" placeholder="Search products…" oninput="renderInventory()"/>
+        <button class="pbtn pbtn-primary" onclick="openProductModal()">+ Add product</button>
+        <button class="pbtn pbtn-ghost" onclick="loadInventory()">↻ Refresh</button>
+      </div>
+      <div class="ppanel"><div class="ppanel-body flush">
+        <table class="ptable">
+          <thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="inventory-body"></tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <!-- ═══ CUSTOMERS (shared) ═══ -->
+    <div id="v-customers" class="pview">
+      <div class="ptoolbar"><input class="psearch" id="c-search" placeholder="Search customers…" oninput="renderCustomers()"/><button class="pbtn pbtn-ghost" onclick="loadCustomers()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush">
+        <table class="ptable"><thead><tr><th>Customer</th><th>Phone</th><th>Orders</th><th>Spent</th><th>Joined</th></tr></thead><tbody id="customers-body"></tbody></table>
+      </div></div>
+    </div>
+
+    <!-- ═══ FINANCE (link) ═══ -->
+    <div id="v-finance" class="pview">
+      <div class="pmetrics">
+        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Payments In</div><div class="pmetric-val" id="f-in">₦0</div><div class="pmetric-ic">⬆️</div></div>
+        <div class="pmetric" style="--accent:#dc2626"><div class="pmetric-label">Refunds</div><div class="pmetric-val" id="f-refunds">₦0</div><div class="pmetric-ic">⬇️</div></div>
+        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">Gateway Fees</div><div class="pmetric-val" id="f-fees">₦0</div><div class="pmetric-ic">🏦</div></div>
+        <div class="pmetric"><div class="pmetric-label">Net</div><div class="pmetric-val" id="f-net">₦0</div><div class="pmetric-ic">💵</div></div>
+      </div>
+      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Full Finance Portal</span></div><div class="ppanel-body"><p style="font-size:13px;color:var(--gray-400)">Open the dedicated <a href="../finance/index.html" style="color:var(--blue)">Finance Portal →</a> for refunds, transactions, and payouts.</p></div></div>
+    </div>
+
+    <!-- ═══ MARKETING (link) ═══ -->
+    <div id="v-marketing" class="pview">
+      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Marketing</span></div><div class="ppanel-body"><p style="font-size:13px;color:var(--gray-400)">Open the dedicated <a href="../marketing/index.html" style="color:var(--blue)">Marketing Portal →</a> to manage campaigns, promotions, and subscribers.</p></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- STAFF MODAL -->
+<div class="pmodal-bg" id="staff-modal">
+  <div class="pmodal">
+    <div class="pmodal-head"><h3 id="staff-modal-title">Add Staff Member</h3><button class="pmodal-x" onclick="closeStaff()">×</button></div>
+    <div class="pmodal-body">
+      <input type="hidden" id="staff-id"/>
+      <div class="prow">
+        <div class="pfield"><label>Full Name</label><input type="text" id="staff-name" placeholder="Ada Marketing"/></div>
+        <div class="pfield"><label>Email</label><input type="email" id="staff-email" placeholder="ada@ekrpt.com"/></div>
+      </div>
+      <div class="prow">
+        <div class="pfield"><label>Role</label>
+          <select id="staff-role">
+            <option value="admin">Admin — broad ops</option>
+            <option value="marketing">Marketing — emails, promos, campaigns</option>
+            <option value="inventory">Inventory Manager — stock &amp; products</option>
+            <option value="finance">Finance — billing &amp; refunds</option>
+            <option value="maintenance">Maintenance — system &amp; logs</option>
+            <option value="employee">Employee — process orders only</option>
+          </select>
+        </div>
+        <div class="pfield"><label>Department</label><input type="text" id="staff-dept" placeholder="Sales"/></div>
+      </div>
+      <div class="palert palert-info" style="margin:8px 0">An invite email is sent to set their password. They get exactly the access their role allows.</div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="saveStaff()">Create &amp; send invite</button>
+        <button class="pbtn pbtn-ghost" onclick="closeStaff()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="pmodal-bg" id="product-modal">
+  <div class="pmodal">
+    <div class="pmodal-head"><h3 id="prod-modal-title">Add Product</h3><button class="pmodal-x" onclick="closeProduct()">×</button></div>
+    <div class="pmodal-body">
+      <input type="hidden" id="prod-id"/>
+      <div class="prow"><div class="pfield"><label>Name</label><input id="prod-name"/></div><div class="pfield"><label>Category</label><select id="prod-cat"><option value="starlink">Starlink</option><option value="router">Router</option><option value="mifi">MiFi/Modem</option></select></div></div>
+      <div class="pfield"><label>Description</label><textarea id="prod-desc" style="height:70px"></textarea></div>
+      <div class="prow"><div class="pfield"><label>Price ₦</label><input type="number" id="prod-price"/></div><div class="pfield"><label>Stock</label><input type="number" id="prod-stock"/></div></div>
+      <div class="prow"><div class="pfield"><label>SKU</label><input id="prod-sku"/></div><div class="pfield"><label>Emoji</label><input id="prod-emoji" placeholder="📡"/></div></div>
+      <div style="display:flex;gap:10px"><button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="saveProduct()">Save</button><button class="pbtn pbtn-ghost" onclick="closeProduct()">Cancel</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
+<script src="../js/admin-ops.js"></script>
+<script>
+let _staff=[], _orders=[], _inventory=[], _customers=[], _editProd=null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const ok = await RBAC.guardSuperAdmin();
+  if (!ok) return;
+  const u = RBAC.getUser();
+  if (u) {
+    document.getElementById('sa-name').textContent = u.profile?.full_name || 'Super Admin';
+    document.getElementById('sa-av').textContent = (u.profile?.full_name||'SA').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  }
+  renderRolesReference();
+  await refreshAll();
+});
+
+async function refreshAll(){
+  document.getElementById('pmeta').textContent = 'Updated ' + new Date().toLocaleTimeString('en-NG');
+  await Promise.all([loadDashboard(), loadStaff(), loadOrders(), loadInventory(), loadCustomers(), loadPaymentKeys(), loadIntegrations(), loadAudit(), load2FA(), loadFinance()]);
+}
+
+function nav(v, btn){
+  document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));
+  document.getElementById('v-'+v).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('ptitle').textContent = {dashboard:'Command Center',staff:'Staff & Roles',payments:'Payment Processor Keys',integrations:'Service Integrations',security:'Security & 2FA',audit:'Audit Log',orders:'Orders',inventory:'Inventory',customers:'Customers',finance:'Finance',marketing:'Marketing'}[v];
+}
+
+// ── DASHBOARD ──
+async function loadDashboard(){
+  try{
+    const stats = await Orders.getStats();
+    document.getElementById('d-rev').textContent = fmtNGN(stats.totalRevenue);
+    document.getElementById('d-orders').textContent = stats.totalOrders;
+    document.getElementById('d-pending-sub').textContent = stats.pendingCount + ' pending';
+    document.getElementById('b-pending').textContent = stats.pendingCount;
+    document.getElementById('d-staff').textContent = _staff.length;
+    document.getElementById('d-customers').textContent = _customers.length;
+    renderRevChart();
+    const audit = await Audit.recent(6);
+    document.getElementById('recent-activity').innerHTML = audit.map(a=>`<tr><td style="font-size:11px;font-family:var(--font-mono);color:var(--gray-300)">${new Date(a.created_at).toLocaleString('en-NG',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</td><td style="font-size:12px">${a.action}</td><td style="font-size:11px;color:var(--gray-400)">${a.target||''}</td></tr>`).join('') || '<tr><td style="padding:20px;text-align:center;color:var(--gray-300)">No activity yet</td></tr>';
+  }catch(e){console.error(e);}
+}
+function renderRevChart(){
+  const ctx=document.getElementById('rev-chart'); if(!ctx)return;
+  if(window._rc)window._rc.destroy();
+  window._rc=new Chart(ctx,{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Revenue',data:[45000,82000,67000,120000,95000,140000,88000],borderColor:'#d94040',backgroundColor:'rgba(217,64,64,.07)',tension:.4,fill:true,pointRadius:4,pointBackgroundColor:'#d94040'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'₦'+(v/1000)+'k'}}}}});
+}
+
+// ── STAFF ──
+async function loadStaff(){ try{ _staff = await Staff.getAll(); renderStaff(); renderGatewayStatusFromStaff(); }catch(e){console.error(e);} }
+function renderStaff(){
+  const s=(document.getElementById('staff-search').value||'').toLowerCase();
+  const list=_staff.filter(x=>!s||(x.full_name||'').toLowerCase().includes(s)||(x.email||'').toLowerCase().includes(s));
+  document.getElementById('staff-body').innerHTML = list.map(m=>{
+    const r = ROLES[m.role]||{label:m.role,color:'#64748b'};
+    return `<tr>
+      <td><strong>${m.full_name||'—'}</strong></td>
+      <td style="font-size:12px;color:var(--gray-400)">${m.email||'—'}</td>
+      <td><span class="role-chip" style="background:${r.color}">${r.label}</span></td>
+      <td style="font-size:12px">${m.department||'—'}</td>
+      <td><span class="pill ${m.suspended?'pill-suspended':'pill-active'}">${m.suspended?'Suspended':'Active'}</span></td>
+      <td>
+        ${m.role!=='super_admin'?`
+          ${m.suspended
+            ? `<button class="pbtn pbtn-success" onclick="unsuspendStaff('${m.id}','${m.email}')">Activate</button>`
+            : `<button class="pbtn pbtn-warn" onclick="suspendStaff('${m.id}','${m.email}')">Suspend</button>`}
+          <button class="pbtn pbtn-danger" onclick="deleteStaff('${m.id}','${m.email}')" style="margin-left:4px">Delete</button>
+        ` : '<span style="font-size:11px;color:var(--gray-300);font-family:var(--font-mono)">YOU</span>'}
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="pempty">No staff yet — add your first team member</td></tr>';
+}
+function renderRolesReference(){
+  document.getElementById('roles-reference').innerHTML = Object.entries(ROLES).filter(([k])=>k!=='customer'&&k!=='super_admin').map(([k,r])=>`
+    <div class="pcard">
+      <span class="role-chip" style="background:${r.color};margin-bottom:8px">${r.label}</span>
+      <div style="font-size:11px;color:var(--gray-400);font-family:var(--font-mono);margin-top:8px;line-height:1.6">${r.permissions.join(', ')}</div>
+    </div>`).join('');
+}
+function renderGatewayStatusFromStaff(){} // placeholder, filled by loadPaymentKeys
+
+function openStaffModal(){ document.getElementById('staff-id').value=''; ['staff-name','staff-email','staff-dept'].forEach(i=>document.getElementById(i).value=''); document.getElementById('staff-modal').classList.add('show'); }
+function closeStaff(){ document.getElementById('staff-modal').classList.remove('show'); }
+async function saveStaff(){
+  const email=document.getElementById('staff-email').value;
+  const fullName=document.getElementById('staff-name').value;
+  const role=document.getElementById('staff-role').value;
+  const department=document.getElementById('staff-dept').value;
+  if(!email||!fullName){ showToast('Name and email required','error'); return; }
+  try{
+    await Staff.create({email,fullName,role,department});
+    showToast('Staff invited: '+email+' ✓');
+    closeStaff(); await loadStaff();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+async function suspendStaff(id,email){ if(!confirm('Suspend '+email+'? They will be unable to log in.'))return; await Staff.suspend(id,email); showToast(email+' suspended'); await loadStaff(); }
+async function unsuspendStaff(id,email){ await Staff.unsuspend(id,email); showToast(email+' re-activated ✓'); await loadStaff(); }
+async function deleteStaff(id,email){ if(!confirm('DELETE '+email+'? This removes their access permanently.'))return; await Staff.remove(id,email); showToast(email+' deleted'); await loadStaff(); }
+
+// ── PAYMENT KEYS ──
+const GW_META={paystack:{name:'Paystack',cls:'key-ps',ic:'⚡',fields:['public','secret']},flutterwave:{name:'Flutterwave',cls:'key-fw',ic:'🔥',fields:['public','secret']},paypal:{name:'PayPal Business',cls:'key-pp',ic:'🅿',fields:['public','secret']},cryptomus:{name:'Cryptomus',cls:'key-cr',ic:'₿',fields:['merchant','secret']}};
+async function loadPaymentKeys(){
+  try{
+    const configs = await PaymentConfig.getAll();
+    const map={}; configs.forEach(c=>map[c.gateway]=c);
+    const container=document.getElementById('payment-keys-container');
+    container.innerHTML = Object.entries(GW_META).map(([gw,m])=>{
+      const c=map[gw]||{};
+      return `<div class="key-card">
+        <div class="key-card-head">
+          <div class="key-logo ${m.cls}">${m.ic}</div>
+          <div style="flex:1">
+            <div class="key-name">${m.name}</div>
+            <div class="key-status" style="color:${c.is_enabled?'#15803d':'var(--gray-300)'}">${c.is_enabled?'● Enabled':'○ Disabled'} ${c.secret_set?'· Secret set':''} ${c.is_live_mode?'· LIVE':'· TEST'}</div>
+          </div>
+          <label class="ptoggle"><input type="checkbox" ${c.is_enabled?'checked':''} onchange="toggleGateway('${gw}',this.checked)"><span class="ptoggle-slider"></span></label>
+        </div>
+        ${m.fields.includes('public')?`<div class="pfield"><label>Public Key</label><input id="${gw}-public" value="${c.public_key||''}" placeholder="${gw==='paystack'?'pk_live_...':gw==='flutterwave'?'FLWPUBK-...':'Client ID'}"/></div>`:''}
+        ${m.fields.includes('merchant')?`<div class="pfield"><label>Merchant ID</label><input id="${gw}-merchant" value="${c.merchant_id||''}" placeholder="Cryptomus merchant UUID"/></div>`:''}
+        <div class="pfield"><label>Secret Key ${c.secret_set?'<span style="color:#15803d">(set ✓ — leave blank to keep)</span>':''}</label><input class="secret-input masked" id="${gw}-secret" placeholder="${gw==='paystack'?'sk_live_...':gw==='cryptomus'?'API key':'Secret key'}"/></div>
+        <div class="pfield"><label>Mode</label><select id="${gw}-mode"><option value="false" ${!c.is_live_mode?'selected':''}>Test / Sandbox</option><option value="true" ${c.is_live_mode?'selected':''}>Live / Production</option></select></div>
+        <button class="pbtn pbtn-primary" onclick="saveGatewayKeys('${gw}')">Save ${m.name} keys</button>
+      </div>`;
+    }).join('');
+    // gateway status on dashboard
+    document.getElementById('gateway-status').innerHTML = Object.entries(GW_META).map(([gw,m])=>{
+      const c=map[gw]||{};
+      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-50)"><span style="font-size:18px">${m.ic}</span><span style="flex:1;font-size:13px">${m.name}</span><span class="pill ${c.is_enabled?'pill-active':'pill-draft'}">${c.is_enabled?'On':'Off'}</span></div>`;
+    }).join('');
+  }catch(e){ document.getElementById('payment-keys-container').innerHTML='<div class="palert palert-danger">Could not load payment config. Ensure schema-v2.sql is applied and you are super_admin.</div>'; }
+}
+async function toggleGateway(gw,enabled){
+  try{ const pub=document.getElementById(gw+'-public')?.value; const merch=document.getElementById(gw+'-merchant')?.value; const live=document.getElementById(gw+'-mode')?.value==='true';
+    await PaymentConfig.savePublic(gw,{publicKey:pub,merchantId:merch,isEnabled:enabled,isLiveMode:live});
+    showToast(GW_META[gw].name+(enabled?' enabled':' disabled')); loadPaymentKeys();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+async function saveGatewayKeys(gw){
+  try{
+    const pub=document.getElementById(gw+'-public')?.value;
+    const merch=document.getElementById(gw+'-merchant')?.value;
+    const secret=document.getElementById(gw+'-secret')?.value;
+    const live=document.getElementById(gw+'-mode').value==='true';
+    await PaymentConfig.savePublic(gw,{publicKey:pub,merchantId:merch,isEnabled:true,isLiveMode:live});
+    if(secret) await PaymentConfig.saveSecret(gw,secret);
+    showToast(GW_META[gw].name+' keys saved securely ✓'); loadPaymentKeys();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+
+// ── INTEGRATIONS (non-payment services) ──
+// Registry: what each service needs + where to get it.
+const INTEGRATIONS=[
+  {key:'brevo',name:'Brevo (Email / SMTP)',ic:'📧',cls:'key-ps',purpose:'Sends signup, order & marketing emails from mail@ekrpt.com',
+    publicLabel:'Sender Email',publicPh:'mail@ekrpt.com',secretLabel:'Brevo API Key',secretPh:'xkeysib-...',where:'brevo.com → SMTP & API → API Keys'},
+  {key:'hubspot',name:'HubSpot (CRM)',ic:'🧲',cls:'key-cr',purpose:'Syncs customers into your CRM for follow-up & sales',
+    publicLabel:'Portal ID',publicPh:'e.g. 12345678',secretLabel:'Private App Token',secretPh:'pat-...',where:'HubSpot → Settings → Integrations → Private Apps'},
+  {key:'africastalking',name:"Africa's Talking (SMS / OTP)",ic:'📱',cls:'key-fw',purpose:'Sends phone OTP codes & SMS order alerts',
+    publicLabel:'Username',publicPh:'your AT username',secretLabel:'API Key',secretPh:'atsk_...',where:'africastalking.com → app → API Key'},
+  {key:'google_login',name:'Google Login',ic:'🔵',cls:'key-pp',purpose:'Lets customers sign in with Google',
+    publicLabel:'Client ID',publicPh:'...apps.googleusercontent.com',secretLabel:'Client Secret',secretPh:'GOCSPX-...',where:'console.cloud.google.com → Credentials',note:'Also paste these into Supabase → Authentication → Providers → Google'},
+  {key:'facebook_login',name:'Facebook Login',ic:'🔷',cls:'key-pp',purpose:'Lets customers sign in with Facebook',
+    publicLabel:'App ID',publicPh:'numeric app id',secretLabel:'App Secret',secretPh:'app secret',where:'developers.facebook.com → your app',note:'Also paste into Supabase → Authentication → Providers → Facebook'},
+  {key:'tiktok_login',name:'TikTok Login',ic:'🎵',cls:'key-cr',purpose:'Lets customers sign in with TikTok',
+    publicLabel:'Client Key',publicPh:'client key',secretLabel:'Client Secret',secretPh:'client secret',where:'developers.tiktok.com → your app'},
+  {key:'whatsapp',name:'WhatsApp Business',ic:'💬',cls:'key-ps',purpose:'Order updates & support over WhatsApp',
+    publicLabel:'Phone Number ID',publicPh:'phone number id',secretLabel:'Access Token',secretPh:'EAA...',where:'developers.facebook.com → WhatsApp'},
+  {key:'analytics',name:'Google Analytics',ic:'📈',cls:'key-fw',purpose:'Tracks store traffic & conversions',
+    publicLabel:'Measurement ID',publicPh:'G-XXXXXXXXXX',secretLabel:null,where:'analytics.google.com → Admin → Data Streams'},
+];
+async function loadIntegrations(){
+  try{
+    const rows=await Integrations.getAll();
+    const map={}; rows.forEach(r=>map[r.service]=r);
+    document.getElementById('integrations-container').innerHTML=INTEGRATIONS.map(s=>{
+      const c=map[s.key]||{};
+      return `<div class="key-card">
+        <div class="key-card-head">
+          <div class="key-logo ${s.cls}">${s.ic}</div>
+          <div style="flex:1">
+            <div class="key-name">${s.name}</div>
+            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">${s.purpose}</div>
+            <div class="key-status" style="color:${c.is_enabled?'#15803d':'var(--gray-300)'}">${c.is_enabled?'● Enabled':'○ Disabled'}${c.secret_set?' · Secret set':''}</div>
+          </div>
+          <label class="ptoggle"><input type="checkbox" ${c.is_enabled?'checked':''} onchange="toggleIntegration('${s.key}',this.checked)"><span class="ptoggle-slider"></span></label>
+        </div>
+        <div class="pfield"><label>${s.publicLabel}</label><input id="int-${s.key}-public" value="${c.public_value||''}" placeholder="${s.publicPh||''}"/></div>
+        ${s.secretLabel?`<div class="pfield"><label>${s.secretLabel} ${c.secret_set?'<span style="color:#15803d">(set ✓ — leave blank to keep)</span>':''}</label><input class="secret-input masked" id="int-${s.key}-secret" placeholder="${s.secretPh||''}"/></div>`:''}
+        ${s.note?`<div class="palert palert-info" style="margin:4px 0 12px;font-size:12px">ℹ️ ${s.note}</div>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <button class="pbtn pbtn-primary" onclick="saveIntegration('${s.key}',${!!s.secretLabel})">Save</button>
+          <span style="font-size:11px;color:var(--gray-300);font-family:var(--font-mono)">Get it: ${s.where}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){ document.getElementById('integrations-container').innerHTML='<div class="palert palert-danger">Could not load integrations. Ensure schema-v2.sql is applied and you are super_admin.</div>'; }
+}
+async function toggleIntegration(key,enabled){
+  try{ const pub=document.getElementById('int-'+key+'-public')?.value;
+    await Integrations.savePublic(key,{publicValue:pub,isEnabled:enabled});
+    showToast((INTEGRATIONS.find(s=>s.key===key)?.name||key)+(enabled?' enabled':' disabled')); loadIntegrations();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+async function saveIntegration(key,hasSecret){
+  try{
+    const pub=document.getElementById('int-'+key+'-public')?.value;
+    await Integrations.savePublic(key,{publicValue:pub,isEnabled:true});
+    if(hasSecret){ const secret=document.getElementById('int-'+key+'-secret')?.value; if(secret) await Integrations.saveSecret(key,secret); }
+    showToast((INTEGRATIONS.find(s=>s.key===key)?.name||key)+' saved securely ✓'); loadIntegrations();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+
+// ── 2FA ──
+async function load2FA(){
+  try{
+    const factors = await TwoFA.listFactors();
+    const verified = factors.filter(f=>f.status==='verified');
+    const status=document.getElementById('twofa-status');
+    const actions=document.getElementById('twofa-actions');
+    if(verified.length>0){
+      status.innerHTML='<span class="pill pill-active">● Enabled</span> Your account is protected with 2FA.';
+      actions.innerHTML=`<button class="pbtn pbtn-danger" onclick="disable2FA('${verified[0].id}')">Disable 2FA</button>`;
+    }else{
+      status.innerHTML='<span class="pill pill-draft">○ Not enabled</span> Add an extra layer of security.';
+      actions.innerHTML=`<button class="pbtn pbtn-primary" onclick="start2FA()">Enable 2FA</button>`;
+    }
+  }catch(e){ document.getElementById('twofa-status').textContent='2FA requires Supabase MFA enabled in your project settings.'; }
+}
+async function start2FA(){
+  try{
+    const data = await TwoFA.enroll();
+    const box=document.getElementById('twofa-actions');
+    box.innerHTML=`
+      <div class="qr-wrap">${data.totp.qr_code?`<img src="${data.totp.qr_code}"/>`:`<div style="font-family:var(--font-mono);font-size:12px;word-break:break-all">${data.totp.secret}</div>`}</div>
+      <p style="font-size:12px;color:var(--gray-400);margin-bottom:8px">Scan with Google Authenticator, then enter the 6-digit code:</p>
+      <div class="pfield"><input class="otp-input" id="otp-code" maxlength="6" placeholder="000000"/></div>
+      <button class="pbtn pbtn-primary" onclick="confirm2FA('${data.id}')">Verify & enable</button>`;
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+async function confirm2FA(factorId){
+  try{ await TwoFA.verifyEnrollment(factorId, document.getElementById('otp-code').value); showToast('2FA enabled ✓'); load2FA(); }
+  catch(e){ showToast('Invalid code, try again','error'); }
+}
+async function disable2FA(factorId){ if(!confirm('Disable 2FA?'))return; await TwoFA.disable(factorId); showToast('2FA disabled'); load2FA(); }
+
+// ── AUDIT ──
+async function loadAudit(){
+  try{ const log=await Audit.recent(100);
+    document.getElementById('audit-body').innerHTML = log.map(a=>`<tr><td style="font-size:11px;font-family:var(--font-mono);color:var(--gray-300)">${new Date(a.created_at).toLocaleString('en-NG')}</td><td style="font-size:12px">${a.actor_email||'—'}</td><td><span class="pill pill-draft">${a.action}</span></td><td style="font-size:12px;color:var(--gray-400)">${a.target||'—'}</td></tr>`).join('') || '<tr><td colspan="4" class="pempty">No audit entries yet</td></tr>';
+  }catch(e){}
+}
+
+// ── ORDERS ──
+async function loadOrders(){ try{ _orders=await Orders.getAll(); renderOrders(); }catch(e){} }
+function renderOrders(){
+  const s=(document.getElementById('o-search').value||'').toLowerCase(); const st=document.getElementById('o-status').value;
+  const list=_orders.filter(o=>(!s||o.order_number.toLowerCase().includes(s))&&(!st||o.status===st));
+  document.getElementById('orders-body').innerHTML=list.map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-size:12px">${o.shipping_address?.name||o.guest_email||'Guest'}</td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.payment_status}">${o.payment_status}</span></td><td><span class="pill pill-${o.status}">${o.status}</span></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No orders</td></tr>';
+}
+
+// ── INVENTORY ──
+async function loadInventory(){ try{ _inventory=await Products.getAll(); renderInventory(); }catch(e){} }
+function renderInventory(){
+  const s=(document.getElementById('i-search').value||'').toLowerCase();
+  const list=_inventory.filter(p=>!s||p.name.toLowerCase().includes(s));
+  document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><span class="pill ${p.is_active?'pill-active':'pill-cancelled'}">${p.is_active?'Active':'Hidden'}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';
+}
+function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
+function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
+function closeProduct(){ document.getElementById('product-modal').classList.remove('show'); }
+async function saveProduct(){
+  const data={name:document.getElementById('prod-name').value,description:document.getElementById('prod-desc').value,price:parseFloat(document.getElementById('prod-price').value),stock:parseInt(document.getElementById('prod-stock').value),sku:document.getElementById('prod-sku').value,emoji:document.getElementById('prod-emoji').value,category:document.getElementById('prod-cat').value};
+  if(!data.name||!data.price){ showToast('Name and price required','error'); return; }
+  try{ if(_editProd)await Products.update(_editProd,data); else await Products.create(data); showToast('Product saved ✓'); closeProduct(); await loadInventory(); }catch(e){ showToast('Error: '+e.message,'error'); }
+}
+
+// ── CUSTOMERS ──
+async function loadCustomers(){ try{ _customers=await CRM.getAll(); renderCustomers(); }catch(e){} }
+function renderCustomers(){
+  const s=(document.getElementById('c-search').value||'').toLowerCase();
+  const list=_customers.filter(c=>!s||(c.full_name||'').toLowerCase().includes(s)||(c.email||'').includes(s));
+  document.getElementById('customers-body').innerHTML=list.map(c=>`<tr><td><strong>${c.full_name||'—'}</strong><div style="font-size:11px;color:var(--gray-300)">${c.email||''}</div></td><td style="font-size:12px">${c.phone||'—'}</td><td style="font-family:var(--font-mono)">${c.total_orders||0}</td><td style="font-family:var(--font-mono)">${fmtNGN(c.total_spent||0)}</td><td style="font-size:12px">${new Date(c.created_at).toLocaleDateString('en-NG')}</td></tr>`).join('')||'<tr><td colspan="5" class="pempty">No customers yet</td></tr>';
+}
+
+// ── FINANCE ──
+async function loadFinance(){ try{ const s=await Finance.getSummary(); document.getElementById('f-in').textContent=fmtNGN(s.payments); document.getElementById('f-refunds').textContent=fmtNGN(s.refunds); document.getElementById('f-fees').textContent=fmtNGN(s.fees); document.getElementById('f-net').textContent=fmtNGN(s.net); }catch(e){} }
+</script>
+</body>
+</html>

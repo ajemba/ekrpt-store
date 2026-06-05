@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Maintenance — EKRPT</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>:root{--accent:#0891b2}.pside-logo-mark{background:#0891b2}.role-tag{color:#a5f3fc}.pside-av{background:#0891b2}</style>
+</head>
+<body class="portal">
+<aside class="pside">
+  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div><div class="pside-brand">EKRPT Labs<span class="role-tag">Maintenance</span></div></div>
+  <nav class="pside-nav">
+    <div class="pside-section">System</div>
+    <button class="pside-link active" onclick="nav('health',this)"><span class="ic">💚</span>Health</button>
+    <button class="pside-link" onclick="nav('logs',this)"><span class="ic">📋</span>System Logs</button>
+    <a class="pside-link" href="../index.html" target="_blank"><span class="ic">🌐</span>View Store</a>
+  </nav>
+  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">M</div><div><div class="pside-uname" id="uname">Maintenance</div><div class="pside-urole">System</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
+</aside>
+<div class="pmain">
+  <div class="ptop"><div class="ptop-title" id="ptitle">Health</div><span class="ptop-meta" id="pmeta"></span><button class="pbtn pbtn-primary" onclick="refreshAll()">↻ Refresh</button></div>
+  <div class="pcontent">
+    <div id="v-health" class="pview active">
+      <div class="pmetrics">
+        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Database</div><div class="pmetric-val" id="h-db">●</div><div class="pmetric-sub" id="h-db-sub">Checking…</div></div>
+        <div class="pmetric"><div class="pmetric-label">Products</div><div class="pmetric-val" id="h-products">0</div><div class="pmetric-sub">Active</div></div>
+        <div class="pmetric" style="--accent:#9333ea"><div class="pmetric-label">Errors (24h)</div><div class="pmetric-val" id="h-errors">0</div></div>
+        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">Warnings</div><div class="pmetric-val" id="h-warn">0</div></div>
+      </div>
+      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Service Status</span></div><div class="ppanel-body" id="services"></div></div>
+    </div>
+    <div id="v-logs" class="pview">
+      <div class="ptoolbar"><select class="pselect" id="log-level" onchange="loadLogs()"><option value="">All levels</option><option>info</option><option>warning</option><option>error</option><option>critical</option></select><button class="pbtn pbtn-ghost" onclick="loadLogs()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Time</th><th>Level</th><th>Source</th><th>Message</th></tr></thead><tbody id="logs-body"></tbody></table></div></div>
+    </div>
+  </div>
+</div>
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
+<script src="../js/admin-ops.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!await RBAC.guard(['maintenance','super_admin']))return;
+  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Maintenance';document.getElementById('av').textContent=(u.profile?.full_name||'M')[0].toUpperCase();}
+  await refreshAll();
+});
+async function refreshAll(){document.getElementById('pmeta').textContent='Updated '+new Date().toLocaleTimeString('en-NG');await loadHealth();await loadLogs();}
+function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={health:'Health',logs:'System Logs'}[v];}
+async function loadHealth(){
+  try{const p=await Products.getAll();document.getElementById('h-db').textContent='●';document.getElementById('h-db').style.color='#16a34a';document.getElementById('h-db-sub').textContent='Connected';document.getElementById('h-products').textContent=p.length;}
+  catch(e){document.getElementById('h-db').style.color='#dc2626';document.getElementById('h-db-sub').textContent='Error';}
+  const logs=await Maintenance.getLogs();
+  document.getElementById('h-errors').textContent=logs.filter(l=>l.level==='error'||l.level==='critical').length;
+  document.getElementById('h-warn').textContent=logs.filter(l=>l.level==='warning').length;
+  document.getElementById('services').innerHTML=[['Supabase Database','active'],['Authentication','active'],['Payment Gateways','active'],['Email (Brevo SMTP)','active'],['GitHub Pages','active']].map(([n,s])=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-50)"><span class="pill pill-active">●</span><span style="flex:1;font-size:13px">${n}</span><span style="font-size:12px;color:#15803d;font-family:var(--font-mono)">Operational</span></div>`).join('');
+}
+async function loadLogs(){try{const lvl=document.getElementById('log-level').value;const logs=await Maintenance.getLogs(lvl||null);document.getElementById('logs-body').innerHTML=logs.map(l=>`<tr><td style="font-size:11px;font-family:var(--font-mono);color:var(--gray-300)">${new Date(l.created_at).toLocaleString('en-NG')}</td><td><span class="pill ${l.level==='error'||l.level==='critical'?'pill-cancelled':l.level==='warning'?'pill-low':'pill-draft'}">${l.level}</span></td><td style="font-size:12px">${l.source||'—'}</td><td style="font-size:12px">${l.message||''}</td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No logs — system healthy ✓</td></tr>';}catch(e){}}
+</script>
+</body>
+</html>

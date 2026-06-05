@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Inventory — EKRPT</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>:root{--accent:#16a34a}.pside-logo-mark{background:#16a34a}.role-tag{color:#86efac}.pside-av{background:#16a34a}</style>
+</head>
+<body class="portal">
+<aside class="pside">
+  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div><div class="pside-brand">EKRPT Labs<span class="role-tag">Inventory</span></div></div>
+  <nav class="pside-nav">
+    <div class="pside-section">Inventory</div>
+    <button class="pside-link active" onclick="nav('dashboard',this)"><span class="ic">📊</span>Overview</button>
+    <button class="pside-link" onclick="nav('products',this)"><span class="ic">🛒</span>Products</button>
+    <button class="pside-link" onclick="nav('restock',this)"><span class="ic">📥</span>Restock<span class="badge" id="low-badge">0</span></button>
+    <button class="pside-link" onclick="nav('log',this)"><span class="ic">📋</span>Stock Log</button>
+    <a class="pside-link" href="../index.html" target="_blank"><span class="ic">🌐</span>View Store</a>
+  </nav>
+  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">I</div><div><div class="pside-uname" id="uname">Inventory</div><div class="pside-urole">Inventory Manager</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
+</aside>
+<div class="pmain">
+  <div class="ptop"><div class="ptop-title" id="ptitle">Overview</div><span class="ptop-meta" id="pmeta"></span><button class="pbtn pbtn-primary" onclick="refreshAll()">↻ Refresh</button></div>
+  <div class="pcontent">
+
+    <div id="v-dashboard" class="pview active">
+      <div id="low-alert" style="display:none" class="palert palert-warn">⚠️ <strong id="low-msg"></strong></div>
+      <div class="pmetrics">
+        <div class="pmetric"><div class="pmetric-label">Total Products</div><div class="pmetric-val" id="i-total">0</div><div class="pmetric-ic">📦</div></div>
+        <div class="pmetric" style="--accent:#dc2626"><div class="pmetric-label">Out of Stock</div><div class="pmetric-val" id="i-out">0</div><div class="pmetric-ic">🚫</div></div>
+        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">Low Stock</div><div class="pmetric-val" id="i-low">0</div><div class="pmetric-sub">≤ 5 units</div><div class="pmetric-ic">⚠️</div></div>
+        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Total Units</div><div class="pmetric-val" id="i-units">0</div><div class="pmetric-ic">🔢</div></div>
+      </div>
+      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Stock by Category</span></div><div class="ppanel-body" id="cat-breakdown"></div></div>
+    </div>
+
+    <div id="v-products" class="pview">
+      <div class="ptoolbar"><input class="psearch" id="p-search" placeholder="Search products…" oninput="renderProducts()"/><button class="pbtn pbtn-primary" onclick="openProduct()">+ Add product</button><button class="pbtn pbtn-ghost" onclick="loadProducts()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="products-body"></tbody></table></div></div>
+    </div>
+
+    <div id="v-restock" class="pview">
+      <div class="palert palert-info">📥 Quickly adjust stock levels. Every change is logged.</div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Product</th><th>Current Stock</th><th>Adjust</th><th>Set New Level</th></tr></thead><tbody id="restock-body"></tbody></table></div></div>
+    </div>
+
+    <div id="v-log" class="pview">
+      <div class="ptoolbar"><button class="pbtn pbtn-ghost" onclick="loadLog()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Date</th><th>Product</th><th>Change</th><th>Reason</th></tr></thead><tbody id="log-body"></tbody></table></div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pmodal-bg" id="product-modal"><div class="pmodal">
+  <div class="pmodal-head"><h3 id="pm-title">Add Product</h3><button class="pmodal-x" onclick="closeProduct()">×</button></div>
+  <div class="pmodal-body">
+    <input type="hidden" id="pm-id"/>
+    <div class="prow"><div class="pfield"><label>Name</label><input id="pm-name"/></div><div class="pfield"><label>Category</label><select id="pm-cat"><option value="starlink">Starlink</option><option value="router">Router</option><option value="mifi">MiFi/Modem</option></select></div></div>
+    <div class="pfield"><label>Description</label><textarea id="pm-desc" style="height:70px"></textarea></div>
+    <div class="prow"><div class="pfield"><label>Price ₦</label><input type="number" id="pm-price"/></div><div class="pfield"><label>Stock</label><input type="number" id="pm-stock"/></div></div>
+    <div class="prow"><div class="pfield"><label>SKU</label><input id="pm-sku"/></div><div class="pfield"><label>Emoji</label><input id="pm-emoji" placeholder="📡"/></div></div>
+    <div style="display:flex;gap:10px"><button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="saveProduct()">Save</button><button class="pbtn pbtn-ghost" onclick="closeProduct()">Cancel</button></div>
+  </div>
+</div></div>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
+<script src="../js/admin-ops.js"></script>
+<script>
+let _products=[],_edit=null;
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!await RBAC.guard(['inventory','super_admin','admin']))return;
+  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Inventory';document.getElementById('av').textContent=(u.profile?.full_name||'I')[0].toUpperCase();}
+  await refreshAll();
+});
+async function refreshAll(){document.getElementById('pmeta').textContent='Updated '+new Date().toLocaleTimeString('en-NG');await loadProducts();await loadLog();}
+function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={dashboard:'Overview',products:'Products',restock:'Restock',log:'Stock Log'}[v];}
+
+async function loadProducts(){try{_products=await Products.getAll();renderProducts();renderRestock();loadDashboard();}catch(e){}}
+function loadDashboard(){
+  const out=_products.filter(p=>p.stock===0).length;
+  const low=_products.filter(p=>p.stock>0&&p.stock<=5).length;
+  const units=_products.reduce((s,p)=>s+p.stock,0);
+  document.getElementById('i-total').textContent=_products.length;
+  document.getElementById('i-out').textContent=out;
+  document.getElementById('i-low').textContent=low;
+  document.getElementById('i-units').textContent=units;
+  document.getElementById('low-badge').textContent=out+low;
+  if(out+low>0){document.getElementById('low-alert').style.display='flex';document.getElementById('low-msg').textContent=`${out} out of stock, ${low} low — needs restocking`;}
+  const cats={};_products.forEach(p=>{cats[p.category]=(cats[p.category]||0)+p.stock;});
+  document.getElementById('cat-breakdown').innerHTML=Object.entries(cats).map(([c,u])=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gray-50);font-size:13px"><span style="text-transform:capitalize">${c}</span><span style="font-family:var(--font-mono)"><strong>${u}</strong> units</span></div>`).join('')||'<p style="font-size:13px;color:var(--gray-300)">No products</p>';
+}
+function renderProducts(){const s=(document.getElementById('p-search').value||'').toLowerCase();const list=_products.filter(p=>!s||p.name.toLowerCase().includes(s));document.getElementById('products-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="text-transform:capitalize">${p.category}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';}
+function renderRestock(){document.getElementById('restock-body').innerHTML=_products.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><button class="pbtn pbtn-ghost" onclick="adjust('${p.id}',-1)">−1</button> <button class="pbtn pbtn-ghost" onclick="adjust('${p.id}',1)">+1</button> <button class="pbtn pbtn-success" onclick="adjust('${p.id}',10)">+10</button></td><td><input type="number" id="set-${p.id}" value="${p.stock}" style="width:80px;padding:6px;border:1px solid var(--gray-100);border-radius:8px;font-family:var(--font-mono)"/> <button class="pbtn pbtn-primary" onclick="setStock('${p.id}')">Set</button></td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No products</td></tr>';}
+async function adjust(id,delta){const p=_products.find(x=>x.id===id);const ns=Math.max(0,p.stock+delta);await Products.updateStock(id,ns,delta>0?'restock':'adjustment');showToast(p.name+' → '+ns+' units');await loadProducts();}
+async function setStock(id){const v=parseInt(document.getElementById('set-'+id).value);if(isNaN(v))return;await Products.updateStock(id,v,'adjustment');showToast('Stock set to '+v);await loadProducts();}
+
+function openProduct(){_edit=null;['pm-name','pm-desc','pm-price','pm-stock','pm-sku','pm-emoji'].forEach(i=>document.getElementById(i).value='');document.getElementById('pm-title').textContent='Add Product';document.getElementById('product-modal').classList.add('show');}
+function editProduct(id){const p=_products.find(x=>x.id===id);_edit=id;document.getElementById('pm-name').value=p.name;document.getElementById('pm-desc').value=p.description||'';document.getElementById('pm-price').value=p.price;document.getElementById('pm-stock').value=p.stock;document.getElementById('pm-sku').value=p.sku||'';document.getElementById('pm-emoji').value=p.emoji||'';document.getElementById('pm-cat').value=p.category;document.getElementById('pm-title').textContent='Edit Product';document.getElementById('product-modal').classList.add('show');}
+function closeProduct(){document.getElementById('product-modal').classList.remove('show');}
+async function saveProduct(){const d={name:document.getElementById('pm-name').value,description:document.getElementById('pm-desc').value,price:parseFloat(document.getElementById('pm-price').value),stock:parseInt(document.getElementById('pm-stock').value),sku:document.getElementById('pm-sku').value,emoji:document.getElementById('pm-emoji').value,category:document.getElementById('pm-cat').value};if(!d.name||!d.price){showToast('Name and price required','error');return;}try{if(_edit)await Products.update(_edit,d);else await Products.create(d);showToast('Product saved ✓');closeProduct();await loadProducts();}catch(e){showToast('Error: '+e.message,'error');}}
+
+async function loadLog(){try{const sb=getSupabase();const{data}=await sb.from('inventory_log').select('*, products(name)').order('created_at',{ascending:false}).limit(80);document.getElementById('log-body').innerHTML=(data||[]).map(l=>`<tr><td style="font-size:12px">${new Date(l.created_at).toLocaleString('en-NG')}</td><td>${l.products?.name||'—'}</td><td style="font-family:var(--font-mono);font-weight:700;color:${l.change>0?'#15803d':'#dc2626'}">${l.change>0?'+':''}${l.change}</td><td><span class="pill pill-draft">${l.reason}</span></td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No stock movements yet</td></tr>';}catch(e){}}
+</script>
+</body>
+</html>

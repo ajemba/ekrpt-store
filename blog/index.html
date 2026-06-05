@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Blog — EKRPT Networking Labs</title>
+<meta name="description" content="Guides, news and tips on Starlink, routers and networking in Nigeria from EKRPT Networking Labs."/>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-hybrid.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.blog-hero{background:linear-gradient(135deg,var(--blue),var(--gray-900));color:white;padding:64px 24px 48px;text-align:center}
+.blog-hero h1{font-family:var(--font-head);font-size:clamp(28px,5vw,44px);font-weight:800;margin-bottom:10px}
+.blog-hero p{opacity:.85;max-width:560px;margin:0 auto;font-size:16px}
+.blog-wrap{max-width:1140px;margin:0 auto;padding:40px 24px}
+.blog-cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;justify-content:center}
+.cat-pill{padding:7px 16px;border-radius:100px;border:1.5px solid var(--gray-100);background:white;cursor:pointer;font-size:13px;font-weight:600;color:var(--gray-500);transition:all .15s}
+.cat-pill.active,.cat-pill:hover{background:var(--blue);color:white;border-color:var(--blue)}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+.post-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-xl);overflow:hidden;text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
+.post-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.post-cover{height:188px;background:var(--gray-100) center/cover;position:relative}
+.post-cover .cat{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.95);color:var(--blue);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;font-family:var(--font-mono)}
+.post-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.post-body h2{font-family:var(--font-head);font-size:19px;font-weight:700;line-height:1.3;margin-bottom:8px}
+.post-body p{color:var(--gray-400);font-size:14px;line-height:1.6;flex:1}
+.post-meta{display:flex;gap:12px;margin-top:14px;font-size:12px;color:var(--gray-300);font-family:var(--font-mono)}
+.featured-post{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0;background:white;border:1px solid var(--gray-100);border-radius:var(--radius-xl);overflow:hidden;text-decoration:none;color:inherit;margin-bottom:8px}
+.featured-post .post-cover{height:100%;min-height:280px}
+.featured-post .post-body{padding:32px}
+.featured-post h2{font-size:26px}
+@media(max-width:720px){.featured-post{grid-template-columns:1fr}.featured-post .post-cover{min-height:200px}}
+.blog-empty{text-align:center;padding:60px;color:var(--gray-300)}
+</style>
+</head>
+<body>
+<div id="announce-bar" style="display:none;background:var(--red);color:white;text-align:center;padding:8px;font-size:13px;cursor:pointer"></div>
+<nav class="nav" id="nav"></nav>
+
+<header class="blog-hero">
+  <h1>EKRPT Blog</h1>
+  <p>Guides, product news and practical tips on Starlink, routers and staying connected across Nigeria.</p>
+</header>
+
+<div class="blog-wrap">
+  <div class="blog-cats" id="cats"></div>
+  <div id="featured-wrap"></div>
+  <div class="posts-grid" id="posts"><div class="blog-empty">Loading posts…</div></div>
+</div>
+
+<footer id="footer"></footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/site-settings.js"></script>
+<script>
+let _all=[],_activeCat='All';
+document.addEventListener('DOMContentLoaded',async()=>{
+  const s=await SiteSettings.boot({title:'Blog — EKRPT Networking Labs',description:'Guides, news and tips on Starlink and networking in Nigeria.',type:'website'});
+  buildBlogChrome(s);
+  await loadPosts();
+});
+async function loadPosts(){
+  try{
+    _all=await Blog.list({limit:60});
+    renderCats();renderPosts();
+  }catch(e){document.getElementById('posts').innerHTML='<div class="blog-empty">Could not load posts. Make sure the blog schema is set up.</div>';}
+}
+function renderCats(){
+  const cats=['All',...new Set(_all.map(p=>p.category).filter(Boolean))];
+  document.getElementById('cats').innerHTML=cats.map(c=>`<button class="cat-pill ${c===_activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+}
+function setCat(c){_activeCat=c;renderCats();renderPosts();}
+function renderPosts(){
+  const list=_activeCat==='All'?_all:_all.filter(p=>p.category===_activeCat);
+  // Featured
+  const feat=list.find(p=>p.featured);
+  document.getElementById('featured-wrap').innerHTML=(feat&&_activeCat==='All')?featuredCard(feat):'';
+  const rest=list.filter(p=>!(feat&&_activeCat==='All'&&p.id===feat.id));
+  document.getElementById('posts').innerHTML=rest.map(card).join('')||'<div class="blog-empty">No posts in this category yet.</div>';
+}
+function card(p){
+  return `<a class="post-card" href="./post.html?slug=${encodeURIComponent(p.slug)}">
+    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image}')`:''}"><span class="cat">${p.category||'General'}</span></div>
+    <div class="post-body"><h2>${p.title}</h2><p>${p.excerpt||''}</p>
+      <div class="post-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min</span><span>👁️ ${p.views||0}</span></div>
+    </div></a>`;
+}
+function featuredCard(p){
+  return `<a class="featured-post" href="./post.html?slug=${encodeURIComponent(p.slug)}">
+    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image}')`:''}"><span class="cat">⭐ Featured</span></div>
+    <div class="post-body"><div style="font-family:var(--font-mono);font-size:11px;color:var(--blue);font-weight:700;margin-bottom:8px">${p.category||'General'}</div><h2>${p.title}</h2><p>${p.excerpt||''}</p>
+      <div class="post-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min read</span></div>
+    </div></a>`;
+}
+function fmtDate(d){return d?new Date(d).toLocaleDateString('en-NG',{year:'numeric',month:'short',day:'numeric'}):'';}
+</script>
+</body>
+</html>

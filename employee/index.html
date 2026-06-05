@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Employee — EKRPT</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>:root{--accent:#64748b}.pside-logo-mark{background:#475569}.role-tag{color:#cbd5e1}.pside-av{background:#475569}</style>
+</head>
+<body class="portal">
+<aside class="pside">
+  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div><div class="pside-brand">EKRPT Labs<span class="role-tag">Employee</span></div></div>
+  <nav class="pside-nav">
+    <div class="pside-section">Work</div>
+    <button class="pside-link active" onclick="nav('orders',this)"><span class="ic">📦</span>Process Orders<span class="badge" id="b-pending">0</span></button>
+    <button class="pside-link" onclick="nav('inventory',this)"><span class="ic">🛒</span>Check Stock</button>
+    <a class="pside-link" href="../index.html" target="_blank"><span class="ic">🌐</span>View Store</a>
+  </nav>
+  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">E</div><div><div class="pside-uname" id="uname">Employee</div><div class="pside-urole">Staff</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
+</aside>
+<div class="pmain">
+  <div class="ptop"><div class="ptop-title" id="ptitle">Process Orders</div><span class="ptop-meta" id="pmeta"></span><button class="pbtn pbtn-primary" onclick="refreshAll()">↻ Refresh</button></div>
+  <div class="pcontent">
+
+    <div id="v-orders" class="pview active">
+      <div class="palert palert-info">📦 Update order status as you process them. You can move orders through: confirmed → processing → shipped → delivered.</div>
+      <div class="ptoolbar"><input class="psearch" id="o-search" placeholder="Search orders…" oninput="renderOrders()"/><select class="pselect" id="o-status" onchange="renderOrders()"><option value="">All statuses</option><option>pending</option><option>confirmed</option><option>processing</option><option>shipped</option><option>delivered</option></select><button class="pbtn pbtn-ghost" onclick="loadOrders()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Order #</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Update</th></tr></thead><tbody id="orders-body"></tbody></table></div></div>
+    </div>
+
+    <div id="v-inventory" class="pview">
+      <div class="palert palert-info">👁️ View-only. To change stock, contact your inventory manager.</div>
+      <div class="ptoolbar"><input class="psearch" id="i-search" placeholder="Search products…" oninput="renderInventory()"/><button class="pbtn pbtn-ghost" onclick="loadInventory()">↻ Refresh</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Product</th><th>SKU</th><th>Category</th><th>Stock</th></tr></thead><tbody id="inventory-body"></tbody></table></div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pmodal-bg" id="order-modal"><div class="pmodal"><div class="pmodal-head"><h3>Order Details</h3><button class="pmodal-x" onclick="closeOrder()">×</button></div><div class="pmodal-body" id="order-body"></div></div></div>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
+<script>
+let _orders=[],_inventory=[];
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!await RBAC.guard(['employee','admin','super_admin']))return;
+  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Employee';document.getElementById('av').textContent=(u.profile?.full_name||'E')[0].toUpperCase();}
+  await refreshAll();
+});
+async function refreshAll(){document.getElementById('pmeta').textContent='Updated '+new Date().toLocaleTimeString('en-NG');await Promise.all([loadOrders(),loadInventory()]);}
+function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={orders:'Process Orders',inventory:'Check Stock'}[v];}
+
+async function loadOrders(){try{_orders=await Orders.getAll();const pending=_orders.filter(o=>o.status==='pending'||o.status==='confirmed').length;document.getElementById('b-pending').textContent=pending;renderOrders();}catch(e){}}
+function renderOrders(){const s=(document.getElementById('o-search').value||'').toLowerCase();const st=document.getElementById('o-status').value;const list=_orders.filter(o=>(!s||o.order_number.toLowerCase().includes(s))&&(!st||o.status===st));document.getElementById('orders-body').innerHTML=list.map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-size:12px">${o.shipping_address?.name||o.guest_email||'Guest'}</td><td><button class="pbtn pbtn-ghost" onclick="viewOrder('${o.id}')">${(o.items||[]).length} items</button></td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.status}">${o.status}</span></td><td><select onchange="updateStatus('${o.id}',this.value)" style="font-size:12px;padding:5px 8px;border:1px solid var(--gray-100);border-radius:8px;font-family:var(--font-body)">${['pending','confirmed','processing','shipped','delivered'].map(x=>`<option value="${x}" ${o.status===x?'selected':''}>${x}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td colspan="7" class="pempty">No orders</td></tr>';}
+async function updateStatus(id,status){try{await Orders.updateStatus(id,status);showToast('Order → '+status+' ✓');await loadOrders();}catch(e){showToast('Error: '+e.message,'error');}}
+async function viewOrder(id){const o=await Orders.getById(id);document.getElementById('order-body').innerHTML=`<div style="font-family:var(--font-mono);font-size:18px;font-weight:700;margin-bottom:14px">${o.order_number}</div><table class="ptable">${(o.items||[]).map(i=>`<tr><td>${i.emoji||''} ${i.name}</td><td>×${i.qty}</td></tr>`).join('')}</table><div style="margin-top:14px;font-size:13px;color:var(--gray-500)"><div><strong>Customer:</strong> ${o.shipping_address?.name||o.guest_email||'Guest'}</div><div><strong>Phone:</strong> ${o.shipping_address?.phone||o.guest_phone||'—'}</div><div><strong>Address:</strong> ${o.shipping_address?.address||'—'}</div></div>`;document.getElementById('order-modal').classList.add('show');}
+function closeOrder(){document.getElementById('order-modal').classList.remove('show');}
+
+async function loadInventory(){try{_inventory=await Products.getAll();renderInventory();}catch(e){}}
+function renderInventory(){const s=(document.getElementById('i-search').value||'').toLowerCase();const list=_inventory.filter(p=>!s||p.name.toLowerCase().includes(s));document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="text-transform:capitalize">${p.category}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No products</td></tr>';}
+</script>
+</body>
+</html>

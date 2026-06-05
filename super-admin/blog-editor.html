@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Blog Manager — EKRPT</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--accent:#9333ea}.pside-logo-mark{background:#9333ea}.role-tag{color:#d8b4fe}.pside-av{background:#9333ea}
+.editor-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}}
+.toolbar-btn{padding:6px 10px;border:1px solid var(--gray-100);background:white;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600}
+.toolbar-btn:hover{background:var(--gray-50)}
+#editor{min-height:340px;border:1.5px solid var(--gray-100);border-radius:0 0 var(--radius) var(--radius);padding:16px;font-size:15px;line-height:1.7;outline:none;font-family:var(--font-body)}
+#editor:focus{border-color:var(--blue)}
+#editor h2{font-family:var(--font-head);font-size:22px;margin:16px 0 8px}#editor h3{font-size:18px;margin:14px 0 6px}
+#editor img{max-width:100%;border-radius:8px;margin:10px 0}#editor a{color:var(--blue)}
+#editor blockquote{border-left:3px solid var(--blue);padding-left:14px;color:var(--gray-500);margin:12px 0}
+.ed-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:10px;border:1.5px solid var(--gray-100);border-bottom:none;border-radius:var(--radius) var(--radius) 0 0;background:var(--gray-50)}
+.seo-score{display:inline-block;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:700;font-family:var(--font-mono)}
+.seo-good{background:#dcfce7;color:#15803d}.seo-ok{background:#fef3c7;color:#b45309}.seo-bad{background:#fef2f2;color:#dc2626}
+.check{display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 0;color:var(--gray-500)}
+.g-preview{font-family:arial;background:white;border:1px solid var(--gray-100);border-radius:8px;padding:12px}
+</style>
+</head>
+<body class="portal">
+<aside class="pside">
+  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M3 3h14v14H3z" fill="none"/><path d="M5 5h10v2H5zM5 9h10v2H5zM5 13h7v2H5z"/></svg></div><div class="pside-brand">EKRPT Blog<span class="role-tag">Content</span></div></div>
+  <nav class="pside-nav">
+    <div class="pside-section">Blog</div>
+    <button class="pside-link active" onclick="showList()"><span class="ic">📚</span>All Posts</button>
+    <button class="pside-link" onclick="newPost()"><span class="ic">✍️</span>New Post</button>
+    <a class="pside-link" href="../blog/index.html" target="_blank"><span class="ic">🌐</span>View Blog</a>
+    <div class="pside-section">Manage</div>
+    <a class="pside-link" id="back-link" href="../super-admin/index.html"><span class="ic">⬅️</span>Back to Dashboard</a>
+  </nav>
+  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">B</div><div><div class="pside-uname" id="uname">Editor</div><div class="pside-urole">Content</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
+</aside>
+<div class="pmain">
+  <div class="ptop"><div class="ptop-title" id="ptitle">All Posts</div><span class="ptop-meta" id="pmeta"></span><span id="top-actions"></span></div>
+  <div class="pcontent">
+
+    <!-- LIST -->
+    <div id="view-list" class="pview active">
+      <div class="ptoolbar"><input class="psearch" id="search" placeholder="Search posts…" oninput="renderList()"/><select class="pselect" id="filter-status" onchange="renderList()"><option value="">All</option><option>published</option><option>draft</option></select><button class="pbtn pbtn-primary" onclick="newPost()">+ New post</button></div>
+      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="list-body"></tbody></table></div></div>
+    </div>
+
+    <!-- EDITOR -->
+    <div id="view-editor" class="pview">
+      <div class="editor-grid">
+        <div>
+          <div class="ppanel"><div class="ppanel-body">
+            <div class="pfield"><label>Post Title</label><input id="title" placeholder="How to install Starlink in Nigeria" oninput="onTitle()" style="font-size:18px;font-weight:600"/></div>
+            <div class="pfield"><label>URL Slug <span style="color:var(--gray-300)">ekrpt.com/blog/<span id="slug-preview">…</span></span></label><input id="slug" placeholder="how-to-install-starlink-nigeria" oninput="document.getElementById('slug-preview').textContent=this.value"/></div>
+            <div class="pfield"><label>Excerpt (short summary — shows in cards &amp; search)</label><textarea id="excerpt" style="height:56px" maxlength="200" oninput="updateSeo()"></textarea></div>
+          </div></div>
+
+          <div class="ppanel"><div class="ppanel-body">
+            <label style="font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px;display:block">Content</label>
+            <div class="ed-toolbar">
+              <button class="toolbar-btn" onclick="fmt('formatBlock','h2')">H2</button>
+              <button class="toolbar-btn" onclick="fmt('formatBlock','h3')">H3</button>
+              <button class="toolbar-btn" onclick="fmt('bold')"><b>B</b></button>
+              <button class="toolbar-btn" onclick="fmt('italic')"><i>I</i></button>
+              <button class="toolbar-btn" onclick="fmt('insertUnorderedList')">• List</button>
+              <button class="toolbar-btn" onclick="fmt('formatBlock','blockquote')">❝ Quote</button>
+              <button class="toolbar-btn" onclick="addLink()">🔗 Link</button>
+              <button class="toolbar-btn" onclick="document.getElementById('content_img').click()">🖼️ Image</button>
+            </div>
+            <div id="editor" contenteditable="true" oninput="updateSeo()"></div>
+            <input type="file" id="content_img" accept="image/*" style="display:none" onchange="insertImage(this)"/>
+          </div></div>
+        </div>
+
+        <div>
+          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Publish</span></div><div class="ppanel-body">
+            <div class="pfield"><label>Status</label><select id="status"><option value="draft">Draft</option><option value="published">Published</option></select></div>
+            <div class="pfield"><label>Category</label><input id="category" placeholder="Guides" list="cats"/><datalist id="cats"><option>Guides</option><option>News</option><option>Product Updates</option><option>Tips</option></datalist></div>
+            <div class="pfield"><label>Tags (comma separated)</label><input id="tags" placeholder="starlink, setup, nigeria"/></div>
+            <label class="check"><input type="checkbox" id="featured"/> Feature this post</label>
+            <div style="display:flex;gap:8px;margin-top:14px"><button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="savePost()">💾 Save</button><button class="pbtn pbtn-ghost" onclick="showList()">Cancel</button></div>
+          </div></div>
+
+          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Cover Image</span></div><div class="ppanel-body">
+            <div class="img-drop" style="border:2px dashed var(--gray-100);border-radius:12px;padding:18px;text-align:center;cursor:pointer;background:var(--gray-50)" onclick="document.getElementById('cover_file').click()"><img id="cover_preview" style="max-width:100%;border-radius:8px;display:none;margin-bottom:8px"/><div id="cover_hint">📤 Upload cover image</div></div>
+            <input type="file" id="cover_file" accept="image/*" style="display:none" onchange="uploadCover(this)"/>
+            <div class="pfield" style="margin-top:10px"><label>Image Alt Text (SEO)</label><input id="cover_alt" placeholder="Starlink dish installed on a Lagos rooftop"/></div>
+          </div></div>
+
+          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">SEO</span><span class="seo-score seo-ok" id="seo-score">—</span></div><div class="ppanel-body">
+            <div class="pfield"><label>SEO Title (optional override)</label><input id="seo_title" maxlength="70" oninput="updateSeo()"/></div>
+            <div class="pfield"><label>Meta Description</label><textarea id="seo_description" style="height:58px" maxlength="180" oninput="updateSeo()"></textarea></div>
+            <div class="pfield"><label>Focus Keywords</label><input id="seo_keywords" placeholder="starlink nigeria"/></div>
+            <label class="check"><input type="checkbox" id="no_index"/> Hide from search engines (noindex)</label>
+            <div style="margin:12px 0 6px;font-size:10px;font-family:var(--font-mono);text-transform:uppercase;color:var(--gray-400)">Google preview</div>
+            <div class="g-preview"><div style="color:#1a0dab;font-size:16px" id="g-title">Title</div><div style="color:#006621;font-size:12px" id="g-url">ekrpt.com/blog/…</div><div style="color:#545454;font-size:12px" id="g-desc">Description…</div></div>
+            <div id="seo-checks" style="margin-top:12px"></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
+<script src="../js/admin-ops.js"></script>
+<script src="../js/site-settings.js"></script>
+<script>
+let _posts=[],_editId=null,_cover=null,_slugEdited=false;
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!await RBAC.guard(['super_admin','marketing']))return;
+  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Editor';document.getElementById('av').textContent=(u.profile?.full_name||'B')[0].toUpperCase();
+    if(u.profile?.role==='marketing')document.getElementById('back-link').href='../marketing/index.html';}
+  document.getElementById('slug').addEventListener('input',()=>_slugEdited=true);
+  await loadPosts();
+});
+async function loadPosts(){try{_posts=await Blog.listAll();document.getElementById('pmeta').textContent=_posts.length+' posts';renderList();}catch(e){showToast('Load error: '+e.message,'error');}}
+function renderList(){
+  const s=(document.getElementById('search').value||'').toLowerCase();const st=document.getElementById('filter-status').value;
+  const list=_posts.filter(p=>(!s||p.title.toLowerCase().includes(s))&&(!st||p.status===st));
+  document.getElementById('list-body').innerHTML=list.map(p=>`<tr><td><strong>${p.title}</strong><div style="font-size:11px;color:var(--gray-300)">/blog/${p.slug}</div></td><td>${p.category||'—'}</td><td><span class="pill pill-${p.status==='published'?'active':'draft'}">${p.status}</span></td><td style="font-family:var(--font-mono)">${p.views||0}</td><td style="font-size:12px">${new Date(p.updated_at).toLocaleDateString('en-NG')}</td><td><button class="pbtn pbtn-ghost" onclick="editPost('${p.id}')">Edit</button> <button class="pbtn pbtn-danger" onclick="delPost('${p.id}','${p.title.replace(/'/g,"")}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No posts yet — click "New post"</td></tr>';
+}
+function showList(){document.getElementById('view-editor').classList.remove('active');document.getElementById('view-list').classList.add('active');document.getElementById('ptitle').textContent='All Posts';document.getElementById('top-actions').innerHTML='';loadPosts();}
+function showEditor(){document.getElementById('view-list').classList.remove('active');document.getElementById('view-editor').classList.add('active');}
+
+function newPost(){
+  _editId=null;_cover=null;_slugEdited=false;
+  ['title','slug','excerpt','category','tags','seo_title','seo_description','seo_keywords','cover_alt'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('editor').innerHTML='';document.getElementById('status').value='draft';document.getElementById('featured').checked=false;document.getElementById('no_index').checked=false;
+  document.getElementById('cover_preview').style.display='none';document.getElementById('cover_hint').style.display='block';
+  document.getElementById('slug-preview').textContent='…';
+  document.getElementById('ptitle').textContent='New Post';
+  showEditor();updateSeo();
+}
+async function editPost(id){
+  const p=await Blog.getById(id);if(!p)return;
+  _editId=id;_cover=p.cover_image;_slugEdited=true;
+  document.getElementById('title').value=p.title||'';document.getElementById('slug').value=p.slug||'';document.getElementById('slug-preview').textContent=p.slug||'';
+  document.getElementById('excerpt').value=p.excerpt||'';document.getElementById('editor').innerHTML=p.content||'';
+  document.getElementById('category').value=p.category||'';document.getElementById('tags').value=(p.tags||[]).join(', ');
+  document.getElementById('status').value=p.status||'draft';document.getElementById('featured').checked=!!p.featured;document.getElementById('no_index').checked=!!p.no_index;
+  document.getElementById('seo_title').value=p.seo_title||'';document.getElementById('seo_description').value=p.seo_description||'';document.getElementById('seo_keywords').value=p.seo_keywords||'';
+  document.getElementById('cover_alt').value=p.cover_alt||'';
+  if(p.cover_image){const c=document.getElementById('cover_preview');c.src=p.cover_image;c.style.display='block';document.getElementById('cover_hint').style.display='none';}
+  document.getElementById('ptitle').textContent='Edit Post';showEditor();updateSeo();
+}
+async function delPost(id,title){if(!confirm('Delete "'+title+'"? This cannot be undone.'))return;await Blog.remove(id);showToast('Post deleted');loadPosts();}
+
+function onTitle(){const t=document.getElementById('title').value;if(!_slugEdited){const s=Blog.slugify(t);document.getElementById('slug').value=s;document.getElementById('slug-preview').textContent=s;}updateSeo();}
+function fmt(cmd,val){document.execCommand(cmd,false,val||null);document.getElementById('editor').focus();updateSeo();}
+function addLink(){const url=prompt('Link URL:');if(url)document.execCommand('createLink',false,url);}
+async function insertImage(input){const f=input.files[0];if(!f)return;showToast('Uploading image…');try{const url=await SiteSettings.uploadImage(f,'blog','inline');document.execCommand('insertHTML',false,`<img src="${url}" alt=""/>`);showToast('Image inserted ✓');updateSeo();}catch(e){showToast('Upload failed','error');}input.value='';}
+async function uploadCover(input){const f=input.files[0];if(!f)return;showToast('Uploading cover…');try{const url=await SiteSettings.uploadImage(f,'blog','cover');_cover=url;const c=document.getElementById('cover_preview');c.src=url;c.style.display='block';document.getElementById('cover_hint').style.display='none';showToast('Cover uploaded ✓');updateSeo();}catch(e){showToast('Upload failed','error');}}
+
+function updateSeo(){
+  const title=document.getElementById('seo_title').value||document.getElementById('title').value;
+  const desc=document.getElementById('seo_description').value||document.getElementById('excerpt').value;
+  const slug=document.getElementById('slug').value;
+  const content=document.getElementById('editor').innerText||'';
+  document.getElementById('g-title').textContent=title||'Title';
+  document.getElementById('g-url').textContent='ekrpt.com/blog/'+(slug||'…');
+  document.getElementById('g-desc').textContent=(desc||'Description…').slice(0,160);
+  // SEO checks
+  const checks=[
+    {ok:title.length>=10&&title.length<=60,t:`Title length (${title.length}/60)`},
+    {ok:desc.length>=50&&desc.length<=160,t:`Description (${desc.length}/160)`},
+    {ok:!!slug&&slug.length<=70,t:'URL slug set'},
+    {ok:!!_cover,t:'Cover image added'},
+    {ok:content.split(/\s+/).filter(Boolean).length>=300,t:`Content length (${content.split(/\s+/).filter(Boolean).length} words, aim 300+)`},
+    {ok:document.getElementById('editor').querySelectorAll('h2,h3').length>0,t:'Has subheadings (H2/H3)'},
+    {ok:!!document.getElementById('cover_alt').value,t:'Cover alt text'},
+  ];
+  document.getElementById('seo-checks').innerHTML=checks.map(c=>`<div class="check">${c.ok?'✅':'⬜'} <span style="${c.ok?'':'color:var(--gray-400)'}">${c.t}</span></div>`).join('');
+  const passed=checks.filter(c=>c.ok).length;const pct=Math.round(passed/checks.length*100);
+  const badge=document.getElementById('seo-score');badge.textContent=pct+'%';badge.className='seo-score '+(pct>=80?'seo-good':pct>=50?'seo-ok':'seo-bad');
+}
+
+async function savePost(){
+  const title=document.getElementById('title').value.trim();
+  if(!title){showToast('Title required','error');return;}
+  let slug=document.getElementById('slug').value.trim()||Blog.slugify(title);
+  const post={
+    title,slug,excerpt:document.getElementById('excerpt').value,content:document.getElementById('editor').innerHTML,
+    cover_image:_cover,cover_alt:document.getElementById('cover_alt').value,
+    category:document.getElementById('category').value||'General',
+    tags:document.getElementById('tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    status:document.getElementById('status').value,featured:document.getElementById('featured').checked,no_index:document.getElementById('no_index').checked,
+    seo_title:document.getElementById('seo_title').value,seo_description:document.getElementById('seo_description').value,seo_keywords:document.getElementById('seo_keywords').value,
+    og_image:_cover,author_name:(RBAC.getUser()?.profile?.full_name)||'EKRPT Team',
+  };
+  try{
+    if(_editId)await Blog.update(_editId,post);else await Blog.create(post);
+    showToast('Post saved ✓'+(post.status==='published'?' — live now':' (draft)'));
+    showList();
+  }catch(e){showToast('Error: '+e.message,'error');}
+}
+</script>
+</body>
+</html>

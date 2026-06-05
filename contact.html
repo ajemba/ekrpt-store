@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Contact EKRPT Networking Labs — office@ekrpt.com. Sales, technical support, B2B and bulk orders."/>
+<title>Contact — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-hybrid.css"/>
+<style>
+.contact-hero{background:var(--gray-900);padding:80px 0 64px;position:relative;overflow:hidden}
+.contact-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 0%,rgba(26,143,196,.18) 0%,transparent 65%);pointer-events:none}
+.contact-hero h1{font-family:var(--font-head);font-size:clamp(32px,4vw,50px);font-weight:800;color:white;margin-bottom:12px;letter-spacing:-.03em;position:relative;z-index:1}
+.contact-hero p{font-size:16px;color:rgba(255,255,255,.5);font-weight:300;max-width:480px;position:relative;z-index:1}
+.contact-body{padding:64px 0}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.contact-form-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-xl);padding:32px;box-shadow:var(--shadow-sm)}
+.contact-form-card h2{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:20px}
+.field textarea{resize:vertical;min-height:120px}
+.info-col{}
+.info-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:22px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px}
+.info-icon{width:42px;height:42px;border-radius:var(--radius);background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.info-label{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-300);margin-bottom:4px}
+.info-val{font-size:14px;font-weight:500;color:var(--gray-900)}
+.info-sub{font-size:12px;color:var(--gray-400);margin-top:2px}
+.info-card a{color:var(--blue);text-decoration:none}
+.hours-card{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:22px;margin-bottom:16px}
+.hours-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--gray-100);color:var(--gray-500)}
+.hours-row:last-child{border-bottom:none;font-weight:600;color:var(--gray-900)}
+.hours-row .day{color:var(--gray-400)}
+@media(max-width:800px){.contact-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="nav-mount"></div>
+
+<div class="contact-hero">
+  <div class="container">
+    <div class="section-label" style="color:var(--blue-mid)">Get In Touch</div>
+    <h1>We're here to help</h1>
+    <p>Sales, technical support, bulk orders, or just a question — our team responds fast.</p>
+  </div>
+</div>
+
+<section class="contact-body">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-form-card">
+        <h2>Send us a message</h2>
+        <div class="field"><label>Full name</label><input type="text" placeholder="Your name"/></div>
+        <div class="field"><label>Email address</label><input type="email" placeholder="you@example.com"/></div>
+        <div class="field"><label>Phone number</label><input type="tel" placeholder="+234 801 234 5678"/></div>
+        <div class="field">
+          <label>Subject</label>
+          <select>
+            <option>Sales enquiry</option>
+            <option>Technical support</option>
+            <option>Bulk / B2B order</option>
+            <option>Become a reseller</option>
+            <option>Warranty / Returns</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Message</label><textarea placeholder="Tell us what you need…"></textarea></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendMsg()">Send message</button>
+        <p style="font-size:11px;color:var(--gray-300);margin-top:10px;text-align:center;font-family:var(--font-mono)">Sent via mail@ekrpt.com · We reply within 2 hours</p>
+      </div>
+
+      <div class="info-col">
+        <div class="info-card">
+          <div class="info-icon">✉</div>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-val"><a href="mailto:office@ekrpt.com">office@ekrpt.com</a></div>
+            <div class="info-sub">General sales &amp; support</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-label">Location</div>
+            <div class="info-val">Lagos, Nigeria</div>
+            <div class="info-sub">Same-day delivery within Lagos</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📦</div>
+          <div>
+            <div class="info-label">B2B &amp; Bulk Orders</div>
+            <div class="info-val">Competitive pricing for resellers</div>
+            <div class="info-sub">ISPs, enterprises &amp; distributors welcome</div>
+          </div>
+        </div>
+
+        <div class="hours-card">
+          <div class="section-label" style="margin-bottom:12px">Business Hours</div>
+          <div class="hours-row"><span class="day">Monday – Friday</span><span>8:00 AM – 6:00 PM</span></div>
+          <div class="hours-row"><span class="day">Saturday</span><span>9:00 AM – 4:00 PM</span></div>
+          <div class="hours-row"><span class="day">Sunday</span><span>Closed</span></div>
+          <div class="hours-row"><span class="day">Technical Support</span><span>24/7</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/main.js"></script>
+<script>
+function sendMsg() { showToast('Message sent! We will reply to your email within 2 hours ✓'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="About EKRPT Networking Labs — Founded by CA Michael. Licensed Nigerian networking equipment distributor. Our story, mission, and values."/>
+<title>About Us — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-hybrid.css"/>
+<style>
+.about-hero{background:var(--gray-900);padding:100px 0 80px;text-align:center;position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(26,143,196,.22) 0%,transparent 60%);pointer-events:none}
+.about-hero-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.ah-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(94,184,232,.1);color:var(--blue-mid);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:22px;border:1px solid rgba(94,184,232,.2)}
+.about-hero h1{font-family:var(--font-head);font-size:clamp(36px,5vw,58px);font-weight:800;color:white;letter-spacing:-.03em;margin-bottom:20px;line-height:1.08}
+.about-hero h1 span{color:var(--blue-mid)}
+.about-hero p{font-size:17px;color:rgba(255,255,255,.55);font-weight:300;line-height:1.75}
+
+.about-body{padding:80px 0}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-bottom:80px;align-items:center}
+.mission-text h2{font-family:var(--font-head);font-size:clamp(26px,3vw,36px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:16px}
+.mission-text h2 span{color:var(--blue)}
+.mission-text p{font-size:15px;color:var(--gray-400);line-height:1.8;margin-bottom:14px;font-weight:300}
+
+.stats-visual{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-xl);padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-box{background:white;border:1px solid var(--gray-100);border-radius:var(--radius);padding:22px;text-align:center}
+.stat-box-val{font-family:var(--font-mono);font-size:30px;font-weight:700;color:var(--blue)}
+.stat-box-label{font-size:12px;color:var(--gray-400);margin-top:4px}
+
+.team-section{margin-bottom:80px}
+.team-section > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.team-section > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.founder-card{
+  background:white;border:1px solid var(--gray-100);
+  border-radius:var(--radius-xl);padding:36px;
+  display:flex;gap:36px;align-items:flex-start;
+  box-shadow:var(--shadow-sm);
+}
+.founder-photo{
+  width:100px;height:100px;border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:28px;font-weight:700;
+  color:white;flex-shrink:0;letter-spacing:.02em;
+}
+.founder-info h3{font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--gray-900);margin-bottom:4px}
+.founder-role{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.founder-info p{font-size:14px;color:var(--gray-400);line-height:1.75;font-weight:300;margin-bottom:14px}
+.founder-email{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;transition:color .15s}
+.founder-email:hover{color:var(--blue-dark)}
+
+.values-section > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.values-section > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:60px}
+.value-card{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px}
+.value-icon{font-size:28px;margin-bottom:12px}
+.value-title{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:6px}
+.value-text{font-size:13px;color:var(--gray-400);line-height:1.65}
+
+.timeline{margin-bottom:80px}
+.timeline > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.timeline > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.timeline-list{position:relative;padding-left:24px;border-left:2px solid var(--gray-100)}
+.tl-item{padding-bottom:28px;position:relative}
+.tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--blue);border:2px solid white;box-shadow:0 0 0 2px var(--blue)}
+.tl-year{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;margin-bottom:4px}
+.tl-title{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--gray-900);margin-bottom:4px}
+.tl-text{font-size:13px;color:var(--gray-400);line-height:1.65}
+
+.contact-strip{background:var(--blue-light);border-radius:var(--radius-xl);padding:44px;text-align:center}
+.contact-strip h3{font-family:var(--font-head);font-size:26px;font-weight:700;color:var(--gray-900);margin-bottom:8px}
+.contact-strip p{font-size:14px;color:var(--gray-500);margin-bottom:22px}
+
+@media(max-width:800px){.mission-grid{grid-template-columns:1fr}.founder-card{flex-direction:column;gap:20px}}
+</style>
+</head>
+<body>
+<div id="nav-mount"></div>
+
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-inner">
+      <div class="ah-badge">Est. Lagos, Nigeria</div>
+      <h1>Connecting <span>Nigeria</span>,<br/>one network at a time</h1>
+      <p>We are EKRPT Networking Labs — a licensed, CAC-registered technology company bringing world-class networking equipment to Nigerian homes, businesses, and enterprises.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-body">
+  <div class="container">
+
+    <!-- MISSION -->
+    <div class="mission-grid" id="mission">
+      <div class="mission-text">
+        <div class="section-label">Our Mission</div>
+        <h2>Why <span>EKRPT</span> exists</h2>
+        <p>EKRPT Networking Labs was founded with a single, clear mission: make reliable internet connectivity accessible to every Nigerian. We believe that strong network infrastructure is the backbone of modern business and everyday life.</p>
+        <p>We source, brand, and distribute the world's best networking equipment — from our own EKRPT-branded routers and MiFi devices to official Starlink satellite hardware — and back every sale with technical expertise and long-term support.</p>
+        <p>Whether you are a home user in Lagos, an enterprise in Abuja, or an ISP expanding coverage in a new region, EKRPT is your trusted networking partner.</p>
+        <div style="margin-top:24px">
+          <a href="products.html" class="btn btn-primary">Shop our products</a>
+        </div>
+      </div>
+      <div class="stats-visual">
+        <div class="stat-box"><div class="stat-box-val">500+</div><div class="stat-box-label">Units deployed</div></div>
+        <div class="stat-box"><div class="stat-box-val">6+</div><div class="stat-box-label">Product lines</div></div>
+        <div class="stat-box"><div class="stat-box-val">24/7</div><div class="stat-box-label">Tech support</div></div>
+        <div class="stat-box"><div class="stat-box-val">CAC</div><div class="stat-box-label">Registered</div></div>
+      </div>
+    </div>
+
+    <!-- FOUNDER -->
+    <div class="team-section">
+      <div class="section-label">Leadership</div>
+      <h2>Meet the founder</h2>
+      <p>EKRPT Networking Labs is founder-led with deep expertise in networking and digital infrastructure.</p>
+      <div class="founder-card">
+        <div class="founder-photo">CM</div>
+        <div class="founder-info">
+          <h3>CA Michael</h3>
+          <div class="founder-role">Founder &amp; Chief Executive Officer</div>
+          <p>CA Michael founded EKRPT Networking Labs with a vision to become Nigeria's most trusted networking equipment company. With deep expertise in digital infrastructure, networking systems, and hardware distribution, he has built EKRPT into a licensed and registered brand known for quality, reliability, and after-sales support.</p>
+          <p>Under his leadership, EKRPT has grown to distribute Starlink hardware including the Mini, Gen3, and V4 kits, alongside a proprietary line of EKRPT-branded routers and MiFi devices engineered specifically for Nigerian network conditions.</p>
+          <a class="founder-email" href="mailto:office@ekrpt.com">✉ office@ekrpt.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- VALUES -->
+    <div class="values-section">
+      <div class="section-label">What We Stand For</div>
+      <h2>Our values</h2>
+      <p>Every product we sell and every interaction we have is shaped by these principles.</p>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon">🔒</div><div class="value-title">Authenticity</div><div class="value-text">Every product sold by EKRPT is genuine. No clones, no grey-market imports, ever.</div></div>
+        <div class="value-card"><div class="value-icon">⚡</div><div class="value-title">Performance</div><div class="value-text">We stock hardware that meets real-world Nigerian usage — not just spec-sheet numbers.</div></div>
+        <div class="value-card"><div class="value-icon">🤝</div><div class="value-title">Support</div><div class="value-text">Every purchase includes after-sales technical support from our team, not just a warranty card.</div></div>
+        <div class="value-card"><div class="value-icon">🌍</div><div class="value-title">Access</div><div class="value-text">We believe reliable connectivity is a right, and work to make it more accessible and affordable.</div></div>
+        <div class="value-card"><div class="value-icon">📦</div><div class="value-title">Reliability</div><div class="value-text">Same-day Lagos delivery, live inventory, no backorder surprises. We deliver on our promises.</div></div>
+        <div class="value-card"><div class="value-icon">🏛️</div><div class="value-title">Compliance</div><div class="value-text">Licensed and CAC-registered. We operate transparently within Nigeria's regulatory framework.</div></div>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline">
+      <div class="section-label">Our Story</div>
+      <h2>How we got here</h2>
+      <p>From a vision to Nigeria's trusted networking lab.</p>
+      <div class="timeline-list">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">FOUNDING</div><div class="tl-title">EKRPT Networking Labs established</div><div class="tl-text">CA Michael founded the company in Lagos with a mission to make enterprise-grade networking accessible to all Nigerians.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">EARLY GROWTH</div><div class="tl-title">CAC registration &amp; first product line</div><div class="tl-text">Achieved full CAC registration and launched the first EKRPT-branded MiFi and router lineup, optimized for Nigerian ISPs.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">EXPANSION</div><div class="tl-title">Starlink distribution partnership</div><div class="tl-text">Became an authorized distributor of Starlink hardware in Nigeria, stocking the Mini, Gen3, and V4 kits with full setup support.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">TODAY</div><div class="tl-title">500+ units deployed &amp; growing</div><div class="tl-text">Serving home users, enterprises, and ISPs across Nigeria with a full product catalog and 24/7 technical support.</div></div>
+      </div>
+    </div>
+
+    <!-- CONTACT CTA -->
+    <div class="contact-strip">
+      <h3>Get in touch with our team</h3>
+      <p>For sales enquiries, bulk orders, B2B partnerships, or technical support — we're always here.</p>
+      <a href="mailto:office@ekrpt.com" class="btn btn-primary btn-lg">✉ office@ekrpt.com</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/main.js"></script>
+</body>
+</html>

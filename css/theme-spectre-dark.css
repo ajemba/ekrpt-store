@@ -1,0 +1,231 @@
+/* ═══════════════════════════════════════════════════════════
+   EKRPT — THEME A · "SPECTRE" Full Dark Gaming
+   Load AFTER style.css to reskin the entire site.
+   Matte black · performance red · electric blue · white.
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  /* Re-map the existing variable system to the dark palette */
+  --blue:        #2ea8e0;   /* electric blue (WiFi / tech clarity) */
+  --blue-dark:   #1c7fb0;
+  --blue-deeper: #12546f;
+  --blue-light:  rgba(46,168,224,.10);
+  --blue-mid:    #5ec3ef;
+  --blue-glow:   rgba(46,168,224,.30);
+
+  --red:         #e0202d;   /* performance / gaming energy */
+  --red-light:   rgba(224,32,45,.12);
+
+  --white:       #ffffff;
+  --off-white:   #14161a;   /* "off-white" surfaces become dark cards */
+
+  /* Greys inverted: low = darkest bg, 900 = brightest text */
+  --gray-50:     #0a0b0d;   /* page background */
+  --gray-100:    #1d2026;   /* borders / hairlines */
+  --gray-200:    #2a2e36;
+  --gray-300:    #6b7280;
+  --gray-400:    #9aa3ad;
+  --gray-500:    #c2c8d0;
+  --gray-700:    #e2e6ea;
+  --gray-900:    #ffffff;   /* headings */
+
+  --surface:     #121419;   /* card surface */
+  --surface-2:   #16181e;
+
+  --shadow-sm:   0 2px 10px rgba(0,0,0,.5);
+  --shadow-md:   0 10px 34px rgba(0,0,0,.55);
+  --shadow-blue: 0 10px 40px rgba(224,32,45,.22);
+
+  --font-head:   'Orbitron', 'Syne', sans-serif;   /* angular esports display */
+  --font-body:   'Rajdhani', 'DM Sans', sans-serif; /* techy body */
+  --font-mono:   'Space Mono', monospace;
+}
+
+/* Import the gaming display fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+/* ── GLOBAL DARK CANVAS ── */
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(224,32,45,.10), transparent 60%),
+    radial-gradient(1000px 500px at -10% 20%, rgba(46,168,224,.08), transparent 55%),
+    var(--gray-50);
+  color:var(--gray-500);
+}
+
+/* Subtle circuit grid texture overlay */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 50% 0%, black, transparent 80%);
+}
+body > *{position:relative;z-index:1}
+
+h1,h2,h3,.section-title,.hv-main-name{color:var(--white);letter-spacing:.01em}
+.section-title{font-family:var(--font-head);text-transform:uppercase;letter-spacing:.04em}
+
+/* ── NAV ── */
+.nav{background:rgba(10,11,13,.85)!important;backdrop-filter:blur(14px);border-bottom:1px solid var(--gray-100)}
+.nav-links a{color:var(--gray-400)}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-links a.active::after,.nav-links a:hover::after{background:var(--red)}
+
+/* Logo lockup — swap to the SPECTRE mark */
+.brand-logo,.nav .logo,.logo-text{color:var(--white)!important}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  background:linear-gradient(135deg,var(--red),#b3151f);
+  color:#fff;border:none;
+  box-shadow:0 6px 24px rgba(224,32,45,.35);
+  text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-head);font-weight:700;font-size:13px;
+  clip-path:polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.btn-primary:hover{filter:brightness(1.12);transform:translateY(-2px)}
+.btn-secondary{
+  background:transparent;color:var(--white);
+  border:1.5px solid var(--gray-200);
+  text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-head);font-weight:600;font-size:13px;
+}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);box-shadow:0 0 20px var(--blue-glow)}
+
+/* ── HERO ── */
+.hero{
+  background:
+    radial-gradient(900px 500px at 75% 30%, rgba(224,32,45,.18), transparent 55%),
+    radial-gradient(700px 400px at 20% 80%, rgba(46,168,224,.14), transparent 50%),
+    #050608;
+  border-bottom:1px solid var(--gray-100);
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(115deg, transparent 0 38px, rgba(255,255,255,.012) 38px 39px);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  color:var(--red);border:1px solid rgba(224,32,45,.4);
+  background:rgba(224,32,45,.08);border-radius:100px;
+  font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-size:11px;
+}
+.hero-dot{background:var(--red);box-shadow:0 0 10px var(--red)}
+.hero h1{
+  font-family:var(--font-head);font-weight:900;
+  text-transform:uppercase;letter-spacing:.02em;line-height:1.04;
+  text-shadow:0 0 40px rgba(224,32,45,.25);
+}
+.hero h1 em{color:var(--red);font-style:normal}
+.hero-desc{color:var(--gray-400)}
+.stat-val{font-family:var(--font-head);color:var(--white);font-weight:700}
+.stat-lbl{color:var(--gray-300);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;font-size:10px}
+
+/* Hero floating cards → dark glass with neon edges */
+.hv-card,.hv-main{
+  background:linear-gradient(160deg,var(--surface),var(--surface-2));
+  border:1px solid var(--gray-100);
+  box-shadow:var(--shadow-md);
+  backdrop-filter:blur(6px);
+}
+.hv-main{border:1px solid rgba(224,32,45,.4);box-shadow:0 18px 50px rgba(224,32,45,.22)}
+.hvc-icon{filter:drop-shadow(0 0 12px var(--blue-glow))}
+.hvc-label,.hv-main-label{color:var(--red);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
+.hvc-name,.hv-main-name{color:var(--white)}
+.hv-main-price{color:var(--blue);font-family:var(--font-head)}
+.live-pill{background:rgba(46,168,224,.15);color:var(--blue-mid);border:1px solid rgba(46,168,224,.3)}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:#0d0e11;border-top:1px solid var(--gray-100);border-bottom:1px solid var(--gray-100)}
+.trust-item{color:var(--gray-400);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.trust-icon{filter:grayscale(.2)}
+
+/* ── SECTION LABELS ── */
+.section-label{color:var(--red);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.14em;font-size:11px}
+
+/* ── FILTER TABS ── */
+.filter-tab{
+  background:transparent;border:1px solid var(--gray-200);color:var(--gray-400);
+  text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-head);font-size:12px;font-weight:600;
+}
+.filter-tab.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 4px 16px rgba(224,32,45,.35)}
+.filter-tab:hover:not(.active){border-color:var(--blue);color:var(--blue)}
+
+/* ── PRODUCT CARDS ── */
+.product-card{
+  background:linear-gradient(165deg,var(--surface),var(--surface-2));
+  border:1px solid var(--gray-100);
+  border-radius:var(--radius-lg);
+  transition:transform .2s, box-shadow .2s, border-color .2s;
+  overflow:hidden;position:relative;
+}
+.product-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),var(--blue));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.product-card:hover{transform:translateY(-6px);border-color:var(--gray-200);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.product-card:hover::after{transform:scaleX(1)}
+.product-img{background:radial-gradient(circle at 50% 40%, rgba(46,168,224,.10), #0c0d10);color:#fff}
+.product-cat{color:var(--blue);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
+.product-name{color:var(--white);font-family:var(--font-head);font-weight:600}
+.product-desc{color:var(--gray-400)}
+.product-price{color:var(--white);font-family:var(--font-head);font-weight:700}
+.product-price small{color:var(--gray-300)}
+.add-to-cart{
+  background:var(--red);color:#fff;border:none;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-head);font-size:12px;
+}
+.add-to-cart:hover{filter:brightness(1.15);box-shadow:0 0 18px rgba(224,32,45,.5)}
+.product-badge{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+.badge-new{background:var(--blue);color:#fff}
+.badge-hot{background:var(--red);color:#fff}
+.badge-branded{background:#fff;color:#000}
+
+/* ── ABOUT / NEWSLETTER / GENERIC CARDS ── */
+.about-strip,.newsletter,section{color:var(--gray-500)}
+.card-box,.summary-box,.about-card{
+  background:var(--surface);border:1px solid var(--gray-100);color:var(--gray-500);
+}
+input,textarea,select{
+  background:#0e0f12!important;border:1.5px solid var(--gray-100)!important;color:var(--white)!important;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)!important;box-shadow:0 0 0 3px var(--blue-glow)!important}
+label{color:var(--gray-400)!important}
+
+/* ── FOOTER ── */
+.footer,footer{background:#050608;border-top:1px solid var(--gray-100)}
+.footer a,footer a{color:var(--gray-400)}
+.footer a:hover,footer a:hover{color:var(--blue)}
+
+/* ── CHECKOUT GATEWAYS ── */
+.gw-btn,.coin-btn{background:var(--surface);border:1.5px solid var(--gray-100);color:var(--gray-500)}
+.gw-btn.selected,.coin-btn.selected{border:2px solid var(--red);background:rgba(224,32,45,.08)}
+.gw-name{color:var(--white)}
+.gw-detail{background:#0e0f12;color:var(--gray-400)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#0a0b0d}
+::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:var(--red)}
+
+/* Use the SPECTRE logo image in the nav */
+.nav-logo-img{display:block!important}
+.nav-logo .nav-logo-mark,.nav-logo .nav-brand{display:none!important}
+
+/* ── Override inline hero styles (they load after this file) ── */
+.hero{background:radial-gradient(900px 500px at 75% 30%,rgba(224,32,45,.18),transparent 55%),radial-gradient(700px 400px at 20% 80%,rgba(46,168,224,.14),transparent 50%),#050608!important}
+.hero h1{color:#fff!important}
+.hero h1 em{color:var(--red)!important}
+.hero-desc{color:var(--gray-400)!important}
+.hero-eyebrow{background:rgba(224,32,45,.08)!important;color:#ff5560!important}
+
+/* ── Hero floating cards (override hardcoded white/inline) ── */
+.hv-card{background:linear-gradient(160deg,#15171c,#101216)!important;border:1px solid #23262d!important;box-shadow:0 16px 44px rgba(0,0,0,.55)!important}
+.hv-main{background:linear-gradient(160deg,#1a0e10,#101216)!important;border:1px solid rgba(224,32,45,.4)!important;border-bottom:none!important}
+.hvc-label{color:#ff5560!important}
+.hvc-name{color:#fff!important}
+.hv-main-name{color:#fff!important}
+.hv-main-price{color:#5ec3ef!important}

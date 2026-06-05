@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Loading… — EKRPT Blog</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-hybrid.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.article-hero{max-width:820px;margin:0 auto;padding:48px 24px 0;text-align:center}
+.article-cat{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em}
+.article-hero h1{font-family:var(--font-head);font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.15;margin:12px 0 16px}
+.article-meta{display:flex;gap:16px;justify-content:center;color:var(--gray-300);font-size:13px;font-family:var(--font-mono);margin-bottom:24px;flex-wrap:wrap}
+.article-cover{max-width:980px;margin:0 auto 32px;padding:0 24px}
+.article-cover img{width:100%;max-height:460px;object-fit:cover;border-radius:var(--radius-xl)}
+.article-body{max-width:720px;margin:0 auto;padding:0 24px 48px;font-size:18px;line-height:1.8;color:var(--gray-700)}
+.article-body h2{font-family:var(--font-head);font-size:28px;font-weight:700;margin:36px 0 14px;color:var(--gray-900)}
+.article-body h3{font-family:var(--font-head);font-size:22px;font-weight:700;margin:28px 0 10px;color:var(--gray-900)}
+.article-body p{margin-bottom:20px}
+.article-body img{max-width:100%;border-radius:12px;margin:24px 0}
+.article-body a{color:var(--blue);text-decoration:underline}
+.article-body ul,.article-body ol{margin:0 0 20px 24px}.article-body li{margin-bottom:8px}
+.article-body blockquote{border-left:4px solid var(--blue);padding:8px 20px;margin:24px 0;color:var(--gray-500);font-style:italic;background:var(--blue-light);border-radius:0 8px 8px 0}
+.article-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:32px;padding-top:24px;border-top:1px solid var(--gray-100)}
+.tag{background:var(--gray-50);color:var(--gray-500);padding:5px 14px;border-radius:100px;font-size:12px;font-family:var(--font-mono)}
+.share-row{display:flex;gap:10px;align-items:center;margin-top:24px}
+.share-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--gray-50);text-decoration:none;font-size:17px;transition:all .15s}
+.share-btn:hover{background:var(--blue);transform:translateY(-2px)}
+.related{max-width:1140px;margin:0 auto;padding:0 24px 56px}
+.related h3{font-family:var(--font-head);font-size:22px;margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.back-blog{max-width:720px;margin:24px auto 0;padding:0 24px}
+.back-blog a{color:var(--blue);text-decoration:none;font-size:14px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="announce-bar" style="display:none;background:var(--red);color:white;text-align:center;padding:8px;font-size:13px;cursor:pointer"></div>
+<nav class="nav" id="nav"></nav>
+
+<div class="back-blog"><a href="./index.html">← All articles</a></div>
+<article id="article"><div style="text-align:center;padding:80px;color:var(--gray-300)">Loading…</div></article>
+<div class="related" id="related"></div>
+
+<footer id="footer"></footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/site-settings.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',async()=>{
+  await SiteSettings.get(true);
+  const s=await SiteSettings.get();
+  SiteSettings.applyTheme(s);
+  buildBlogChrome(s);
+  const slug=new URLSearchParams(location.search).get('slug');
+  if(!slug){document.getElementById('article').innerHTML=err('No article specified');return;}
+  await loadPost(slug);
+});
+async function loadPost(slug){
+  let p;
+  try{p=await Blog.getBySlug(slug);}catch(e){}
+  if(!p){document.getElementById('article').innerHTML=err('Article not found');document.title='Not found — EKRPT Blog';return;}
+
+  // ── SEO ──
+  const seoTitle=(p.seo_title||p.title)+' — EKRPT Blog';
+  const seoDesc=p.seo_description||p.excerpt||'';
+  const img=p.og_image||p.cover_image||'';
+  const url=location.href;
+  SiteSettings.applySEO({title:seoTitle,description:seoDesc,keywords:p.seo_keywords,image:img,url,type:'article',canonical:p.canonical_url||url,noIndex:p.no_index});
+  // Article structured data (JSON-LD) — helps Google show rich results
+  SiteSettings.injectJsonLd({
+    '@context':'https://schema.org','@type':'BlogPosting',
+    headline:p.title,description:seoDesc,image:img?[img]:[],
+    author:{'@type':'Organization',name:p.author_name||'EKRPT Networking Labs'},
+    publisher:{'@type':'Organization',name:'EKRPT Networking Labs'},
+    datePublished:p.published_at,dateModified:p.updated_at,
+    mainEntityOfPage:{'@type':'WebPage','@id':url},
+    articleSection:p.category,keywords:(p.tags||[]).join(', '),
+  });
+  // Breadcrumb structured data
+  SiteSettings.injectJsonLd({
+    '@context':'https://schema.org','@type':'BreadcrumbList',
+    itemListElement:[
+      {'@type':'ListItem',position:1,name:'Home',item:'https://ekrpt.com'},
+      {'@type':'ListItem',position:2,name:'Blog',item:'https://ekrpt.com/blog/'},
+      {'@type':'ListItem',position:3,name:p.title,item:url},
+    ],
+  });
+
+  // ── Render ──
+  document.getElementById('article').innerHTML=`
+    <div class="article-hero">
+      <div class="article-cat">${p.category||'General'}</div>
+      <h1>${p.title}</h1>
+      <div class="article-meta"><span>✍️ ${p.author_name||'EKRPT Team'}</span><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min read</span><span>👁️ ${p.views||0} views</span></div>
+    </div>
+    ${p.cover_image?`<div class="article-cover"><img src="${p.cover_image}" alt="${p.cover_alt||p.title}"/></div>`:''}
+    <div class="article-body">${p.content||''}
+      ${(p.tags&&p.tags.length)?`<div class="article-tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join('')}</div>`:''}
+      <div class="share-row"><span style="font-size:13px;color:var(--gray-400);font-family:var(--font-mono)">Share:</span>
+        <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent(p.title+' '+url)}" target="_blank">💬</a>
+        <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(p.title)}&url=${encodeURIComponent(url)}" target="_blank">𝕏</a>
+        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank">f</a>
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank">in</a>
+      </div>
+    </div>`;
+
+  loadRelated(p);
+}
+async function loadRelated(p){
+  try{
+    const all=await Blog.list({category:p.category,limit:4});
+    const rel=all.filter(x=>x.slug!==p.slug).slice(0,3);
+    if(!rel.length)return;
+    document.getElementById('related').innerHTML=`<h3>More from ${p.category||'the blog'}</h3><div class="related-grid">${rel.map(r=>`<a class="post-card" href="./post.html?slug=${encodeURIComponent(r.slug)}" style="background:white;border:1px solid var(--gray-100);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit"><div style="height:150px;background:var(--gray-100) center/cover;${r.cover_image?`background-image:url('${r.cover_image}')`:''}"></div><div style="padding:16px"><h2 style="font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:6px">${r.title}</h2><p style="font-size:13px;color:var(--gray-400)">${(r.excerpt||'').slice(0,90)}…</p></div></a>`).join('')}</div>`;
+  }catch(e){}
+}
+function fmtDate(d){return d?new Date(d).toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'}):'';}
+function err(msg){return `<div style="text-align:center;padding:80px 24px"><div style="font-size:48px;margin-bottom:12px">📭</div><h1 style="font-family:var(--font-head);font-size:24px;margin-bottom:8px">${msg}</h1><a href="./index.html" style="color:var(--blue)">← Back to blog</a></div>`;}
+</script>
+</body>
+</html>
