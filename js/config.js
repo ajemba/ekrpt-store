@@ -20,8 +20,8 @@ const EKRPT_CONFIG = {
   // ── SUPABASE ─────────────────────────────────────────────
   // Sign up free at supabase.com → Project Settings → API
   supabase: {
-    url:     'https://YOUR_PROJECT.supabase.co',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+    url:     'https://vpbxcysyulbvgmluwoxv.supabase.co',
+    anonKey: 'sb_publishable_-guolUgI8XHhL_sPMMurFQ_RJ8GXv-L',
   },
 
   // ── PAYMENTS (public keys only) ───────────────────────────
