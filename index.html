@@ -1,418 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="EKRPT Networking Labs — performance WiFi 7 networking hardware, the SPECTRE router line, Starlink kits, and gaming-grade connectivity equipment."/>
-<title>EKRPT Networking Labs — Digital & Networking Equipment</title>
-<link rel="stylesheet" href="css/style.css"/>
-<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
-<link rel="stylesheet" href="css/spectre-hero.css"/>
-<style>
-/* ── HERO ── */
-.hero {
-  background: var(--off-white);
-  padding: 90px 0 0;
-  overflow: hidden;
-  position: relative;
-}
-.hero::before {
-  content:'';position:absolute;top:-80px;right:-100px;
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(26,143,196,.12) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero::after {
-  content:'';position:absolute;bottom:60px;left:10%;
-  width:300px;height:300px;
-  background:radial-gradient(circle,rgba(217,64,64,.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-inner {
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:48px;align-items:end;position:relative;z-index:1;
-}
-.hero-eyebrow {
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--blue-light);color:var(--blue-dark);
-  font-size:11px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;padding:6px 14px;
-  border-radius:100px;margin-bottom:22px;
-  font-family:var(--font-mono);
-}
-.hero-dot { width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite; }
-.hero h1 {
-  font-family:var(--font-head);
-  font-size:clamp(38px,5vw,60px);
-  font-weight:800;line-height:1.05;
-  color:var(--gray-900);margin-bottom:22px;
-}
-.hero h1 em { font-style:normal;color:var(--blue); }
-.hero-desc {
-  font-size:16px;color:var(--gray-400);
-  line-height:1.75;margin-bottom:34px;
-  max-width:460px;font-weight:300;
-}
-.hero-actions { display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px; }
-.hero-stats {
-  display:flex;gap:36px;
-  padding-top:32px;border-top:1px solid var(--gray-100);
-  padding-bottom:36px;
-}
-.stat-val { font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gray-900); }
-.stat-lbl { font-size:12px;color:var(--gray-300);margin-top:3px; }
-
-/* hero visual */
-.hero-visual { position:relative;height:360px;align-self:end; }
-.hv-main {
-  position:absolute;bottom:0;left:0;right:0;
-  background:var(--gray-900);border-radius:20px 20px 0 0;
-  padding:28px;
-}
-.hv-main-label { font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px; }
-.hv-main-name { font-family:var(--font-head);font-size:22px;font-weight:700;color:white;margin-bottom:8px; }
-.hv-main-price { font-family:var(--font-mono);font-size:15px;color:var(--blue-mid); }
-.hv-card {
-  position:absolute;background:white;
-  border-radius:var(--radius-lg);border:1px solid var(--gray-100);
-  padding:18px;box-shadow:var(--shadow-md);
-}
-.hv-card1 { top:16px;right:-8px;width:190px; }
-.hv-card2 { top:130px;left:-14px;width:165px; }
-.hvc-icon { font-size:30px;margin-bottom:8px; }
-.hvc-label { font-family:var(--font-mono);font-size:10px;color:var(--gray-300);letter-spacing:.06em;text-transform:uppercase; }
-.hvc-name { font-size:13px;font-weight:600;color:var(--gray-900);margin-top:3px; }
-.live-pill {
-  display:inline-flex;align-items:center;gap:5px;
-  background:var(--blue-light);color:var(--blue-dark);
-  font-family:var(--font-mono);font-size:10px;font-weight:700;
-  padding:3px 9px;border-radius:100px;margin-top:7px;
-  letter-spacing:.04em;
-}
-.live-pill::before { content:'';width:5px;height:5px;background:var(--blue);border-radius:50%;animation:pulse 1.5s infinite; }
-
-/* featured products strip */
-.featured-strip { padding:72px 0; }
-.featured-header { display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px; }
-.filter-tabs { display:flex;gap:6px;flex-wrap:wrap; }
-.filter-tab {
-  padding:7px 16px;border:1.5px solid var(--gray-100);
-  background:none;border-radius:100px;font-size:13px;
-  cursor:pointer;color:var(--gray-400);
-  font-family:var(--font-body);transition:all .15s;
-}
-.filter-tab:hover { border-color:var(--blue);color:var(--blue); }
-.filter-tab.active { background:var(--blue);color:white;border-color:var(--blue); }
-
-/* about strip */
-.about-strip {
-  background:linear-gradient(135deg,var(--gray-900) 0%,#1a2f45 100%);
-  padding:88px 0;position:relative;overflow:hidden;
-}
-.about-strip::before {
-  content:'EKRPT';
-  position:absolute;right:-30px;top:50%;transform:translateY(-50%);
-  font-family:var(--font-head);font-size:180px;font-weight:800;
-  color:rgba(255,255,255,.025);pointer-events:none;white-space:nowrap;
-  letter-spacing:-.04em;
-}
-.about-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:1; }
-.about-label { font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:14px; }
-.about-h { font-family:var(--font-head);font-size:clamp(26px,3.5vw,42px);font-weight:700;color:white;margin-bottom:20px;line-height:1.15; }
-.about-h span { color:var(--blue-mid); }
-.about-p { font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:14px;font-weight:300; }
-.about-founder-card {
-  display:flex;align-items:center;gap:14px;margin-top:28px;
-  padding:16px;background:rgba(255,255,255,.05);
-  border-radius:var(--radius);border:1px solid rgba(255,255,255,.08);
-}
-.founder-av {
-  width:46px;height:46px;border-radius:50%;
-  background:var(--blue);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:15px;font-weight:700;color:white;flex-shrink:0;
-}
-.founder-name { font-size:14px;font-weight:500;color:white; }
-.founder-role { font-size:12px;color:rgba(255,255,255,.4); }
-.pillars-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
-.pillar {
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--radius);padding:20px;
-}
-.pillar-icon { font-size:26px;margin-bottom:10px; }
-.pillar-title { font-size:14px;font-weight:600;color:white;margin-bottom:5px;font-family:var(--font-head); }
-.pillar-text { font-size:12px;color:rgba(255,255,255,.45);line-height:1.6; }
-
-/* brands */
-.brands { background:var(--gray-50);padding:56px 0; }
-.brands-row { display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin-top:28px; }
-.brand-chip {
-  display:flex;align-items:center;gap:10px;
-  padding:12px 20px;background:white;
-  border:1px solid var(--gray-100);border-radius:var(--radius);
-  font-size:14px;font-weight:500;color:var(--gray-700);
-  font-family:var(--font-head);
-}
-.brand-chip-icon { width:32px;height:32px;border-radius:7px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:16px; }
-
-/* newsletter */
-.nl-section { background:var(--blue-light);padding:72px 0; }
-.nl-inner { max-width:600px;margin:0 auto;text-align:center; }
-.nl-inner h2 { font-family:var(--font-head);font-size:clamp(24px,3vw,36px);font-weight:700;color:var(--gray-900);margin-bottom:12px;letter-spacing:-.02em; }
-.nl-inner p { font-size:15px;color:var(--gray-400);margin-bottom:28px;font-weight:300; }
-.nl-form { display:flex;gap:10px;max-width:420px;margin:0 auto; }
-.nl-form input {
-  flex:1;padding:12px 16px;
-  border:1.5px solid var(--gray-200);border-radius:var(--radius);
-  font-size:14px;font-family:var(--font-body);background:white;color:var(--gray-900);
-}
-.nl-form input:focus { outline:none;border-color:var(--blue); }
-.nl-sub { font-size:11px;color:var(--gray-300);margin-top:10px;font-family:var(--font-mono); }
-
-@media(max-width:900px){
-  .hero-inner,.about-grid{grid-template-columns:1fr}
-  .hero-visual{display:none}
-  .hero{padding-bottom:40px}
-}
-@media(max-width:600px){
-  .nl-form{flex-direction:column}
-  .featured-header{flex-direction:column;align-items:flex-start;gap:16px}
-}
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>My Account — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/portal-core.css"/>
+<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
+<link rel="stylesheet" href="../css/portal-future-override.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>:root{--accent:#1a8fc4}.pside-logo-mark{background:var(--blue)}.role-tag{color:var(--blue-mid)}.pside-av{background:var(--blue)}
+.track-steps{display:flex;align-items:center;gap:0;margin:20px 0}
+.track-step{flex:1;text-align:center;position:relative}
+.track-dot{width:32px;height:32px;border-radius:50%;background:var(--gray-100);color:var(--gray-300);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:14px;position:relative;z-index:1}
+.track-step.done .track-dot{background:var(--blue);color:white}
+.track-step.current .track-dot{background:var(--blue);color:white;box-shadow:0 0 0 4px var(--blue-light)}
+.track-line{position:absolute;top:16px;left:-50%;width:100%;height:2px;background:var(--gray-100);z-index:0}
+.track-step.done .track-line{background:var(--blue)}
+.track-label{font-size:11px;color:var(--gray-400);font-family:var(--font-mono)}
+.order-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
 </style>
 </head>
-<body>
+<body class="portal">
+<aside class="pside">
+  <div class="pside-logo"><img src="../img/logo-ekrpt.png" alt="EKRPT" style="height:26px;width:auto"/><div class="pside-brand" style="margin-top:8px;font-size:11px;color:#6b7280;font-family:var(--fx-mono);letter-spacing:.12em">// MY ACCOUNT</div></div>
+  <nav class="pside-nav">
+    <div class="pside-section">Account</div>
+    <button class="pside-link active" onclick="nav('dashboard',this)"><span class="ic">📊</span>Dashboard</button>
+    <button class="pside-link" onclick="nav('orders',this)"><span class="ic">📦</span>My Orders</button>
+    <button class="pside-link" onclick="nav('profile',this)"><span class="ic">👤</span>Profile</button>
+    <a class="pside-link" href="../products.html"><span class="ic">🛒</span>Shop More</a>
+    <a class="pside-link" href="../index.html"><span class="ic">🌐</span>Back to Store</a>
+  </nav>
+  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">U</div><div><div class="pside-uname" id="uname">Customer</div><div class="pside-urole">Member</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
+</aside>
+<div class="pmain">
+  <div class="ptop"><div class="ptop-title" id="ptitle">Dashboard</div><span class="ptop-meta" id="pmeta"></span></div>
+  <div class="pcontent">
 
-<div id="announce-bar" style="display:none;background:var(--red);color:#fff;text-align:center;padding:8px;font-size:13px;cursor:pointer"></div>
-<div id="nav-mount"></div>
-
-<!-- HERO -->
-<!-- data-launch: set your real presale date here, e.g. data-launch="2026-07-15T12:00:00+01:00" -->
-<section class="spectre-hero" data-launch="">
-  <div class="sh-wrap">
-
-    <!-- LEFT: aggressive product slideshow -->
-    <div>
-      <div class="sh-stage">
-        <div class="sh-frame">
-          <div class="sh-slide active" style="background-image:url('img/product/spectre-gaming-web.jpg')">
-            <div class="sh-cap"><span class="tag">WiFi 7 Gaming Router</span><div class="line">Built For Esports Latency</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-1-web.jpg')">
-            <div class="sh-cap"><span class="tag">Flagship</span><div class="line">The Flagship Has Landed</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-dualsim-web.jpg')">
-            <div class="sh-cap"><span class="tag">Dual 5G SIM</span><div class="line">Dual-SIM · SA/NSA Networks</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-3-web.jpg')">
-            <div class="sh-cap"><span class="tag">I/O</span><div class="line">10G SFP · 2.5G WAN · 3×1G LAN</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-4-web.jpg')">
-            <div class="sh-cap"><span class="tag">Fiber</span><div class="line">10 Gbps Fiber-Ready Uplink</div></div>
-          </div>
-          <div class="sh-beam"></div>
-          <span class="sh-corner tl"></span><span class="sh-corner br"></span>
-          <div class="sh-dots">
-            <span class="sh-dot active"></span><span class="sh-dot"></span><span class="sh-dot"></span><span class="sh-dot"></span><span class="sh-dot"></span>
-          </div>
-        </div>
+    <div id="v-dashboard" class="pview active">
+      <div class="pmetrics">
+        <div class="pmetric"><div class="pmetric-label">Total Orders</div><div class="pmetric-val" id="u-orders">0</div><div class="pmetric-ic">📦</div></div>
+        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Total Spent</div><div class="pmetric-val" id="u-spent">₦0</div><div class="pmetric-ic">💰</div></div>
+        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">In Transit</div><div class="pmetric-val" id="u-transit">0</div><div class="pmetric-ic">🚚</div></div>
       </div>
-      <div class="sh-thumbs">
-        <div class="sh-thumb active" style="background-image:url('img/product/spectre-gaming-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-1-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-dualsim-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-3-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-4-web.jpg')"></div>
-      </div>
+      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Recent Orders</span><button class="pbtn pbtn-ghost" onclick="nav('orders',document.querySelectorAll('.pside-link')[1])">View all</button></div><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Order #</th><th>Date</th><th>Total</th><th>Status</th></tr></thead><tbody id="recent-body"></tbody></table></div></div>
     </div>
 
-    <!-- RIGHT: presale + countdown -->
-    <div class="sh-info">
-      <div class="sh-status"><span class="pulse"></span><span id="sh-status-text">Presale · Launching Soon</span></div>
-      <div class="sh-eyebrow">EKRPT Networking Labs · WiFi 7 Flagship</div>
-      <h1 class="sh-title">SPECTRE<br/><em>BE19000</em> ULTRA</h1>
-      <p class="sh-sub">Tri-band WiFi 7. 19,000 Mbps aggregate. 10G SFP uplink, dual nano-SIM auto-switch, and a gaming-grade QoS engine. Built for esports latency.</p>
-
-      <div class="sh-cd-label">// Presale launch countdown</div>
-      <div class="sh-cd">
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-d">00</div><div class="sh-cd-tag">Days</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-h">00</div><div class="sh-cd-tag">Hours</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-m">00</div><div class="sh-cd-tag">Mins</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-s">00</div><div class="sh-cd-tag">Secs</div></div>
-      </div>
-
-      <div class="sh-reserve">
-        <input type="email" id="sh-reserve-email" placeholder="your@email.com" />
-        <button class="sh-btn sh-btn-primary" onclick="reservePresale()">Reserve</button>
-      </div>
-      <div class="sh-actions">
-        <a href="products.html" class="sh-btn sh-btn-ghost">View Specs ▸</a>
-      </div>
-      <div class="sh-proof">▸ <b id="sh-proof-count">312</b> gamers already reserved their unit</div>
+    <div id="v-orders" class="pview">
+      <div id="orders-list"></div>
     </div>
 
-  </div>
-
-  <!-- spec ticker -->
-  <div class="sh-ticker">
-    <div class="sh-ticker-track">
-      <span>WIFI 7 <b>//</b> 19,000 MBPS <b>//</b> 10G SFP UPLINK <b>//</b> 2.5G WAN <b>//</b> 3×1G LAN <b>//</b> DUAL NANO-SIM <b>//</b> 8× ANTENNA <b>//</b> MLO <b>//</b> 4096-QAM <b>//</b> GAMING QoS <b>//</b> </span>
-      <span>WIFI 7 <b>//</b> 19,000 MBPS <b>//</b> 10G SFP UPLINK <b>//</b> 2.5G WAN <b>//</b> 3×1G LAN <b>//</b> DUAL NANO-SIM <b>//</b> 8× ANTENNA <b>//</b> MLO <b>//</b> 4096-QAM <b>//</b> GAMING QoS <b>//</b> </span>
+    <div id="v-profile" class="pview">
+      <div class="ppanel" style="max-width:520px"><div class="ppanel-head"><span class="ppanel-title">My Profile</span></div><div class="ppanel-body">
+        <div class="pfield"><label>Full Name</label><input id="pf-name"/></div>
+        <div class="pfield"><label>Phone</label><input id="pf-phone"/></div>
+        <div class="pfield"><label>Delivery Address</label><input id="pf-address"/></div>
+        <div class="pfield"><label>City</label><input id="pf-city"/></div>
+        <button class="pbtn pbtn-primary" onclick="saveProfile()">Save changes</button>
+      </div></div>
+      <div class="ppanel" style="max-width:520px"><div class="ppanel-head"><span class="ppanel-title">Security</span></div><div class="ppanel-body">
+        <div class="pfield"><label>New Password</label><input type="password" id="pf-pw" placeholder="••••••••"/></div>
+        <button class="pbtn pbtn-ghost" onclick="changePw()">Update password</button>
+      </div></div>
     </div>
-  </div>
-</section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-inner">
-    <div class="trust-item"><div class="trust-icon">🔒</div>Secure Encrypted Checkout</div>
-    <div class="trust-item"><div class="trust-icon">🚚</div>Fast Tracked Shipping</div>
-    <div class="trust-item"><div class="trust-icon">🛡️</div>12-Month Hardware Warranty</div>
-    <div class="trust-item"><div class="trust-icon">✓</div>Genuine Verified Hardware</div>
-    <div class="trust-item"><div class="trust-icon">💬</div>24/7 Technical Support</div>
   </div>
 </div>
 
-<!-- FEATURED PRODUCTS -->
-<section class="featured-strip">
-  <div class="container">
-    <div class="featured-header">
-      <div>
-        <div class="section-label">Our Catalog</div>
-        <div class="section-title">Equipment &amp; Hardware</div>
-      </div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
-        <button class="filter-tab" onclick="filterProducts('starlink',this)">Starlink</button>
-        <button class="filter-tab" onclick="filterProducts('router',this)">Routers</button>
-        <button class="filter-tab" onclick="filterProducts('mifi',this)">MiFi &amp; Modems</button>
-      </div>
-    </div>
-    <div class="products-grid" id="products-grid"></div>
-    <div style="text-align:center;margin-top:32px">
-      <a href="products.html" class="btn btn-secondary">View all products →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT STRIP -->
-<section class="about-strip">
-  <div class="container">
-    <div class="about-grid">
-      <div>
-        <div class="about-label">Who We Are</div>
-        <h2 class="about-h">Built on expertise.<br/><span>Powered by connection.</span></h2>
-        <p class="about-p">EKRPT Networking Labs is a performance networking company specializing in next-generation WiFi 7 hardware. From our SPECTRE flagship line to official Starlink kits, we engineer and distribute equipment built for speed, low latency, and reliability.</p>
-        <p class="about-p">We source, brand, and ship hardware that just works — whether you're building a competitive gaming setup, a home office, or a multi-site business network.</p>
-        <div class="about-founder-card">
-          <div class="founder-av">CM</div>
-          <div>
-            <div class="founder-name">CA Michael</div>
-            <div class="founder-role">Founder &amp; CEO, EKRPT Networking Labs</div>
-          </div>
-        </div>
-      </div>
-      <div class="pillars-grid">
-        <div class="pillar"><div class="pillar-icon">📡</div><div class="pillar-title">Starlink Distributor</div><div class="pillar-text">Authorized Mini, Gen3 &amp; V4 hardware with full setup support.</div></div>
-        <div class="pillar"><div class="pillar-icon">🏷️</div><div class="pillar-title">EKRPT Branded</div><div class="pillar-text">Our own routers &amp; MiFi devices, engineered for demanding real-world conditions.</div></div>
-        <div class="pillar"><div class="pillar-icon">🔧</div><div class="pillar-title">Installation</div><div class="pillar-text">On-site setup, configuration &amp; troubleshooting by our technical team.</div></div>
-        <div class="pillar"><div class="pillar-icon">📦</div><div class="pillar-title">B2B Supply</div><div class="pillar-text">Bulk supply for ISPs, enterprises &amp; resellers at competitive rates.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BRANDS -->
-<section class="brands">
-  <div class="container">
-    <div style="text-align:center">
-      <div class="section-label" style="justify-content:center;display:flex">Equipment Brands</div>
-      <div class="section-title" style="text-align:center">Brands We Carry</div>
-    </div>
-    <div class="brands-row">
-      <div class="brand-chip"><div class="brand-chip-icon">📡</div>Starlink</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📶</div>EKRPT Branded</div>
-      <div class="brand-chip"><div class="brand-chip-icon">🔌</div>TP-Link</div>
-      <div class="brand-chip"><div class="brand-chip-icon">🌐</div>Mikrotik</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📱</div>Huawei</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📡</div>ZTE</div>
-    </div>
-  </div>
-</section>
-
-<!-- NEWSLETTER -->
-<section class="nl-section">
-  <div class="container">
-    <div class="nl-inner">
-      <div class="section-label" style="justify-content:center;display:flex">Stay Connected</div>
-      <h2>Get exclusive deals &amp; stock alerts</h2>
-      <p>Join the EKRPT network — be first to know about Starlink stock, promotions, and new EKRPT-branded hardware drops.</p>
-      <div class="nl-form">
-        <input type="email" id="nl-email" placeholder="Enter your email address"/>
-        <button class="btn btn-primary" onclick="subscribeNL()">Subscribe</button>
-      </div>
-      <div class="nl-sub">Sent via mail@ekrpt.com · No spam · Unsubscribe anytime</div>
-    </div>
-  </div>
-</section>
-
-<div id="footer-mount"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js"></script>
-<script src="js/main.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/store.js"></script>
-<script src="js/site-settings.js"></script>
-<script src="js/storefront.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/roles.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const s = await SiteSettings.boot();
-    // Populate hero from settings (only if values exist)
-    if (s.hero_title)    document.getElementById('hero-title').textContent = s.hero_title;
-    if (s.hero_subtitle) document.getElementById('hero-desc').textContent = s.hero_subtitle;
-    if (s.hero_cta_text) { const c = document.getElementById('hero-cta'); c.textContent = s.hero_cta_text; if (s.hero_cta_link) c.href = s.hero_cta_link; }
-  } catch (e) { /* settings not set up yet — page keeps its defaults */ }
+let _orders=[];const STEPS=['confirmed','processing','shipped','delivered'];
+document.addEventListener('DOMContentLoaded',async()=>{
+  if(!await Auth.requireAuth())return;
+  const u=await Auth.getUser();
+  if(u){document.getElementById('uname').textContent=u.profile?.full_name||u.email;document.getElementById('av').textContent=(u.profile?.full_name||u.email||'U')[0].toUpperCase();
+    document.getElementById('pf-name').value=u.profile?.full_name||'';document.getElementById('pf-phone').value=u.profile?.phone||'';document.getElementById('pf-address').value=u.profile?.address||'';document.getElementById('pf-city').value=u.profile?.city||'';}
+  await loadOrders();
 });
+function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={dashboard:'Dashboard',orders:'My Orders',profile:'Profile'}[v];}
+
+async function loadOrders(){
+  try{_orders=await Orders.getMyOrders();
+    const spent=_orders.filter(o=>o.payment_status==='paid').reduce((s,o)=>s+o.total,0);
+    const transit=_orders.filter(o=>['confirmed','processing','shipped'].includes(o.status)).length;
+    document.getElementById('u-orders').textContent=_orders.length;
+    document.getElementById('u-spent').textContent=fmtNGN(spent);
+    document.getElementById('u-transit').textContent=transit;
+    document.getElementById('recent-body').innerHTML=_orders.slice(0,5).map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.status}">${o.status}</span></td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No orders yet — <a href="../products.html" style="color:var(--blue)">start shopping</a></td></tr>';
+    renderOrdersList();
+  }catch(e){console.error(e);}
+}
+function renderOrdersList(){
+  document.getElementById('orders-list').innerHTML=_orders.map(o=>{
+    const stepIdx=STEPS.indexOf(o.status);
+    let tracker;
+    if(o.status==='cancelled'){
+      tracker='<div class="palert palert-danger">This order was cancelled</div>';
+    }else{
+      const steps=STEPS.map((s,i)=>{
+        const cls=i<stepIdx?'done':(i===stepIdx?'current':'');
+        const line=i>0?'<div class="track-line"></div>':'';
+        const dot=i<stepIdx?'✓':(i+1);
+        return '<div class="track-step '+cls+'">'+line+'<div class="track-dot">'+dot+'</div><div class="track-label">'+s+'</div></div>';
+      }).join('');
+      tracker='<div class="track-steps">'+steps+'</div>';
+    }
+    return `<div class="order-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div><div style="font-family:var(--font-mono);font-size:14px;font-weight:700">${o.order_number}</div><div style="font-size:12px;color:var(--gray-300)">${new Date(o.created_at).toLocaleString('en-NG')}</div></div>
+        <span class="pill pill-${o.status}">${o.status}</span>
+      </div>
+      ${tracker}
+      <table class="ptable" style="margin-top:12px">${(o.items||[]).map(i=>`<tr><td>${i.emoji||''} ${i.name}</td><td>×${i.qty}</td><td style="font-family:var(--font-mono);text-align:right">${fmtNGN(i.price*i.qty)}</td></tr>`).join('')}</table>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-100);font-weight:700"><span>Total</span><span style="font-family:var(--font-mono)">${fmtNGN(o.total)}</span></div>
+    </div>`;
+  }).join('')||'<div class="pempty"><div class="pempty-ic">📦</div><p>No orders yet</p><a href="../products.html" class="pbtn pbtn-primary" style="margin-top:12px">Start shopping</a></div>';
+}
+
+async function saveProfile(){try{await Auth.updateProfile({full_name:document.getElementById('pf-name').value,phone:document.getElementById('pf-phone').value,address:document.getElementById('pf-address').value,city:document.getElementById('pf-city').value});showToast('Profile saved ✓');}catch(e){showToast('Error: '+e.message,'error');}}
+async function changePw(){const pw=document.getElementById('pf-pw').value;if(pw.length<6){showToast('Password must be 6+ characters','error');return;}try{await Auth.updatePassword(pw);document.getElementById('pf-pw').value='';showToast('Password updated ✓');}catch(e){showToast('Error: '+e.message,'error');}}
 </script>
-<script>
-let activeFilter = 'all';
-
-function filterProducts(cat, btn) {
-  activeFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGrid();
-}
-
-function renderGrid() {
-  const all = window.EKRPT_PRODUCTS || [];
-  const list = activeFilter === 'all' ? all : all.filter(p => p.cat === activeFilter);
-  document.getElementById('products-grid').innerHTML = list.length
-    ? list.map(p => renderProductCard(p, 'LiveCart.add')).join('')
-    : '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--gray-300)">No products yet.</div>';
-}
-
-async function subscribeNL() {
-  const v = document.getElementById('nl-email').value;
-  if (!v || !v.includes('@')) { showToast('Please enter a valid email address', 'error'); return; }
-  try {
-    if (typeof Newsletter !== 'undefined') await Newsletter.subscribe(v, '', 'homepage');
-    document.getElementById('nl-email').value = '';
-    showToast('Subscribed! Welcome to EKRPT updates ✓');
-  } catch (e) {
-    document.getElementById('nl-email').value = '';
-    showToast('Subscribed! Welcome to EKRPT updates ✓'); // don't expose backend errors to shoppers
-  }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('products-grid').innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--gray-300)">Loading products…</div>';
-  await Storefront.loadProducts();
-  LiveCart.migrateLegacy();
-  LiveCart.updateBadge();
-  renderGrid();
-});
-</script>
-<script src="js/spectre-hero.js"></script>
 </body>
 </html>
