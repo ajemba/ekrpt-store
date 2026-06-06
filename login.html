@@ -102,6 +102,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Where each role lands after login
 function routeByRole(role) {
+  // If the user was sent here from a gated page (e.g. checkout), go back there.
+  try {
+    const back = sessionStorage.getItem('ekrpt_redirect');
+    if (back) {
+      sessionStorage.removeItem('ekrpt_redirect');
+      location.href = back;
+      return;
+    }
+  } catch (e) {}
   const home = (typeof ROLES !== 'undefined' && ROLES[role]) ? ROLES[role].home : '/account/index.html';
   location.href = '.' + home; // ROLES home values start with '/', resolve from site root
 }
