@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════════════
+   EKRPT — "MISSION CONTROL" override for portal dashboards
+   Load AFTER portal-core.css. Reskins customer + admin portals
+   to the futuristic system without changing any markup/JS.
+   ═══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+:root{
+  --fx-red:#e0202d; --fx-blue:#2ea8e0; --fx-ok:#4ade80;
+  --fx-disp:'Orbitron',sans-serif; --fx-mono:'JetBrains Mono',monospace; --fx-body:'Rajdhani',sans-serif;
+}
+
+body{background:#050608!important;color:#aab1ba;font-family:var(--fx-body)!important}
+/* atmospheric backdrop */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(1000px 560px at 82% -6%,rgba(224,32,45,.10),transparent 56%),
+             radial-gradient(800px 460px at 6% 108%,rgba(46,168,224,.08),transparent 54%),
+             linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+             linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:auto,auto,54px 54px,54px 54px}
+.player-shell,.portal,.pmain,.pwrap{position:relative;z-index:1}
+
+/* ── SIDEBAR ── */
+.pside{background:#070809!important;border-right:1px solid #1b1f27!important}
+.pside-logo{border-bottom:1px solid #1b1f27!important;padding-bottom:16px!important}
+.pside-logo-mark{background:transparent!important}
+.pside-brand{font-family:var(--fx-disp)!important;letter-spacing:.04em;color:#fff!important;text-transform:uppercase;font-size:15px!important}
+.pside-section{font-family:var(--fx-mono)!important;font-size:9px!important;letter-spacing:.18em!important;color:#4a5059!important;text-transform:uppercase}
+.pside-link{color:#aab1ba!important;font-family:var(--fx-body)!important;font-size:15px!important;font-weight:500;border-left:2px solid transparent!important;border-radius:0!important;transition:all .12s}
+.pside-link:hover{background:rgba(255,255,255,.03)!important;color:#fff!important}
+.pside-link.active{background:rgba(224,32,45,.10)!important;color:#fff!important;border-left-color:var(--fx-red)!important}
+.pside-av{background:linear-gradient(135deg,var(--fx-red),#a8121c)!important;font-family:var(--fx-disp)!important}
+.pside-uname{color:#fff!important;font-family:var(--fx-body)!important}
+.pside-urole{color:#6b7280!important;font-family:var(--fx-mono)!important;font-size:10px!important;letter-spacing:.1em;text-transform:uppercase}
+.pside-out:hover{color:var(--fx-red)!important}
+
+/* ── TOPBAR ── */
+.ptop{border-bottom:1px solid #1b1f27!important;background:transparent!important}
+.ptop-title{font-family:var(--fx-disp)!important;text-transform:uppercase;letter-spacing:.02em;color:#fff!important;font-weight:700!important}
+.ptop-meta{font-family:var(--fx-mono)!important;font-size:11px!important;letter-spacing:.1em;color:#6b7280!important}
+
+/* ── METRIC CARDS ── */
+.pmetric{background:linear-gradient(165deg,#0c0e12,#101319)!important;border:1px solid #1b1f27!important;border-radius:0!important;position:relative;overflow:hidden;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.pmetric::before{content:'';position:absolute;top:0;left:0;width:42px;height:2px;background:var(--accent,var(--fx-red))!important}
+.pmetric-label{font-family:var(--fx-mono)!important;font-size:10px!important;letter-spacing:.12em!important;text-transform:uppercase;color:#6b7280!important}
+.pmetric-val{font-family:var(--fx-disp)!important;color:#fff!important;font-weight:700!important}
+.pmetric-sub{font-family:var(--fx-body)!important;color:#6b7280!important}
+.pmetric-ic{opacity:.5}
+
+/* ── PANELS ── */
+.ppanel{background:linear-gradient(165deg,#0c0e12,#101319)!important;border:1px solid #1b1f27!important;border-radius:0!important;
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
+.ppanel-head{border-bottom:1px solid #1b1f27!important}
+.ppanel-title{font-family:var(--fx-disp)!important;font-size:13px!important;text-transform:uppercase;letter-spacing:.04em;color:#fff!important}
+
+/* ── TABLES ── */
+.ptable{font-family:var(--fx-body)!important}
+.ptable thead th{font-family:var(--fx-mono)!important;font-size:10px!important;letter-spacing:.1em!important;text-transform:uppercase;color:#6b7280!important;border-bottom:1px solid #1b1f27!important;background:transparent!important}
+.ptable tbody td{border-bottom:1px solid #14171c!important;color:#cfd4da!important}
+.ptable tbody tr:hover{background:rgba(255,255,255,.02)!important}
+
+/* ── BUTTONS ── */
+.pbtn{font-family:var(--fx-disp)!important;font-size:12px!important;letter-spacing:.05em;text-transform:uppercase;border-radius:0!important;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.pbtn-primary{background:linear-gradient(135deg,var(--fx-red),#a8121c)!important;border:none!important}
+.pbtn-ghost{background:transparent!important;border:1.5px solid #262b34!important;color:#fff!important}
+.pbtn-ghost:hover{border-color:var(--fx-blue)!important;color:var(--fx-blue)!important}
+
+/* ── FIELDS ── */
+.pfield label{font-family:var(--fx-mono)!important;font-size:10px!important;letter-spacing:.12em!important;text-transform:uppercase;color:#6b7280!important}
+.pfield input,.pfield select,.pfield textarea{background:#08090c!important;border:1.5px solid #1b1f27!important;color:#fff!important;border-radius:0!important;font-family:var(--fx-body)!important;
+  clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.pfield input:focus,.pfield select:focus,.pfield textarea:focus{border-color:var(--fx-red)!important;box-shadow:0 0 0 3px rgba(224,32,45,.14)!important;outline:none}
+
+/* status pills */
+.pill,.status-pill{font-family:var(--fx-mono)!important;font-size:10px!important;letter-spacing:.06em;text-transform:uppercase;border-radius:0!important}

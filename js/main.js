@@ -7,7 +7,7 @@ const EKRPT_PRODUCTS = [
   { id:1, cat:'starlink', name:'Starlink Mini Kit',          desc:'Ultra-compact portable dish, ideal for travel, vehicles, and remote sites.',                       price:280000, badge:'new',     emoji:'📡', stock:8  },
   { id:2, cat:'starlink', name:'Starlink Gen3 Standard',     desc:'Third-generation dish. Faster speeds, improved weather resistance, self-orienting.',               price:420000, badge:'hot',     emoji:'🛰️', stock:5  },
   { id:3, cat:'starlink', name:'Starlink V4 High Perf.',     desc:'Latest V4 hardware for enterprises and high-demand connectivity. Gigabit capable.',                price:520000, badge:'new',     emoji:'📡', stock:3  },
-  { id:4, cat:'router',   name:'EKRPT ProRouter X1',         desc:'EKRPT branded dual-band AC1200. Optimized firmware for Nigerian ISP conditions.',                  price:28500,  badge:'branded', emoji:'📶', stock:20 },
+  { id:4, cat:'router',   name:'EKRPT ProRouter X1',         desc:'EKRPT branded dual-band AC1200. Optimized firmware for demanding network conditions.',                  price:28500,  badge:'branded', emoji:'📶', stock:20 },
   { id:5, cat:'router',   name:'EKRPT MeshNode 3-Pack',      desc:'Whole-home mesh kit. Covers 450sqm seamlessly. Easy app setup.',                                   price:65000,  badge:'branded', emoji:'🌐', stock:12 },
   { id:6, cat:'mifi',     name:'EKRPT MiFi Pro 4G+',         desc:'EKRPT branded 4G+ MiFi. Supports 10 devices simultaneously. 3000mAh battery.',                    price:18500,  badge:'branded', emoji:'📱', stock:30 },
   { id:7, cat:'mifi',     name:'EKRPT MiFi 5G',              desc:'Next-gen 5G pocket router. Sub-6GHz SA/NSA dual-mode. Up to 2.1Gbps.',                            price:34000,  badge:'new',     emoji:'⚡', stock:14 },
@@ -105,7 +105,7 @@ function renderProductCard(p, addFn) {
 const NAV_HTML = `
 <nav class="nav">
   <a class="nav-logo" href="index.html">
-    <img class="nav-logo-img" data-logo src="img/logo-spectre-trans.png" alt="EKRPT SPECTRE" />
+    <img class="nav-logo-img" data-logo src="img/logo-ekrpt.png" alt="EKRPT Networking Labs" />
     <div class="nav-logo-mark">
       <svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg>
     </div>
@@ -134,10 +134,9 @@ const FOOTER_HTML = `
     <div class="footer-grid">
       <div>
         <div class="footer-logo-wrap">
-          <div class="footer-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div>
-          <span class="footer-brand">EKRPT Networking Labs</span>
+          <img src="img/logo-ekrpt.png" alt="EKRPT Networking Labs" style="height:34px;width:auto"/>
         </div>
-        <div class="footer-about">Nigeria's trusted source for digital and networking equipment. Licensed, registered, and committed to keeping you connected.</div>
+        <div class="footer-about">Performance networking hardware engineered for gamers, businesses, and everyone who refuses to compromise on connection.</div>
         <a class="footer-email" href="mailto:office@ekrpt.com">✉ office@ekrpt.com</a>
       </div>
       <div class="footer-col">
