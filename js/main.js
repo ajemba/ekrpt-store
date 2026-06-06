@@ -95,11 +95,15 @@ function renderProductCard(p, addFn) {
             ₦${p.price.toLocaleString()}
             <small>+ delivery</small>
           </div>
-          <button class="add-to-cart" onclick="${addFn}('${p.id}')">Add to cart</button>
+          <button class="add-to-cart" data-add-id="${p.id}">Add to cart</button>
         </div>
       </div>
     </div>`;
 }
+document.addEventListener('click', function(e) {
+  var b = e.target.closest('.add-to-cart');
+  if (b && b.dataset.addId) { LiveCart.add(b.dataset.addId); }
+});
 
 /* ── SHARED NAV HTML ── */
 const NAV_HTML = `
