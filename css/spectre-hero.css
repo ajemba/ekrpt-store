@@ -57,11 +57,15 @@
 .sh-corner.br{bottom:8px;right:8px;border-bottom:2px solid;border-right:2px solid}
 /* slide caption / HUD readout */
 .sh-cap{position:absolute;left:18px;bottom:18px;right:18px;z-index:6}
+/* dark scrim so white caption text is readable on light OR dark slides */
+.sh-cap::before{content:'';position:absolute;left:-18px;right:-18px;bottom:-18px;top:-60px;
+  background:linear-gradient(to top,rgba(5,6,8,.92) 0%,rgba(5,6,8,.72) 40%,rgba(5,6,8,0) 100%);
+  z-index:-1;pointer-events:none}
 .sh-cap .tag{display:inline-block;font-family:var(--font-mono,monospace);font-size:10px;letter-spacing:.18em;
-  text-transform:uppercase;color:#0a0b0d;background:var(--red,#e0202d);padding:3px 10px;font-weight:700;margin-bottom:8px}
+  text-transform:uppercase;color:#fff;background:var(--red,#e0202d);padding:3px 10px;font-weight:700;margin-bottom:8px}
 .sh-cap .line{font-family:'Orbitron',var(--font-head,sans-serif);font-weight:800;color:#fff;
   font-size:clamp(15px,2.4vw,22px);line-height:1.1;text-transform:uppercase;letter-spacing:.02em;
-  text-shadow:0 2px 20px rgba(0,0,0,.8)}
+  text-shadow:0 2px 24px rgba(0,0,0,.95),0 1px 4px rgba(0,0,0,.9)}
 /* dots */
 .sh-dots{position:absolute;top:16px;right:44px;z-index:6;display:flex;gap:7px}
 .sh-dot{width:26px;height:4px;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)}
