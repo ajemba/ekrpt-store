@@ -121,6 +121,8 @@ const Orders = (() => {
     const session = await Auth.getSession();
     const guest = Auth.getGuestSession();
 
+    const subtotal = items.reduce((s, i) => s + (i.price * i.qty), 0);
+
     // Validate promo code
     let discount = 0;
     if (promoCode) {
@@ -134,7 +136,6 @@ const Orders = (() => {
       }
     }
 
-    const subtotal = items.reduce((s, i) => s + (i.price * i.qty), 0);
     const deliveryFee = subtotal >= EKRPT_CONFIG.shipping.freeThreshold ? 0 : EKRPT_CONFIG.shipping.defaultFee;
     const total = subtotal + deliveryFee - discount;
 
@@ -157,8 +158,10 @@ const Orders = (() => {
     const { data, error } = await sb.from('orders').insert(orderData).select().single();
     if (error) throw error;
 
-    // Log order event
-    await sb.from('order_events').insert({ order_id: data.id, status: 'pending', note: 'Order placed' });
+    // Log order event (best-effort: never fail the order if this insert is blocked)
+    try {
+      await sb.from('order_events').insert({ order_id: data.id, status: 'pending', note: 'Order placed' });
+    } catch (e) { /* non-fatal */ }
 
     return data;
   };
