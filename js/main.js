@@ -100,6 +100,7 @@ function renderProductCard(p, addFn) {
       </div>
     </div>`;
 }
+
 document.addEventListener('click', function(e) {
   var b = e.target.closest('.add-to-cart');
   if (b && b.dataset.addId) { LiveCart.add(b.dataset.addId); }
@@ -187,4 +188,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navMount) navMount.innerHTML = NAV_HTML;
   if (footerMount) footerMount.innerHTML = FOOTER_HTML;
   setActiveNav();
+  refreshNavAuth();
 });
+
+/* Swap the Sign in / Get started buttons for account links when logged in. */
+async function refreshNavAuth() {
+  try {
+    if (typeof Auth === 'undefined' || !Auth.getUser) return;
+    const u = await Auth.getUser();
+    const actions = document.querySelector('.nav-actions');
+    if (!actions) return;
+    const cartBtn = actions.querySelector('.cart-btn');
+    const cartHTML = cartBtn ? cartBtn.outerHTML : '';
+    if (u) {
+      actions.innerHTML = cartHTML +
+        '<a href="account/index.html" class="btn btn-secondary btn-sm">My Account</a>' +
+        '<button class="btn btn-primary btn-sm" onclick="Auth.signOut()">Sign out</button>';
+    } else {
+      actions.innerHTML = cartHTML +
+        '<a href="login.html" class="btn btn-secondary btn-sm">Sign in</a>' +
+        '<a href="login.html#signup" class="btn btn-primary btn-sm">Get started</a>';
+    }
+    LiveCart?.updateBadge?.();
+  } catch (e) {}
+}
