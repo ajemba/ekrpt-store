@@ -226,11 +226,11 @@ async function handleSubmit() {
     if (mode === 'up') {
       const fn = document.getElementById('first-name')?.value || '';
       const ln = document.getElementById('last-name')?.value || '';
-      await Auth.signUp(email, pw, { full_name: (fn + ' ' + ln).trim() });
+      await Auth.signUp({ email, password: pw, fullName: (fn + ' ' + ln).trim() });
       showSuccess('Account created!', 'Welcome to EKRPT Networking Labs', null);
       setTimeout(() => routeByRole('customer'), 1200);
     } else {
-      await Auth.signIn(email, pw);
+      await Auth.signIn({ email, password: pw });
       // 2FA check — if this account has TOTP enrolled, require the code
       const factors = await Auth.listMfaFactors?.();
       if (factors && factors.length) {
