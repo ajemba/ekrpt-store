@@ -1,418 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<meta name="description" content="EKRPT Networking Labs — Licensed Nigerian distributor of Starlink hardware, EKRPT branded routers, MiFi devices, and networking equipment."/>
-<title>EKRPT Networking Labs — Digital & Networking Equipment</title>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="EKRPT Networking Labs roadmap — the SPECTRE product line, presale, certification, and the 3-year journey into ISP and enterprise networking."/>
+<title>Roadmap & Milestones — EKRPT Networking Labs</title>
 <link rel="stylesheet" href="css/style.css"/>
 <link rel="stylesheet" href="css/theme-spectre-dark.css"/>
-<link rel="stylesheet" href="css/spectre-hero.css"/>
 <style>
-/* ── HERO ── */
-.hero {
-  background: var(--off-white);
-  padding: 90px 0 0;
-  overflow: hidden;
-  position: relative;
-}
-.hero::before {
-  content:'';position:absolute;top:-80px;right:-100px;
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(26,143,196,.12) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero::after {
-  content:'';position:absolute;bottom:60px;left:10%;
-  width:300px;height:300px;
-  background:radial-gradient(circle,rgba(217,64,64,.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-inner {
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:48px;align-items:end;position:relative;z-index:1;
-}
-.hero-eyebrow {
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--blue-light);color:var(--blue-dark);
-  font-size:11px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;padding:6px 14px;
-  border-radius:100px;margin-bottom:22px;
-  font-family:var(--font-mono);
-}
-.hero-dot { width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite; }
-.hero h1 {
-  font-family:var(--font-head);
-  font-size:clamp(38px,5vw,60px);
-  font-weight:800;line-height:1.05;
-  color:var(--gray-900);margin-bottom:22px;
-}
-.hero h1 em { font-style:normal;color:var(--blue); }
-.hero-desc {
-  font-size:16px;color:var(--gray-400);
-  line-height:1.75;margin-bottom:34px;
-  max-width:460px;font-weight:300;
-}
-.hero-actions { display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px; }
-.hero-stats {
-  display:flex;gap:36px;
-  padding-top:32px;border-top:1px solid var(--gray-100);
-  padding-bottom:36px;
-}
-.stat-val { font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gray-900); }
-.stat-lbl { font-size:12px;color:var(--gray-300);margin-top:3px; }
+.rm-hero{position:relative;background:radial-gradient(900px 480px at 75% 20%,rgba(224,32,45,.18),transparent 55%),radial-gradient(700px 420px at 18% 90%,rgba(46,168,224,.14),transparent 55%),#050608;padding:84px 0 64px;overflow:hidden;border-bottom:1px solid rgba(224,32,45,.25)}
+.rm-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(ellipse at 60% 20%,#000,transparent 75%)}
+.rm-hero .wrap{position:relative;z-index:2}
+.rm-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.rm-hero h1{font-family:'Orbitron',var(--font-head);font-weight:900;text-transform:uppercase;letter-spacing:.02em;color:#fff;font-size:clamp(30px,5vw,52px);line-height:1.05;margin-bottom:14px}
+.rm-hero h1 em{font-style:normal;color:var(--red)}
+.rm-hero p{font-family:'Rajdhani',var(--font-body);font-size:18px;color:#aab1ba;max-width:620px}
 
-/* hero visual */
-.hero-visual { position:relative;height:360px;align-self:end; }
-.hv-main {
-  position:absolute;bottom:0;left:0;right:0;
-  background:var(--gray-900);border-radius:20px 20px 0 0;
-  padding:28px;
-}
-.hv-main-label { font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px; }
-.hv-main-name { font-family:var(--font-head);font-size:22px;font-weight:700;color:white;margin-bottom:8px; }
-.hv-main-price { font-family:var(--font-mono);font-size:15px;color:var(--blue-mid); }
-.hv-card {
-  position:absolute;background:white;
-  border-radius:var(--radius-lg);border:1px solid var(--gray-100);
-  padding:18px;box-shadow:var(--shadow-md);
-}
-.hv-card1 { top:16px;right:-8px;width:190px; }
-.hv-card2 { top:130px;left:-14px;width:165px; }
-.hvc-icon { font-size:30px;margin-bottom:8px; }
-.hvc-label { font-family:var(--font-mono);font-size:10px;color:var(--gray-300);letter-spacing:.06em;text-transform:uppercase; }
-.hvc-name { font-size:13px;font-weight:600;color:var(--gray-900);margin-top:3px; }
-.live-pill {
-  display:inline-flex;align-items:center;gap:5px;
-  background:var(--blue-light);color:var(--blue-dark);
-  font-family:var(--font-mono);font-size:10px;font-weight:700;
-  padding:3px 9px;border-radius:100px;margin-top:7px;
-  letter-spacing:.04em;
-}
-.live-pill::before { content:'';width:5px;height:5px;background:var(--blue);border-radius:50%;animation:pulse 1.5s infinite; }
+/* timeline */
+.rm-body{padding:64px 0 80px;background:#070809}
+.rm-phase-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.rm-timeline{position:relative;max-width:900px;margin:0 auto;padding-left:34px}
+.rm-timeline::before{content:'';position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--red),var(--blue))}
+.rm-item{position:relative;margin-bottom:38px}
+.rm-item::before{content:'';position:absolute;left:-33px;top:4px;width:18px;height:18px;background:#0a0b0d;border:2px solid var(--red);border-radius:50%;box-shadow:0 0 12px rgba(224,32,45,.5)}
+.rm-item.done::before{border-color:#4ade80;box-shadow:0 0 12px rgba(74,222,128,.5);background:#0f2a18}
+.rm-item.active::before{border-color:var(--blue);box-shadow:0 0 14px rgba(46,168,224,.7);animation:rmPulse 1.6s infinite}
+@keyframes rmPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.rm-when{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.rm-card{background:linear-gradient(160deg,#121419,#0c0e12);border:1px solid #1d2026;padding:20px 22px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.rm-card h3{font-family:'Orbitron',var(--font-head);font-size:17px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.02em;margin-bottom:8px}
+.rm-card p{font-family:'Rajdhani',var(--font-body);font-size:15.5px;color:#aab1ba;line-height:1.5;margin-bottom:10px}
+.rm-tags{display:flex;flex-wrap:wrap;gap:7px}
+.rm-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cfd4da;background:rgba(255,255,255,.05);border:1px solid #23262d;padding:4px 9px}
+.rm-pill{display:inline-block;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;margin-left:8px;vertical-align:middle}
+.rm-pill.done{background:#0f2a18;color:#4ade80}
+.rm-pill.now{background:rgba(46,168,224,.15);color:#7cc8ee;border:1px solid rgba(46,168,224,.3)}
+.rm-pill.next{background:rgba(224,32,45,.1);color:#ff5560;border:1px solid rgba(224,32,45,.3)}
 
-/* featured products strip */
-.featured-strip { padding:72px 0; }
-.featured-header { display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px; }
-.filter-tabs { display:flex;gap:6px;flex-wrap:wrap; }
-.filter-tab {
-  padding:7px 16px;border:1.5px solid var(--gray-100);
-  background:none;border-radius:100px;font-size:13px;
-  cursor:pointer;color:var(--gray-400);
-  font-family:var(--font-body);transition:all .15s;
-}
-.filter-tab:hover { border-color:var(--blue);color:var(--blue); }
-.filter-tab.active { background:var(--blue);color:white;border-color:var(--blue); }
+/* product line strip */
+.rm-line{background:#0a0b0d;padding:64px 0;border-top:1px solid #1d2026}
+.rm-line .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.rm-line h2{font-family:'Orbitron',var(--font-head);text-transform:uppercase;letter-spacing:.03em;color:#fff;font-size:clamp(24px,3.4vw,36px);text-align:center;margin-bottom:8px}
+.rm-line .sub{text-align:center;color:#8a929c;font-family:'Rajdhani';font-size:16px;margin-bottom:40px}
+.rm-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:760px){.rm-tiers{grid-template-columns:1fr}.rm-timeline{padding-left:28px}}
+.rm-tier{background:linear-gradient(160deg,#121419,#0c0e12);border:1px solid #1d2026;padding:26px 22px;position:relative;overflow:hidden}
+.rm-tier.flag{border-color:rgba(224,32,45,.45);box-shadow:0 0 30px rgba(224,32,45,.12)}
+.rm-tier::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+.rm-tier.flag::before{background:var(--red)}
+.rm-tier .badge{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8a929c;margin-bottom:10px}
+.rm-tier.flag .badge{color:#ff5560}
+.rm-tier h3{font-family:'Orbitron',var(--font-head);font-size:20px;color:#fff;margin-bottom:4px;letter-spacing:.02em}
+.rm-tier .tier-class{font-family:'Rajdhani';font-size:14px;color:var(--blue);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.rm-tier ul{list-style:none;padding:0;margin:0}
+.rm-tier li{font-family:'Rajdhani';font-size:14.5px;color:#aab1ba;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.rm-tier li b{color:#fff}
 
-/* about strip */
-.about-strip {
-  background:linear-gradient(135deg,var(--gray-900) 0%,#1a2f45 100%);
-  padding:88px 0;position:relative;overflow:hidden;
-}
-.about-strip::before {
-  content:'EKRPT';
-  position:absolute;right:-30px;top:50%;transform:translateY(-50%);
-  font-family:var(--font-head);font-size:180px;font-weight:800;
-  color:rgba(255,255,255,.025);pointer-events:none;white-space:nowrap;
-  letter-spacing:-.04em;
-}
-.about-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:1; }
-.about-label { font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:14px; }
-.about-h { font-family:var(--font-head);font-size:clamp(26px,3.5vw,42px);font-weight:700;color:white;margin-bottom:20px;line-height:1.15; }
-.about-h span { color:var(--blue-mid); }
-.about-p { font-size:15px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:14px;font-weight:300; }
-.about-founder-card {
-  display:flex;align-items:center;gap:14px;margin-top:28px;
-  padding:16px;background:rgba(255,255,255,.05);
-  border-radius:var(--radius);border:1px solid rgba(255,255,255,.08);
-}
-.founder-av {
-  width:46px;height:46px;border-radius:50%;
-  background:var(--blue);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:15px;font-weight:700;color:white;flex-shrink:0;
-}
-.founder-name { font-size:14px;font-weight:500;color:white; }
-.founder-role { font-size:12px;color:rgba(255,255,255,.4); }
-.pillars-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
-.pillar {
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--radius);padding:20px;
-}
-.pillar-icon { font-size:26px;margin-bottom:10px; }
-.pillar-title { font-size:14px;font-weight:600;color:white;margin-bottom:5px;font-family:var(--font-head); }
-.pillar-text { font-size:12px;color:rgba(255,255,255,.45);line-height:1.6; }
-
-/* brands */
-.brands { background:var(--gray-50);padding:56px 0; }
-.brands-row { display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin-top:28px; }
-.brand-chip {
-  display:flex;align-items:center;gap:10px;
-  padding:12px 20px;background:white;
-  border:1px solid var(--gray-100);border-radius:var(--radius);
-  font-size:14px;font-weight:500;color:var(--gray-700);
-  font-family:var(--font-head);
-}
-.brand-chip-icon { width:32px;height:32px;border-radius:7px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:16px; }
-
-/* newsletter */
-.nl-section { background:var(--blue-light);padding:72px 0; }
-.nl-inner { max-width:600px;margin:0 auto;text-align:center; }
-.nl-inner h2 { font-family:var(--font-head);font-size:clamp(24px,3vw,36px);font-weight:700;color:var(--gray-900);margin-bottom:12px;letter-spacing:-.02em; }
-.nl-inner p { font-size:15px;color:var(--gray-400);margin-bottom:28px;font-weight:300; }
-.nl-form { display:flex;gap:10px;max-width:420px;margin:0 auto; }
-.nl-form input {
-  flex:1;padding:12px 16px;
-  border:1.5px solid var(--gray-200);border-radius:var(--radius);
-  font-size:14px;font-family:var(--font-body);background:white;color:var(--gray-900);
-}
-.nl-form input:focus { outline:none;border-color:var(--blue); }
-.nl-sub { font-size:11px;color:var(--gray-300);margin-top:10px;font-family:var(--font-mono); }
-
-@media(max-width:900px){
-  .hero-inner,.about-grid{grid-template-columns:1fr}
-  .hero-visual{display:none}
-  .hero{padding-bottom:40px}
-}
-@media(max-width:600px){
-  .nl-form{flex-direction:column}
-  .featured-header{flex-direction:column;align-items:flex-start;gap:16px}
-}
+.rm-cta{background:radial-gradient(700px 300px at 50% 0%,rgba(224,32,45,.16),transparent 60%),#070809;padding:64px 24px;text-align:center;border-top:1px solid rgba(224,32,45,.25)}
+.rm-cta h2{font-family:'Orbitron',var(--font-head);text-transform:uppercase;color:#fff;font-size:clamp(22px,3vw,32px);margin-bottom:12px}
+.rm-cta p{color:#aab1ba;font-family:'Rajdhani';font-size:17px;margin-bottom:24px}
+.rm-disclaimer{max-width:760px;margin:28px auto 0;font-family:var(--font-mono);font-size:11px;color:#5a626b;line-height:1.6;text-align:center}
 </style>
 </head>
 <body>
-
-<div id="announce-bar" style="display:none;background:var(--red);color:#fff;text-align:center;padding:8px;font-size:13px;cursor:pointer"></div>
 <div id="nav-mount"></div>
 
-<!-- HERO -->
-<!-- data-launch: set your real presale date here, e.g. data-launch="2026-07-15T12:00:00+01:00" -->
-<section class="spectre-hero" data-launch="">
-  <div class="sh-wrap">
+<section class="rm-hero">
+  <div class="wrap container">
+    <div class="rm-eyebrow">EKRPT Networking Labs · Company Roadmap</div>
+    <h1>The Road To <em>SPECTRE</em><br/>And Beyond</h1>
+    <p>From flagship launch to ISP and enterprise edge networking — our phased plan to build a gaming-first networking brand. Milestones below are indicative and will be updated as we execute.</p>
+  </div>
+</section>
 
-    <!-- LEFT: aggressive product slideshow -->
-    <div>
-      <div class="sh-stage">
-        <div class="sh-frame">
-          <div class="sh-slide active" style="background-image:url('img/product/spectre-gaming-web.jpg')">
-            <div class="sh-cap"><span class="tag">WiFi 7 Gaming Router</span><div class="line">Built For Esports Latency</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-1-web.jpg')">
-            <div class="sh-cap"><span class="tag">Flagship</span><div class="line">The Flagship Has Landed</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-dualsim-web.jpg')">
-            <div class="sh-cap"><span class="tag">Dual 5G SIM</span><div class="line">Dual-SIM · SA/NSA Networks</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-3-web.jpg')">
-            <div class="sh-cap"><span class="tag">I/O</span><div class="line">10G SFP · 2.5G WAN · 3×1G LAN</div></div>
-          </div>
-          <div class="sh-slide" style="background-image:url('img/product/spectre-4-web.jpg')">
-            <div class="sh-cap"><span class="tag">Fiber</span><div class="line">10 Gbps Fiber-Ready Uplink</div></div>
-          </div>
-          <div class="sh-beam"></div>
-          <span class="sh-corner tl"></span><span class="sh-corner br"></span>
-          <div class="sh-dots">
-            <span class="sh-dot active"></span><span class="sh-dot"></span><span class="sh-dot"></span><span class="sh-dot"></span><span class="sh-dot"></span>
-          </div>
+<section class="rm-body">
+  <div class="container">
+    <div class="rm-timeline" id="rm-timeline">
+      <!-- items injected/declared statically -->
+      <div class="rm-item done">
+        <div class="rm-when">Phase 0 · Complete</div>
+        <div class="rm-card">
+          <h3>Foundation &amp; Brand<span class="rm-pill done">Done</span></h3>
+          <p>Company incorporated and CAC-registered. SPECTRE brand identity, BE19000 ULTRA flagship sourcing, and the ekrpt.com storefront established with secure accounts, admin and order systems.</p>
+          <div class="rm-tags"><span class="rm-tag">CAC Registered</span><span class="rm-tag">Brand Identity</span><span class="rm-tag">E-commerce Live</span></div>
         </div>
       </div>
-      <div class="sh-thumbs">
-        <div class="sh-thumb active" style="background-image:url('img/product/spectre-gaming-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-1-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-dualsim-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-3-web.jpg')"></div>
-        <div class="sh-thumb" style="background-image:url('img/product/spectre-4-web.jpg')"></div>
-      </div>
-    </div>
 
-    <!-- RIGHT: presale + countdown -->
-    <div class="sh-info">
-      <div class="sh-status"><span class="pulse"></span><span id="sh-status-text">Presale · Launching Soon</span></div>
-      <div class="sh-eyebrow">EKRPT Networking Labs · WiFi 7 Flagship</div>
-      <h1 class="sh-title">SPECTRE<br/><em>BE19000</em> ULTRA</h1>
-      <p class="sh-sub">Tri-band WiFi 7. 19,000 Mbps aggregate. 10G SFP uplink, dual nano-SIM auto-switch, and a gaming-grade QoS engine. Built for esports latency.</p>
-
-      <div class="sh-cd-label">// Presale launch countdown</div>
-      <div class="sh-cd">
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-d">00</div><div class="sh-cd-tag">Days</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-h">00</div><div class="sh-cd-tag">Hours</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-m">00</div><div class="sh-cd-tag">Mins</div></div>
-        <div class="sh-cd-unit"><div class="sh-cd-num" id="cd-s">00</div><div class="sh-cd-tag">Secs</div></div>
-      </div>
-
-      <div class="sh-reserve">
-        <input type="email" id="sh-reserve-email" placeholder="your@email.com" />
-        <button class="sh-btn sh-btn-primary" onclick="reservePresale()">Reserve</button>
-      </div>
-      <div class="sh-actions">
-        <a href="products.html" class="sh-btn sh-btn-ghost">View Specs ▸</a>
-      </div>
-      <div class="sh-proof">▸ <b id="sh-proof-count">312</b> gamers already reserved their unit</div>
-    </div>
-
-  </div>
-
-  <!-- spec ticker -->
-  <div class="sh-ticker">
-    <div class="sh-ticker-track">
-      <span>WIFI 7 <b>//</b> 19,000 MBPS <b>//</b> 10G SFP UPLINK <b>//</b> 2.5G WAN <b>//</b> 3×1G LAN <b>//</b> DUAL NANO-SIM <b>//</b> 8× ANTENNA <b>//</b> MLO <b>//</b> 4096-QAM <b>//</b> GAMING QoS <b>//</b> </span>
-      <span>WIFI 7 <b>//</b> 19,000 MBPS <b>//</b> 10G SFP UPLINK <b>//</b> 2.5G WAN <b>//</b> 3×1G LAN <b>//</b> DUAL NANO-SIM <b>//</b> 8× ANTENNA <b>//</b> MLO <b>//</b> 4096-QAM <b>//</b> GAMING QoS <b>//</b> </span>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-inner">
-    <div class="trust-item"><div class="trust-icon">🏛️</div>CAC Registered &amp; Licensed</div>
-    <div class="trust-item"><div class="trust-icon">🚚</div>Lagos Same-Day Delivery</div>
-    <div class="trust-item"><div class="trust-icon">🔒</div>Genuine Starlink Distributor</div>
-    <div class="trust-item"><div class="trust-icon">🛡️</div>12-Month Hardware Warranty</div>
-    <div class="trust-item"><div class="trust-icon">💬</div>24/7 Technical Support</div>
-  </div>
-</div>
-
-<!-- FEATURED PRODUCTS -->
-<section class="featured-strip">
-  <div class="container">
-    <div class="featured-header">
-      <div>
-        <div class="section-label">Our Catalog</div>
-        <div class="section-title">Equipment &amp; Hardware</div>
-      </div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
-        <button class="filter-tab" onclick="filterProducts('starlink',this)">Starlink</button>
-        <button class="filter-tab" onclick="filterProducts('router',this)">Routers</button>
-        <button class="filter-tab" onclick="filterProducts('mifi',this)">MiFi &amp; Modems</button>
-      </div>
-    </div>
-    <div class="products-grid" id="products-grid"></div>
-    <div style="text-align:center;margin-top:32px">
-      <a href="products.html" class="btn btn-secondary">View all products →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT STRIP -->
-<section class="about-strip">
-  <div class="container">
-    <div class="about-grid">
-      <div>
-        <div class="about-label">Who We Are</div>
-        <h2 class="about-h">Built on expertise.<br/><span>Powered by connection.</span></h2>
-        <p class="about-p">EKRPT Networking Labs is a licensed and registered Nigerian technology company specializing in digital and networking equipment. From our branded MiFi and routers to official Starlink hardware, we exist to close the connectivity gap across Nigeria.</p>
-        <p class="about-p">We source, brand, and distribute equipment that just works — whether you're running a home office in Lagos or a branch network in Abuja.</p>
-        <div class="about-founder-card">
-          <div class="founder-av">CM</div>
-          <div>
-            <div class="founder-name">CA Michael</div>
-            <div class="founder-role">Founder &amp; CEO, EKRPT Networking Labs</div>
-          </div>
+      <div class="rm-item active">
+        <div class="rm-when">Phase 1 · In Progress · Q2–Q3 2026</div>
+        <div class="rm-card">
+          <h3>Presale &amp; Launch<span class="rm-pill now">Now</span></h3>
+          <p>SPECTRE BE19000 ULTRA presale opens to early adopters and the gaming community. Payment gateways, logistics, and Lagos same-day delivery go live. First production batch fulfilled.</p>
+          <div class="rm-tags"><span class="rm-tag">Presale Open</span><span class="rm-tag">Payments Live</span><span class="rm-tag">First Batch</span></div>
         </div>
       </div>
-      <div class="pillars-grid">
-        <div class="pillar"><div class="pillar-icon">📡</div><div class="pillar-title">Starlink Distributor</div><div class="pillar-text">Authorized Mini, Gen3 &amp; V4 hardware with full setup support.</div></div>
-        <div class="pillar"><div class="pillar-icon">🏷️</div><div class="pillar-title">EKRPT Branded</div><div class="pillar-text">Our own routers &amp; MiFi devices built for Nigerian network conditions.</div></div>
-        <div class="pillar"><div class="pillar-icon">🔧</div><div class="pillar-title">Installation</div><div class="pillar-text">On-site setup, configuration &amp; troubleshooting by our technical team.</div></div>
-        <div class="pillar"><div class="pillar-icon">📦</div><div class="pillar-title">B2B Supply</div><div class="pillar-text">Bulk supply for ISPs, enterprises &amp; resellers at competitive rates.</div></div>
+
+      <div class="rm-item">
+        <div class="rm-when">Phase 2 · Q4 2026</div>
+        <div class="rm-card">
+          <h3>Product Line Expansion<span class="rm-pill next">Next</span></h3>
+          <p>Introduce the BE7000 (mid-tier) and BE5400 (entry) to widen the lineup across price points. Firmware hardening on the OpenWRT core, gaming QoS tuning, and certification for wider distribution.</p>
+          <div class="rm-tags"><span class="rm-tag">BE7000</span><span class="rm-tag">BE5400</span><span class="rm-tag">Certification</span></div>
+        </div>
+      </div>
+
+      <div class="rm-item">
+        <div class="rm-when">Phase 3 · 2027</div>
+        <div class="rm-card">
+          <h3>Retail &amp; Marketplace Scale</h3>
+          <p>Expand beyond direct-to-consumer into marketplace and retail channels, plus reseller and B2B bulk programs. Scale manufacturing partnerships and strengthen the supply chain for volume.</p>
+          <div class="rm-tags"><span class="rm-tag">Marketplaces</span><span class="rm-tag">Reseller Program</span><span class="rm-tag">B2B Bulk</span></div>
+        </div>
+      </div>
+
+      <div class="rm-item">
+        <div class="rm-when">Phase 4 · 2028</div>
+        <div class="rm-card">
+          <h3>ISP &amp; Enterprise Edge</h3>
+          <p>Move up-market into ISP deployments and enterprise edge networking, with managed-firmware services and fleet provisioning. Position EKRPT as an infrastructure brand, not just consumer hardware.</p>
+          <div class="rm-tags"><span class="rm-tag">ISP Deployments</span><span class="rm-tag">Enterprise Edge</span><span class="rm-tag">Firmware Services</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BRANDS -->
-<section class="brands">
-  <div class="container">
-    <div style="text-align:center">
-      <div class="section-label" style="justify-content:center;display:flex">Equipment Brands</div>
-      <div class="section-title" style="text-align:center">Brands We Carry</div>
-    </div>
-    <div class="brands-row">
-      <div class="brand-chip"><div class="brand-chip-icon">📡</div>Starlink</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📶</div>EKRPT Branded</div>
-      <div class="brand-chip"><div class="brand-chip-icon">🔌</div>TP-Link</div>
-      <div class="brand-chip"><div class="brand-chip-icon">🌐</div>Mikrotik</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📱</div>Huawei</div>
-      <div class="brand-chip"><div class="brand-chip-icon">📡</div>ZTE</div>
+<section class="rm-line">
+  <div class="wrap">
+    <h2>The SPECTRE Product Line</h2>
+    <div class="sub">A multi-tier lineup — flagship to entry — built on a shared gaming-first architecture.</div>
+    <div class="rm-tiers">
+      <div class="rm-tier flag">
+        <div class="badge">Flagship · Available</div>
+        <h3>BE19000 ULTRA</h3>
+        <div class="tier-class">Tri-Band WiFi 7</div>
+        <ul>
+          <li><b>19,000 Mbps</b> aggregate</li>
+          <li><b>10G SFP</b> + 2.5G WAN + 3×1G LAN</li>
+          <li>Dual nano-SIM auto-switch</li>
+          <li>8× antenna · MLO · Gaming QoS</li>
+        </ul>
+      </div>
+      <div class="rm-tier">
+        <div class="badge">Mid-Tier · Planned</div>
+        <h3>BE7000</h3>
+        <div class="tier-class">Performance WiFi 7</div>
+        <ul>
+          <li><b>7,000 Mbps</b> class</li>
+          <li>Multi-gig WAN + LAN</li>
+          <li>Gaming QoS engine</li>
+          <li>For prosumers &amp; smart homes</li>
+        </ul>
+      </div>
+      <div class="rm-tier">
+        <div class="badge">Entry · Planned</div>
+        <h3>BE5400</h3>
+        <div class="tier-class">Essential WiFi 7</div>
+        <ul>
+          <li><b>5,400 Mbps</b> class</li>
+          <li>Gigabit ports</li>
+          <li>Reliable everyday WiFi 7</li>
+          <li>For homes &amp; small offices</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="nl-section">
-  <div class="container">
-    <div class="nl-inner">
-      <div class="section-label" style="justify-content:center;display:flex">Stay Connected</div>
-      <h2>Get exclusive deals &amp; stock alerts</h2>
-      <p>Join the EKRPT network — be first to know about Starlink stock, promotions, and new EKRPT-branded hardware drops.</p>
-      <div class="nl-form">
-        <input type="email" id="nl-email" placeholder="Enter your email address"/>
-        <button class="btn btn-primary" onclick="subscribeNL()">Subscribe</button>
-      </div>
-      <div class="nl-sub">Sent via mail@ekrpt.com · No spam · Unsubscribe anytime</div>
-    </div>
-  </div>
+<section class="rm-cta">
+  <h2>Be First In Line</h2>
+  <p>Reserve your SPECTRE BE19000 ULTRA and follow the journey as we build.</p>
+  <a href="index.html#reserve" class="btn btn-primary btn-lg">Join the Presale</a>
+  <div class="rm-disclaimer">Roadmap dates and product specifications are forward-looking and indicative only. They represent current plans and may change as the company executes. Nothing here is a binding commitment or an offer of investment.</div>
 </section>
 
 <div id="footer-mount"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
 <script src="js/main.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/store.js"></script>
 <script src="js/site-settings.js"></script>
-<script src="js/storefront.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const s = await SiteSettings.boot();
-    // Populate hero from settings (only if values exist)
-    if (s.hero_title)    document.getElementById('hero-title').textContent = s.hero_title;
-    if (s.hero_subtitle) document.getElementById('hero-desc').textContent = s.hero_subtitle;
-    if (s.hero_cta_text) { const c = document.getElementById('hero-cta'); c.textContent = s.hero_cta_text; if (s.hero_cta_link) c.href = s.hero_cta_link; }
-  } catch (e) { /* settings not set up yet — page keeps its defaults */ }
-});
+document.addEventListener('DOMContentLoaded', async () => { try { SiteSettings.applyTheme(await SiteSettings.get()); } catch(e){} });
 </script>
-<script>
-let activeFilter = 'all';
-
-function filterProducts(cat, btn) {
-  activeFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGrid();
-}
-
-function renderGrid() {
-  const all = window.EKRPT_PRODUCTS || [];
-  const list = activeFilter === 'all' ? all : all.filter(p => p.cat === activeFilter);
-  document.getElementById('products-grid').innerHTML = list.length
-    ? list.map(p => renderProductCard(p, 'LiveCart.add')).join('')
-    : '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--gray-300)">No products yet.</div>';
-}
-
-async function subscribeNL() {
-  const v = document.getElementById('nl-email').value;
-  if (!v || !v.includes('@')) { showToast('Please enter a valid email address', 'error'); return; }
-  try {
-    if (typeof Newsletter !== 'undefined') await Newsletter.subscribe(v, '', 'homepage');
-    document.getElementById('nl-email').value = '';
-    showToast('Subscribed! Welcome to EKRPT updates ✓');
-  } catch (e) {
-    document.getElementById('nl-email').value = '';
-    showToast('Subscribed! Welcome to EKRPT updates ✓'); // don't expose backend errors to shoppers
-  }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  document.getElementById('products-grid').innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--gray-300)">Loading products…</div>';
-  await Storefront.loadProducts();
-  LiveCart.migrateLegacy();
-  LiveCart.updateBadge();
-  renderGrid();
-});
-</script>
-<script src="js/spectre-hero.js"></script>
 </body>
 </html>

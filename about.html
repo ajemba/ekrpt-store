@@ -2,234 +2,169 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Site Appearance — EKRPT</title>
-<link rel="stylesheet" href="../css/style.css"/>
-<link rel="stylesheet" href="../css/portal-core.css"/>
-<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="description" content="About EKRPT Networking Labs — Founded by CA Michael. Licensed Nigerian networking equipment distributor. Our story, mission, and values."/>
+<title>About Us — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
 <style>
-:root{--accent:#d94040}.pside-logo-mark{background:var(--red)}.role-tag{color:#ff9b9b}.pside-av{background:var(--red)}
-.color-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.color-row input[type=color]{width:46px;height:46px;border:1px solid var(--gray-100);border-radius:10px;cursor:pointer;padding:2px;background:white}
-.color-row .meta{flex:1}.color-row .meta label{display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-400)}
-.color-row .hex{font-family:var(--font-mono);font-size:13px;color:var(--gray-500)}
-.img-drop{border:2px dashed var(--gray-100);border-radius:var(--radius-lg);padding:22px;text-align:center;cursor:pointer;transition:all .15s;background:var(--gray-50)}
-.img-drop:hover{border-color:var(--blue);background:var(--blue-light)}
-.img-preview{max-height:90px;border-radius:8px;margin-bottom:8px}
-.slide-item{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--gray-100);border-radius:var(--radius);margin-bottom:10px;background:white}
-.slide-item img{width:80px;height:50px;object-fit:cover;border-radius:6px}
-.live-preview{border:1px solid var(--gray-100);border-radius:var(--radius-lg);overflow:hidden;position:sticky;top:78px}
-.preview-hero{padding:36px 24px;color:white;text-align:center}
-.preview-nav{padding:12px 18px;display:flex;align-items:center;gap:10px;background:white;border-bottom:1px solid var(--gray-100)}
-.preview-logo{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center}
-.split{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
-@media(max-width:1100px){.split{grid-template-columns:1fr}}
+.about-hero{background:var(--gray-900);padding:100px 0 80px;text-align:center;position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(26,143,196,.22) 0%,transparent 60%);pointer-events:none}
+.about-hero-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.ah-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(94,184,232,.1);color:var(--blue-mid);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:22px;border:1px solid rgba(94,184,232,.2)}
+.about-hero h1{font-family:var(--font-head);font-size:clamp(36px,5vw,58px);font-weight:800;color:white;letter-spacing:-.03em;margin-bottom:20px;line-height:1.08}
+.about-hero h1 span{color:var(--blue-mid)}
+.about-hero p{font-size:17px;color:rgba(255,255,255,.55);font-weight:300;line-height:1.75}
+
+.about-body{padding:80px 0}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-bottom:80px;align-items:center}
+.mission-text h2{font-family:var(--font-head);font-size:clamp(26px,3vw,36px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:16px}
+.mission-text h2 span{color:var(--blue)}
+.mission-text p{font-size:15px;color:var(--gray-400);line-height:1.8;margin-bottom:14px;font-weight:300}
+
+.stats-visual{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-xl);padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-box{background:white;border:1px solid var(--gray-100);border-radius:var(--radius);padding:22px;text-align:center}
+.stat-box-val{font-family:var(--font-mono);font-size:30px;font-weight:700;color:var(--blue)}
+.stat-box-label{font-size:12px;color:var(--gray-400);margin-top:4px}
+
+.team-section{margin-bottom:80px}
+.team-section > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.team-section > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.founder-card{
+  background:white;border:1px solid var(--gray-100);
+  border-radius:var(--radius-xl);padding:36px;
+  display:flex;gap:36px;align-items:flex-start;
+  box-shadow:var(--shadow-sm);
+}
+.founder-photo{
+  width:100px;height:100px;border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:28px;font-weight:700;
+  color:white;flex-shrink:0;letter-spacing:.02em;
+}
+.founder-info h3{font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--gray-900);margin-bottom:4px}
+.founder-role{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.founder-info p{font-size:14px;color:var(--gray-400);line-height:1.75;font-weight:300;margin-bottom:14px}
+.founder-email{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;transition:color .15s}
+.founder-email:hover{color:var(--blue-dark)}
+
+.values-section > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.values-section > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:60px}
+.value-card{background:var(--off-white);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px}
+.value-icon{font-size:28px;margin-bottom:12px}
+.value-title{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:6px}
+.value-text{font-size:13px;color:var(--gray-400);line-height:1.65}
+
+.timeline{margin-bottom:80px}
+.timeline > h2{font-family:var(--font-head);font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--gray-900);letter-spacing:-.02em;margin-bottom:8px}
+.timeline > p{font-size:15px;color:var(--gray-400);margin-bottom:32px;font-weight:300}
+.timeline-list{position:relative;padding-left:24px;border-left:2px solid var(--gray-100)}
+.tl-item{padding-bottom:28px;position:relative}
+.tl-dot{position:absolute;left:-33px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--blue);border:2px solid white;box-shadow:0 0 0 2px var(--blue)}
+.tl-year{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.06em;margin-bottom:4px}
+.tl-title{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--gray-900);margin-bottom:4px}
+.tl-text{font-size:13px;color:var(--gray-400);line-height:1.65}
+
+.contact-strip{background:var(--blue-light);border-radius:var(--radius-xl);padding:44px;text-align:center}
+.contact-strip h3{font-family:var(--font-head);font-size:26px;font-weight:700;color:var(--gray-900);margin-bottom:8px}
+.contact-strip p{font-size:14px;color:var(--gray-500);margin-bottom:22px}
+
+@media(max-width:800px){.mission-grid{grid-template-columns:1fr}.founder-card{flex-direction:column;gap:20px}}
 </style>
 </head>
-<body class="portal">
-<aside class="pside">
-  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg></div><div class="pside-brand">EKRPT Labs<span class="role-tag">Appearance</span></div></div>
-  <nav class="pside-nav">
-    <div class="pside-section">Customize</div>
-    <button class="pside-link active" onclick="nav('brand',this)"><span class="ic">🎨</span>Branding</button>
-    <button class="pside-link" onclick="nav('theme',this)"><span class="ic">🌈</span>Theme Colors</button>
-    <button class="pside-link" onclick="nav('hero',this)"><span class="ic">🖼️</span>Hero &amp; Slider</button>
-    <button class="pside-link" onclick="nav('content',this)"><span class="ic">📝</span>About &amp; Footer</button>
-    <button class="pside-link" onclick="nav('contact',this)"><span class="ic">📞</span>Contact &amp; Social</button>
-    <button class="pside-link" onclick="nav('seo',this)"><span class="ic">🔍</span>SEO Defaults</button>
-    <button class="pside-link" onclick="nav('announce',this)"><span class="ic">📢</span>Announcement</button>
-    <div class="pside-section">Manage</div>
-    <a class="pside-link" href="../super-admin/index.html"><span class="ic">⬅️</span>Back to Super Admin</a>
-    <a class="pside-link" href="../index.html" target="_blank"><span class="ic">🌐</span>View Live Store</a>
-  </nav>
-  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">SA</div><div><div class="pside-uname" id="uname">Super Admin</div><div class="pside-urole">Appearance</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
-</aside>
-<div class="pmain">
-  <div class="ptop"><div class="ptop-title" id="ptitle">Branding</div><span class="ptop-meta">Changes go live instantly</span><button class="pbtn pbtn-primary" onclick="saveAll()">💾 Save changes</button></div>
-  <div class="pcontent">
-    <div class="palert palert-info">ℹ️ Everything here saves to your database — the live store reads it on load. No file editing, no redeploy. Click <strong>Save changes</strong> after editing each section (or it saves all sections at once).</div>
+<body>
+<div id="nav-mount"></div>
 
-    <div class="split">
-      <div>
-        <!-- BRANDING -->
-        <div id="v-brand" class="pview active">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Store Identity</span></div><div class="ppanel-body">
-            <div class="pfield"><label>Store Name</label><input id="site_name" oninput="syncPreview()"/></div>
-            <div class="pfield"><label>Tagline</label><input id="tagline" oninput="syncPreview()"/></div>
-          </div></div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Logo &amp; Favicon</span></div><div class="ppanel-body">
-            <div class="prow">
-              <div class="pfield"><label>Logo</label><div class="img-drop" onclick="document.getElementById('logo_file').click()"><img id="logo_preview" class="img-preview" style="display:none"/><div id="logo_hint">📤 Click to upload logo<br><span style="font-size:11px;color:var(--gray-300)">PNG with transparent background</span></div></div><input type="file" id="logo_file" accept="image/*" style="display:none" onchange="uploadImg(this,'logo_url','logo_preview','logo_hint')"/></div>
-              <div class="pfield"><label>Favicon</label><div class="img-drop" onclick="document.getElementById('favicon_file').click()"><img id="favicon_preview" class="img-preview" style="display:none"/><div id="favicon_hint">📤 Upload favicon<br><span style="font-size:11px;color:var(--gray-300)">Square, 32×32 or 64×64</span></div></div><input type="file" id="favicon_file" accept="image/*" style="display:none" onchange="uploadImg(this,'favicon_url','favicon_preview','favicon_hint')"/></div>
-            </div>
-          </div></div>
-        </div>
-
-        <!-- THEME -->
-        <div id="v-theme" class="pview">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Theme Colors</span></div><div class="ppanel-body">
-            <div class="color-row"><input type="color" id="color_primary" oninput="syncColor('color_primary')"/><div class="meta"><label>Primary (links, buttons, nav)</label><span class="hex" id="color_primary_hex"></span></div></div>
-            <div class="color-row"><input type="color" id="color_accent" oninput="syncColor('color_accent')"/><div class="meta"><label>Accent (highlights, sale badges)</label><span class="hex" id="color_accent_hex"></span></div></div>
-            <div class="color-row"><input type="color" id="color_dark" oninput="syncColor('color_dark')"/><div class="meta"><label>Dark (headings, footer)</label><span class="hex" id="color_dark_hex"></span></div></div>
-            <div class="palert palert-info" style="margin-top:8px">💡 EKRPT brand: light blue, white, touches of red. The preview on the right updates as you pick.</div>
-          </div></div>
-        </div>
-
-        <!-- HERO + SLIDER -->
-        <div id="v-hero" class="pview">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Homepage Hero</span></div><div class="ppanel-body">
-            <div class="pfield"><label>Hero Title</label><input id="hero_title" oninput="syncPreview()"/></div>
-            <div class="pfield"><label>Hero Subtitle</label><textarea id="hero_subtitle" style="height:60px" oninput="syncPreview()"></textarea></div>
-            <div class="prow"><div class="pfield"><label>Button Text</label><input id="hero_cta_text"/></div><div class="pfield"><label>Button Link</label><input id="hero_cta_link" placeholder="/products.html"/></div></div>
-            <div class="pfield"><label>Hero Background Image</label><div class="img-drop" onclick="document.getElementById('hero_file').click()"><img id="hero_preview" class="img-preview" style="display:none"/><div id="hero_hint">📤 Click to upload hero image</div></div><input type="file" id="hero_file" accept="image/*" style="display:none" onchange="uploadImg(this,'hero_image_url','hero_preview','hero_hint')"/></div>
-          </div></div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Image Slider / Carousel</span><button class="pbtn pbtn-primary" onclick="addSlide()">+ Add slide</button></div><div class="ppanel-body">
-            <div id="slides-list"></div>
-            <input type="file" id="slide_file" accept="image/*" style="display:none" onchange="onSlideFile(this)"/>
-          </div></div>
-        </div>
-
-        <!-- ABOUT + FOOTER -->
-        <div id="v-content" class="pview">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">About Us</span></div><div class="ppanel-body">
-            <div class="pfield"><label>About Title</label><input id="about_title"/></div>
-            <div class="pfield"><label>About Text</label><textarea id="about_text" style="height:120px"></textarea></div>
-          </div></div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Footer</span></div><div class="ppanel-body">
-            <div class="pfield"><label>Footer About (short blurb)</label><textarea id="footer_about" style="height:60px"></textarea></div>
-            <div class="pfield"><label>Footer Copyright Text</label><input id="footer_text"/></div>
-          </div></div>
-        </div>
-
-        <!-- CONTACT + SOCIAL -->
-        <div id="v-contact" class="pview">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Contact Info</span></div><div class="ppanel-body">
-            <div class="prow"><div class="pfield"><label>Email</label><input id="contact_email"/></div><div class="pfield"><label>Phone</label><input id="contact_phone"/></div></div>
-            <div class="prow"><div class="pfield"><label>Address</label><input id="contact_address"/></div><div class="pfield"><label>Business Hours</label><input id="business_hours"/></div></div>
-          </div></div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Social Links</span></div><div class="ppanel-body">
-            <div class="prow"><div class="pfield"><label>Facebook</label><input id="s_facebook" placeholder="https://facebook.com/ekrpt"/></div><div class="pfield"><label>Instagram</label><input id="s_instagram"/></div></div>
-            <div class="prow"><div class="pfield"><label>X / Twitter</label><input id="s_twitter"/></div><div class="pfield"><label>TikTok</label><input id="s_tiktok"/></div></div>
-            <div class="prow"><div class="pfield"><label>WhatsApp</label><input id="s_whatsapp" placeholder="https://wa.me/234..."/></div><div class="pfield"><label>LinkedIn</label><input id="s_linkedin"/></div></div>
-            <div class="pfield"><label>YouTube</label><input id="s_youtube"/></div>
-          </div></div>
-        </div>
-
-        <!-- SEO -->
-        <div id="v-seo" class="pview">
-          <div class="palert palert-info">🔍 These are your site-wide SEO defaults. Each blog post and product can override them. Keep titles under ~60 characters and descriptions under ~160.</div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Search Engine Defaults</span></div><div class="ppanel-body">
-            <div class="pfield"><label>Default SEO Title</label><input id="seo_title" maxlength="70" oninput="cnt('seo_title','seo_title_c',60)"/><span id="seo_title_c" style="font-size:11px;color:var(--gray-300);font-family:var(--font-mono)"></span></div>
-            <div class="pfield"><label>Meta Description</label><textarea id="seo_description" style="height:70px" maxlength="180" oninput="cnt('seo_description','seo_desc_c',160)"></textarea><span id="seo_desc_c" style="font-size:11px;color:var(--gray-300);font-family:var(--font-mono)"></span></div>
-            <div class="pfield"><label>Keywords (comma separated)</label><input id="seo_keywords"/></div>
-            <div class="prow"><div class="pfield"><label>Twitter Handle</label><input id="seo_twitter" placeholder="@ekrpt"/></div>
-            <div class="pfield"><label>Social Share Image (Open Graph)</label><div class="img-drop" onclick="document.getElementById('og_file').click()"><img id="og_preview" class="img-preview" style="display:none"/><div id="og_hint">📤 1200×630 recommended</div></div><input type="file" id="og_file" accept="image/*" style="display:none" onchange="uploadImg(this,'seo_og_image','og_preview','og_hint')"/></div></div>
-          </div></div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Google Search Preview</span></div><div class="ppanel-body">
-            <div style="font-family:arial,sans-serif"><div style="color:#1a0dab;font-size:18px" id="g-title">Title</div><div style="color:#006621;font-size:13px">https://ekrpt.com</div><div style="color:#545454;font-size:13px" id="g-desc">Description</div></div>
-          </div></div>
-        </div>
-
-        <!-- ANNOUNCEMENT -->
-        <div id="v-announce" class="pview">
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Top Announcement Bar</span><label class="ptoggle"><input type="checkbox" id="announce_enabled"><span class="ptoggle-slider"></span></label></div><div class="ppanel-body">
-            <div class="pfield"><label>Announcement Text</label><input id="announce_text" placeholder="🚚 Free delivery on Starlink kits this week!"/></div>
-            <div class="pfield"><label>Link (optional)</label><input id="announce_link" placeholder="/products.html"/></div>
-          </div></div>
-        </div>
-      </div>
-
-      <!-- LIVE PREVIEW -->
-      <div class="live-preview">
-        <div class="preview-nav"><div class="preview-logo" id="pv-logo" style="background:#1a8fc4;color:white;font-size:11px;font-weight:700">E</div><span id="pv-name" style="font-family:var(--font-head);font-weight:700;font-size:13px">EKRPT</span></div>
-        <div class="preview-hero" id="pv-hero" style="background:linear-gradient(135deg,#1a8fc4,#0f1b24)">
-          <div id="pv-title" style="font-family:var(--font-head);font-size:20px;font-weight:800;margin-bottom:8px">Hero Title</div>
-          <div id="pv-sub" style="font-size:12px;opacity:.85;margin-bottom:14px">Subtitle</div>
-          <span id="pv-cta" style="background:#d94040;color:white;padding:7px 18px;border-radius:8px;font-size:12px;font-weight:600">Shop Now</span>
-        </div>
-        <div style="padding:14px;font-size:11px;color:var(--gray-300);text-align:center">Live preview — actual store may vary slightly</div>
-      </div>
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-inner">
+      <div class="ah-badge">Est. Lagos, Nigeria</div>
+      <h1>Connecting <span>Nigeria</span>,<br/>one network at a time</h1>
+      <p>We are EKRPT Networking Labs — a licensed, CAC-registered technology company bringing world-class networking equipment to Nigerian homes, businesses, and enterprises.</p>
     </div>
   </div>
-</div>
+</section>
 
-<script src="../js/config.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/store.js"></script>
-<script src="../js/roles.js"></script>
-<script src="../js/admin-ops.js"></script>
-<script src="../js/site-settings.js"></script>
-<script>
-let S={}, _slides=[];
-document.addEventListener('DOMContentLoaded',async()=>{
-  if(!await RBAC.guardSuperAdmin())return;
-  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Super Admin';document.getElementById('av').textContent=(u.profile?.full_name||'SA').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
-  S=await SiteSettings.get(true);
-  fill();
-});
-function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={brand:'Branding',theme:'Theme Colors',hero:'Hero & Slider',content:'About & Footer',contact:'Contact & Social',seo:'SEO Defaults',announce:'Announcement'}[v];}
+<section class="about-body">
+  <div class="container">
 
-function val(id,v){const el=document.getElementById(id);if(el)el.value=v??'';}
-function fill(){
-  ['site_name','tagline','hero_title','hero_subtitle','hero_cta_text','hero_cta_link','about_title','about_text','footer_about','footer_text','contact_email','contact_phone','contact_address','business_hours','seo_title','seo_description','seo_keywords','seo_twitter','announce_text','announce_link'].forEach(k=>val(k,S[k]));
-  ['color_primary','color_accent','color_dark'].forEach(k=>{val(k,S[k]||'#1a8fc4');syncColor(k);});
-  document.getElementById('announce_enabled').checked=!!S.announce_enabled;
-  const soc=S.social||{};['facebook','instagram','twitter','tiktok','whatsapp','linkedin','youtube'].forEach(k=>val('s_'+k,soc[k]));
-  showImg('logo_url','logo_preview','logo_hint');showImg('favicon_url','favicon_preview','favicon_hint');showImg('hero_image_url','hero_preview','hero_hint');showImg('seo_og_image','og_preview','og_hint');
-  _slides=Array.isArray(S.slider)?S.slider:[];renderSlides();
-  cnt('seo_title','seo_title_c',60);cnt('seo_description','seo_desc_c',160);
-  syncPreview();
-}
-function showImg(key,prev,hint){if(S[key]){const p=document.getElementById(prev);p.src=S[key];p.style.display='block';document.getElementById(hint).style.display='none';}}
+    <!-- MISSION -->
+    <div class="mission-grid" id="mission">
+      <div class="mission-text">
+        <div class="section-label">Our Mission</div>
+        <h2>Why <span>EKRPT</span> exists</h2>
+        <p>EKRPT Networking Labs was founded with a single, clear mission: make reliable internet connectivity accessible to every Nigerian. We believe that strong network infrastructure is the backbone of modern business and everyday life.</p>
+        <p>We source, brand, and distribute the world's best networking equipment — from our own EKRPT-branded routers and MiFi devices to official Starlink satellite hardware — and back every sale with technical expertise and long-term support.</p>
+        <p>Whether you are a home user in Lagos, an enterprise in Abuja, or an ISP expanding coverage in a new region, EKRPT is your trusted networking partner.</p>
+        <div style="margin-top:24px">
+          <a href="products.html" class="btn btn-primary">Shop our products</a>
+        </div>
+      </div>
+      <div class="stats-visual">
+        <div class="stat-box"><div class="stat-box-val">500+</div><div class="stat-box-label">Units deployed</div></div>
+        <div class="stat-box"><div class="stat-box-val">6+</div><div class="stat-box-label">Product lines</div></div>
+        <div class="stat-box"><div class="stat-box-val">24/7</div><div class="stat-box-label">Tech support</div></div>
+        <div class="stat-box"><div class="stat-box-val">CAC</div><div class="stat-box-label">Registered</div></div>
+      </div>
+    </div>
 
-function syncColor(id){const v=document.getElementById(id).value;document.getElementById(id+'_hex').textContent=v;S[id]=v;syncPreview();}
-function syncPreview(){
-  const name=document.getElementById('site_name').value||'EKRPT';
-  document.getElementById('pv-name').textContent=name;
-  document.getElementById('pv-logo').textContent=name[0];
-  const pri=document.getElementById('color_primary').value,acc=document.getElementById('color_accent').value,dk=document.getElementById('color_dark').value;
-  document.getElementById('pv-logo').style.background=pri;
-  document.getElementById('pv-hero').style.background=`linear-gradient(135deg,${pri},${dk})`;
-  document.getElementById('pv-cta').style.background=acc;
-  document.getElementById('pv-title').textContent=document.getElementById('hero_title').value||'Hero Title';
-  document.getElementById('pv-sub').textContent=document.getElementById('hero_subtitle').value||'Subtitle';
-  document.getElementById('pv-cta').textContent=document.getElementById('hero_cta_text').value||'Shop Now';
-  document.getElementById('g-title').textContent=document.getElementById('seo_title').value||'Title';
-  document.getElementById('g-desc').textContent=document.getElementById('seo_description').value||'Description';
-}
-function cnt(id,out,max){const l=(document.getElementById(id).value||'').length;const el=document.getElementById(out);if(el){el.textContent=l+' / '+max+(l>max?' ⚠ too long':'');el.style.color=l>max?'#dc2626':'var(--gray-300)';}if(id.includes('seo'))syncPreview();}
+    <!-- FOUNDER -->
+    <div class="team-section">
+      <div class="section-label">Leadership</div>
+      <h2>Meet the founder</h2>
+      <p>EKRPT Networking Labs is founder-led with deep expertise in networking and digital infrastructure.</p>
+      <div class="founder-card">
+        <div class="founder-photo">CM</div>
+        <div class="founder-info">
+          <h3>CA Michael</h3>
+          <div class="founder-role">Founder &amp; Chief Executive Officer</div>
+          <p>CA Michael founded EKRPT Networking Labs with a vision to become Nigeria's most trusted networking equipment company. With deep expertise in digital infrastructure, networking systems, and hardware distribution, he has built EKRPT into a licensed and registered brand known for quality, reliability, and after-sales support.</p>
+          <p>Under his leadership, EKRPT has grown to distribute Starlink hardware including the Mini, Gen3, and V4 kits, alongside a proprietary line of EKRPT-branded routers and MiFi devices engineered specifically for Nigerian network conditions.</p>
+          <a class="founder-email" href="mailto:office@ekrpt.com">✉ office@ekrpt.com</a>
+        </div>
+      </div>
+    </div>
 
-async function uploadImg(input,key,prev,hint){
-  const f=input.files[0];if(!f)return;
-  showToast('Uploading…');
-  try{const url=await SiteSettings.uploadImage(f,'site',key);S[key]=url;const p=document.getElementById(prev);p.src=url;p.style.display='block';document.getElementById(hint).style.display='none';showToast('Uploaded ✓ — remember to Save');syncPreview();}
-  catch(e){showToast('Upload failed: '+e.message,'error');}
-}
+    <!-- VALUES -->
+    <div class="values-section">
+      <div class="section-label">What We Stand For</div>
+      <h2>Our values</h2>
+      <p>Every product we sell and every interaction we have is shaped by these principles.</p>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon">🔒</div><div class="value-title">Authenticity</div><div class="value-text">Every product sold by EKRPT is genuine. No clones, no grey-market imports, ever.</div></div>
+        <div class="value-card"><div class="value-icon">⚡</div><div class="value-title">Performance</div><div class="value-text">We stock hardware that meets real-world Nigerian usage — not just spec-sheet numbers.</div></div>
+        <div class="value-card"><div class="value-icon">🤝</div><div class="value-title">Support</div><div class="value-text">Every purchase includes after-sales technical support from our team, not just a warranty card.</div></div>
+        <div class="value-card"><div class="value-icon">🌍</div><div class="value-title">Access</div><div class="value-text">We believe reliable connectivity is a right, and work to make it more accessible and affordable.</div></div>
+        <div class="value-card"><div class="value-icon">📦</div><div class="value-title">Reliability</div><div class="value-text">Same-day Lagos delivery, live inventory, no backorder surprises. We deliver on our promises.</div></div>
+        <div class="value-card"><div class="value-icon">🏛️</div><div class="value-title">Compliance</div><div class="value-text">Licensed and CAC-registered. We operate transparently within Nigeria's regulatory framework.</div></div>
+      </div>
+    </div>
 
-// SLIDER
-function renderSlides(){
-  document.getElementById('slides-list').innerHTML=_slides.map((s,i)=>`<div class="slide-item"><img src="${s.image_url}"/><div style="flex:1"><input value="${s.caption||''}" placeholder="Caption" oninput="_slides[${i}].caption=this.value" style="width:100%;padding:6px;border:1px solid var(--gray-100);border-radius:6px;margin-bottom:4px"/><input value="${s.link||''}" placeholder="Link (optional)" oninput="_slides[${i}].link=this.value" style="width:100%;padding:6px;border:1px solid var(--gray-100);border-radius:6px"/></div><button class="pbtn pbtn-danger" onclick="_slides.splice(${i},1);renderSlides()">✕</button></div>`).join('')||'<p style="font-size:13px;color:var(--gray-300)">No slides yet. Click "Add slide".</p>';
-}
-function addSlide(){document.getElementById('slide_file').click();}
-async function onSlideFile(input){const f=input.files[0];if(!f)return;showToast('Uploading slide…');try{const url=await SiteSettings.uploadImage(f,'site','slide');_slides.push({image_url:url,caption:'',link:''});renderSlides();showToast('Slide added ✓');}catch(e){showToast('Upload failed','error');}input.value='';}
+    <!-- TIMELINE -->
+    <div class="timeline">
+      <div class="section-label">Our Story</div>
+      <h2>How we got here</h2>
+      <p>From a vision to Nigeria's trusted networking lab.</p>
+      <div class="timeline-list">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">FOUNDING</div><div class="tl-title">EKRPT Networking Labs established</div><div class="tl-text">CA Michael founded the company in Lagos with a mission to make enterprise-grade networking accessible to all Nigerians.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">EARLY GROWTH</div><div class="tl-title">CAC registration &amp; first product line</div><div class="tl-text">Achieved full CAC registration and launched the first EKRPT-branded MiFi and router lineup, optimized for Nigerian ISPs.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">EXPANSION</div><div class="tl-title">Starlink distribution partnership</div><div class="tl-text">Became an authorized distributor of Starlink hardware in Nigeria, stocking the Mini, Gen3, and V4 kits with full setup support.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">TODAY</div><div class="tl-title">500+ units deployed &amp; growing</div><div class="tl-text">Serving home users, enterprises, and ISPs across Nigeria with a full product catalog and 24/7 technical support.</div></div>
+      </div>
+    </div>
 
-async function saveAll(){
-  const patch={
-    site_name:gv('site_name'),tagline:gv('tagline'),
-    color_primary:gv('color_primary'),color_accent:gv('color_accent'),color_dark:gv('color_dark'),
-    logo_url:S.logo_url,favicon_url:S.favicon_url,hero_image_url:S.hero_image_url,seo_og_image:S.seo_og_image,
-    hero_title:gv('hero_title'),hero_subtitle:gv('hero_subtitle'),hero_cta_text:gv('hero_cta_text'),hero_cta_link:gv('hero_cta_link'),
-    slider:_slides,
-    about_title:gv('about_title'),about_text:gv('about_text'),footer_about:gv('footer_about'),footer_text:gv('footer_text'),
-    contact_email:gv('contact_email'),contact_phone:gv('contact_phone'),contact_address:gv('contact_address'),business_hours:gv('business_hours'),
-    social:{facebook:gv('s_facebook'),instagram:gv('s_instagram'),twitter:gv('s_twitter'),tiktok:gv('s_tiktok'),whatsapp:gv('s_whatsapp'),linkedin:gv('s_linkedin'),youtube:gv('s_youtube')},
-    seo_title:gv('seo_title'),seo_description:gv('seo_description'),seo_keywords:gv('seo_keywords'),seo_twitter:gv('seo_twitter'),
-    announce_enabled:document.getElementById('announce_enabled').checked,announce_text:gv('announce_text'),announce_link:gv('announce_link'),
-  };
-  try{await SiteSettings.save(patch);showToast('Site appearance saved — live now ✓');}catch(e){showToast('Error: '+e.message,'error');}
-}
-function gv(id){return document.getElementById(id)?.value||'';}
-</script>
+    <!-- CONTACT CTA -->
+    <div class="contact-strip">
+      <h3>Get in touch with our team</h3>
+      <p>For sales enquiries, bulk orders, B2B partnerships, or technical support — we're always here.</p>
+      <a href="mailto:office@ekrpt.com" class="btn btn-primary btn-lg">✉ office@ekrpt.com</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/main.js"></script>
 </body>
 </html>

@@ -229,3 +229,10 @@ label{color:var(--gray-400)!important}
 .hvc-name{color:#fff!important}
 .hv-main-name{color:#fff!important}
 .hv-main-price{color:#5ec3ef!important}
+
+/* ── Fix: About strip must stay dark (it uses --gray-900 which is white in dark mode) ── */
+.about-strip{background:linear-gradient(135deg,#0a0b0d 0%,#10161d 100%)!important}
+.about-strip h2,.about-strip .section-title,.about-strip h3{color:#fff!important}
+.about-strip p,.about-strip .about-feature-desc{color:#aab1ba!important}
+.about-card,.about-feature{background:#121419!important;border:1px solid #1d2026!important}
+.about-feature-name{color:#fff!important}

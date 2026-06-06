@@ -2,206 +2,402 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Blog Manager — EKRPT</title>
-<link rel="stylesheet" href="../css/style.css"/>
-<link rel="stylesheet" href="../css/portal-core.css"/>
-<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="description" content="EKRPT Networking Labs — Secure checkout with Paystack, Flutterwave, PayPal and Crypto payments."/>
+<title>Checkout — EKRPT Networking Labs</title>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
 <style>
-:root{--accent:#9333ea}.pside-logo-mark{background:#9333ea}.role-tag{color:#d8b4fe}.pside-av{background:#9333ea}
-.editor-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
-@media(max-width:1100px){.editor-grid{grid-template-columns:1fr}}
-.toolbar-btn{padding:6px 10px;border:1px solid var(--gray-100);background:white;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600}
-.toolbar-btn:hover{background:var(--gray-50)}
-#editor{min-height:340px;border:1.5px solid var(--gray-100);border-radius:0 0 var(--radius) var(--radius);padding:16px;font-size:15px;line-height:1.7;outline:none;font-family:var(--font-body)}
-#editor:focus{border-color:var(--blue)}
-#editor h2{font-family:var(--font-head);font-size:22px;margin:16px 0 8px}#editor h3{font-size:18px;margin:14px 0 6px}
-#editor img{max-width:100%;border-radius:8px;margin:10px 0}#editor a{color:var(--blue)}
-#editor blockquote{border-left:3px solid var(--blue);padding-left:14px;color:var(--gray-500);margin:12px 0}
-.ed-toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:10px;border:1.5px solid var(--gray-100);border-bottom:none;border-radius:var(--radius) var(--radius) 0 0;background:var(--gray-50)}
-.seo-score{display:inline-block;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:700;font-family:var(--font-mono)}
-.seo-good{background:#dcfce7;color:#15803d}.seo-ok{background:#fef3c7;color:#b45309}.seo-bad{background:#fef2f2;color:#dc2626}
-.check{display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 0;color:var(--gray-500)}
-.g-preview{font-family:arial;background:white;border:1px solid var(--gray-100);border-radius:8px;padding:12px}
+.checkout-page{background:var(--off-white);min-height:100vh}
+.checkout-main{padding:40px 0 64px}
+.checkout-grid{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+.checkout-left h2{font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--gray-900);margin-bottom:20px;letter-spacing:-.02em}
+.card-box{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.card-box h3{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.empty-cart{text-align:center;padding:56px 24px;color:var(--gray-300)}
+.empty-cart-icon{font-size:48px;margin-bottom:16px}
+.empty-cart p{font-size:14px;margin-bottom:20px}
+
+/* cart items */
+.cart-item-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--gray-100)}
+.cart-item-row:last-child{border-bottom:none}
+.ci-icon{width:48px;height:48px;background:var(--off-white);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:1px solid var(--gray-100)}
+.ci-name{font-size:14px;font-weight:500;color:var(--gray-900);flex:1}
+.ci-desc{font-size:12px;color:var(--gray-300);margin-top:2px}
+.ci-qty{display:flex;align-items:center;gap:8px}
+.qty-btn{width:26px;height:26px;border:1px solid var(--gray-100);background:white;border-radius:6px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-btn:hover{border-color:var(--blue);color:var(--blue)}
+.qty-num{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--gray-900);min-width:20px;text-align:center}
+.ci-price{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--gray-900);margin-left:8px;min-width:90px;text-align:right}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--gray-200);font-size:18px;padding:2px;transition:color .15s}
+.ci-remove:hover{color:var(--red)}
+
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* payment gateways */
+.gw-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.gw-btn{border:1.5px solid var(--gray-100);background:white;border-radius:var(--radius);padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;font-family:var(--font-body)}
+.gw-btn:hover{border-color:var(--gray-200);background:var(--gray-50)}
+.gw-btn.selected{border:2px solid var(--blue);background:var(--blue-light)}
+.gw-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.gw-ic-ps{background:#e5f6f0;color:#0f6e56}
+.gw-ic-fw{background:#fef3e2;color:#7a4a0a}
+.gw-ic-pp{background:#e8f1fb;color:#0c447c}
+.gw-ic-cr{background:#edecfd;color:#3c3489}
+.gw-name{font-size:12px;font-weight:600;color:var(--gray-900);font-family:var(--font-head)}
+.gw-tag{font-size:10px;color:var(--gray-300);font-family:var(--font-mono)}
+.gw-detail{background:var(--off-white);border-radius:var(--radius);padding:14px;font-size:13px;color:var(--gray-400);line-height:1.65;margin-bottom:16px;display:none}
+.gw-detail.show{display:block}
+.gw-detail strong{color:var(--gray-700)}
+.coin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.coin-btn{border:1.5px solid var(--gray-100);background:white;border-radius:var(--radius);padding:10px 6px;cursor:pointer;text-align:center;transition:all .15s;font-family:var(--font-body)}
+.coin-btn:hover{border-color:var(--gray-200)}
+.coin-btn.selected{border:2px solid var(--blue);background:var(--blue-light)}
+.coin-sym{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--gray-900)}
+.coin-nm{font-size:10px;color:var(--gray-300)}
+.coin-eq{font-size:10px;color:var(--gray-400);margin-top:2px;font-family:var(--font-mono)}
+
+/* order summary sidebar */
+.summary-box{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)}
+.summary-box h3{font-family:var(--font-head);font-size:15px;font-weight:600;color:var(--gray-900);margin-bottom:16px}
+.sum-row{display:flex;justify-content:space-between;font-size:14px;color:var(--gray-400);margin-bottom:10px}
+.sum-row.total{font-size:16px;font-weight:700;color:var(--gray-900);padding-top:12px;border-top:1px solid var(--gray-100);margin-top:4px}
+.sum-row .val{font-family:var(--font-mono);font-weight:600}
+.sum-items{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--gray-100)}
+.sum-item{display:flex;justify-content:space-between;font-size:13px;color:var(--gray-400);margin-bottom:6px}
+.sum-item .sn{flex:1;padding-right:8px}
+.security-note{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--gray-300);justify-content:center;margin-top:14px;font-family:var(--font-mono)}
+
+.pay-btn{width:100%;padding:14px;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-head);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s;letter-spacing:.01em}
+.pay-btn:hover{opacity:.9;transform:translateY(-1px)}
+.pay-ps{background:#1d9e75;color:white}
+.pay-fw{background:#f5a623;color:white}
+.pay-pp{background:#0070ba;color:white}
+.pay-cr{background:#534ab7;color:white}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.show{display:flex}
+.modal{background:white;border-radius:var(--radius-xl);padding:36px 28px;width:100%;max-width:380px;text-align:center;box-shadow:0 24px 48px rgba(0,0,0,.15)}
+.modal-icon{font-size:48px;margin-bottom:14px}
+.modal-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--gray-900);margin-bottom:8px}
+.modal-sub{font-size:13px;color:var(--gray-400);line-height:1.65;margin-bottom:20px}
+.wallet-addr{background:var(--gray-50);border-radius:var(--radius);padding:10px 14px;font-family:var(--font-mono);font-size:11px;color:var(--gray-500);word-break:break-all;text-align:left;margin-bottom:16px;border:1px solid var(--gray-100)}
+
+@media(max-width:900px){.checkout-grid{grid-template-columns:1fr}.summary-box{order:-1}}
+@media(max-width:600px){.name-row,.gw-grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body class="portal">
-<aside class="pside">
-  <div class="pside-logo"><div class="pside-logo-mark"><svg viewBox="0 0 20 20"><path d="M3 3h14v14H3z" fill="none"/><path d="M5 5h10v2H5zM5 9h10v2H5zM5 13h7v2H5z"/></svg></div><div class="pside-brand">EKRPT Blog<span class="role-tag">Content</span></div></div>
-  <nav class="pside-nav">
-    <div class="pside-section">Blog</div>
-    <button class="pside-link active" onclick="showList()"><span class="ic">📚</span>All Posts</button>
-    <button class="pside-link" onclick="newPost()"><span class="ic">✍️</span>New Post</button>
-    <a class="pside-link" href="../blog/index.html" target="_blank"><span class="ic">🌐</span>View Blog</a>
-    <div class="pside-section">Manage</div>
-    <a class="pside-link" id="back-link" href="../super-admin/index.html"><span class="ic">⬅️</span>Back to Dashboard</a>
-  </nav>
-  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">B</div><div><div class="pside-uname" id="uname">Editor</div><div class="pside-urole">Content</div></div><button class="pside-out" onclick="Auth.signOut()">⏻</button></div></div>
-</aside>
-<div class="pmain">
-  <div class="ptop"><div class="ptop-title" id="ptitle">All Posts</div><span class="ptop-meta" id="pmeta"></span><span id="top-actions"></span></div>
-  <div class="pcontent">
+<body>
+<div id="nav-mount"></div>
+<div class="checkout-page">
+  <div class="checkout-main">
+    <div class="container">
+      <div id="empty-view" style="display:none;text-align:center;padding:80px 0">
+        <div style="font-size:56px;margin-bottom:16px">🛒</div>
+        <div style="font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--gray-900);margin-bottom:8px">Your cart is empty</div>
+        <p style="font-size:14px;color:var(--gray-400);margin-bottom:24px">Add some products before checking out.</p>
+        <a href="products.html" class="btn btn-primary">Browse products</a>
+      </div>
 
-    <!-- LIST -->
-    <div id="view-list" class="pview active">
-      <div class="ptoolbar"><input class="psearch" id="search" placeholder="Search posts…" oninput="renderList()"/><select class="pselect" id="filter-status" onchange="renderList()"><option value="">All</option><option>published</option><option>draft</option></select><button class="pbtn pbtn-primary" onclick="newPost()">+ New post</button></div>
-      <div class="ppanel"><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="list-body"></tbody></table></div></div>
-    </div>
+      <div id="checkout-view">
+        <div class="checkout-grid">
+          <div class="checkout-left">
+            <h2>Secure checkout</h2>
 
-    <!-- EDITOR -->
-    <div id="view-editor" class="pview">
-      <div class="editor-grid">
-        <div>
-          <div class="ppanel"><div class="ppanel-body">
-            <div class="pfield"><label>Post Title</label><input id="title" placeholder="How to install Starlink in Nigeria" oninput="onTitle()" style="font-size:18px;font-weight:600"/></div>
-            <div class="pfield"><label>URL Slug <span style="color:var(--gray-300)">ekrpt.com/blog/<span id="slug-preview">…</span></span></label><input id="slug" placeholder="how-to-install-starlink-nigeria" oninput="document.getElementById('slug-preview').textContent=this.value"/></div>
-            <div class="pfield"><label>Excerpt (short summary — shows in cards &amp; search)</label><textarea id="excerpt" style="height:56px" maxlength="200" oninput="updateSeo()"></textarea></div>
-          </div></div>
-
-          <div class="ppanel"><div class="ppanel-body">
-            <label style="font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px;display:block">Content</label>
-            <div class="ed-toolbar">
-              <button class="toolbar-btn" onclick="fmt('formatBlock','h2')">H2</button>
-              <button class="toolbar-btn" onclick="fmt('formatBlock','h3')">H3</button>
-              <button class="toolbar-btn" onclick="fmt('bold')"><b>B</b></button>
-              <button class="toolbar-btn" onclick="fmt('italic')"><i>I</i></button>
-              <button class="toolbar-btn" onclick="fmt('insertUnorderedList')">• List</button>
-              <button class="toolbar-btn" onclick="fmt('formatBlock','blockquote')">❝ Quote</button>
-              <button class="toolbar-btn" onclick="addLink()">🔗 Link</button>
-              <button class="toolbar-btn" onclick="document.getElementById('content_img').click()">🖼️ Image</button>
+            <!-- CART ITEMS -->
+            <div class="card-box">
+              <h3>🛒 Your cart</h3>
+              <div id="cart-items-list"></div>
             </div>
-            <div id="editor" contenteditable="true" oninput="updateSeo()"></div>
-            <input type="file" id="content_img" accept="image/*" style="display:none" onchange="insertImage(this)"/>
-          </div></div>
-        </div>
 
-        <div>
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Publish</span></div><div class="ppanel-body">
-            <div class="pfield"><label>Status</label><select id="status"><option value="draft">Draft</option><option value="published">Published</option></select></div>
-            <div class="pfield"><label>Category</label><input id="category" placeholder="Guides" list="cats"/><datalist id="cats"><option>Guides</option><option>News</option><option>Product Updates</option><option>Tips</option></datalist></div>
-            <div class="pfield"><label>Tags (comma separated)</label><input id="tags" placeholder="starlink, setup, nigeria"/></div>
-            <label class="check"><input type="checkbox" id="featured"/> Feature this post</label>
-            <div style="display:flex;gap:8px;margin-top:14px"><button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="savePost()">💾 Save</button><button class="pbtn pbtn-ghost" onclick="showList()">Cancel</button></div>
-          </div></div>
+            <!-- DETAILS -->
+            <div class="card-box">
+              <h3>👤 Your details</h3>
+              <div class="name-row">
+                <div class="field"><label>First name</label><input type="text" id="co-first" placeholder="Chidi"/></div>
+                <div class="field"><label>Last name</label><input type="text" id="co-last" placeholder="Okafor"/></div>
+              </div>
+              <div class="field"><label>Email address</label><input type="email" id="co-email" placeholder="you@example.com"/></div>
+              <div class="field"><label>Phone number</label><input type="tel" id="co-phone" placeholder="+234 801 234 5678"/></div>
+              <div class="field"><label>Delivery address</label><input type="text" id="co-address" placeholder="12 Adeola Odeku St, Victoria Island, Lagos"/></div>
+            </div>
 
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Cover Image</span></div><div class="ppanel-body">
-            <div class="img-drop" style="border:2px dashed var(--gray-100);border-radius:12px;padding:18px;text-align:center;cursor:pointer;background:var(--gray-50)" onclick="document.getElementById('cover_file').click()"><img id="cover_preview" style="max-width:100%;border-radius:8px;display:none;margin-bottom:8px"/><div id="cover_hint">📤 Upload cover image</div></div>
-            <input type="file" id="cover_file" accept="image/*" style="display:none" onchange="uploadCover(this)"/>
-            <div class="pfield" style="margin-top:10px"><label>Image Alt Text (SEO)</label><input id="cover_alt" placeholder="Starlink dish installed on a Lagos rooftop"/></div>
-          </div></div>
+            <!-- PAYMENT -->
+            <div class="card-box">
+              <h3>💳 Payment method</h3>
+              <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-300);margin-bottom:10px">Choose gateway</div>
+              <div class="gw-grid">
+                <button class="gw-btn selected" id="gw-ps" onclick="selectGW('ps')">
+                  <div class="gw-icon gw-ic-ps">⚡</div>
+                  <div class="gw-name">Paystack</div>
+                  <div class="gw-tag">Cards · Bank · USSD</div>
+                </button>
+                <button class="gw-btn" id="gw-fw" onclick="selectGW('fw')">
+                  <div class="gw-icon gw-ic-fw">🔥</div>
+                  <div class="gw-name">Flutterwave</div>
+                  <div class="gw-tag">Cards · Mobile Money</div>
+                </button>
+                <button class="gw-btn" id="gw-pp" onclick="selectGW('pp')">
+                  <div class="gw-icon gw-ic-pp">🅿</div>
+                  <div class="gw-name">PayPal</div>
+                  <div class="gw-tag">PayPal · Card (USD)</div>
+                </button>
+                <button class="gw-btn" id="gw-cr" onclick="selectGW('cr')">
+                  <div class="gw-icon gw-ic-cr">₿</div>
+                  <div class="gw-name">Crypto</div>
+                  <div class="gw-tag">BTC · ETH · USDT</div>
+                </button>
+              </div>
 
-          <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">SEO</span><span class="seo-score seo-ok" id="seo-score">—</span></div><div class="ppanel-body">
-            <div class="pfield"><label>SEO Title (optional override)</label><input id="seo_title" maxlength="70" oninput="updateSeo()"/></div>
-            <div class="pfield"><label>Meta Description</label><textarea id="seo_description" style="height:58px" maxlength="180" oninput="updateSeo()"></textarea></div>
-            <div class="pfield"><label>Focus Keywords</label><input id="seo_keywords" placeholder="starlink nigeria"/></div>
-            <label class="check"><input type="checkbox" id="no_index"/> Hide from search engines (noindex)</label>
-            <div style="margin:12px 0 6px;font-size:10px;font-family:var(--font-mono);text-transform:uppercase;color:var(--gray-400)">Google preview</div>
-            <div class="g-preview"><div style="color:#1a0dab;font-size:16px" id="g-title">Title</div><div style="color:#006621;font-size:12px" id="g-url">ekrpt.com/blog/…</div><div style="color:#545454;font-size:12px" id="g-desc">Description…</div></div>
-            <div id="seo-checks" style="margin-top:12px"></div>
-          </div></div>
+              <div class="gw-detail show" id="detail-ps"><strong>Paystack</strong> — Secure inline popup. Supports Visa, Mastercard, Verve, bank transfers &amp; USSD (*737#). Settles in NGN.</div>
+              <div class="gw-detail" id="detail-fw"><strong>Flutterwave</strong> — Rave inline checkout. Cards, bank transfer, M-Pesa, MTN MoMo. Supports 150+ currencies.</div>
+              <div class="gw-detail" id="detail-pp"><strong>PayPal</strong> — Pay via PayPal balance or card. Amount charged in USD: <strong id="usd-amt">$0.00</strong> at current rate. Receive via PayPal.</div>
+              <div class="gw-detail" id="detail-cr">
+                <strong>Cryptomus</strong> — Choose your coin:
+                <div class="coin-grid" style="margin-top:12px">
+                  <button class="coin-btn selected" id="coin-btc" onclick="selectCoin('btc')"><div class="coin-sym">BTC</div><div class="coin-nm">Bitcoin</div><div class="coin-eq" id="eq-btc">—</div></button>
+                  <button class="coin-btn" id="coin-eth" onclick="selectCoin('eth')"><div class="coin-sym">ETH</div><div class="coin-nm">Ethereum</div><div class="coin-eq" id="eq-eth">—</div></button>
+                  <button class="coin-btn" id="coin-usdt" onclick="selectCoin('usdt')"><div class="coin-sym">USDT</div><div class="coin-nm">Tether</div><div class="coin-eq" id="eq-usdt">—</div></button>
+                  <button class="coin-btn" id="coin-bnb" onclick="selectCoin('bnb')"><div class="coin-sym">BNB</div><div class="coin-nm">BNB</div><div class="coin-eq" id="eq-bnb">—</div></button>
+                  <button class="coin-btn" id="coin-sol" onclick="selectCoin('sol')"><div class="coin-sym">SOL</div><div class="coin-nm">Solana</div><div class="coin-eq" id="eq-sol">—</div></button>
+                  <button class="coin-btn" id="coin-ltc" onclick="selectCoin('ltc')"><div class="coin-sym">LTC</div><div class="coin-nm">Litecoin</div><div class="coin-eq" id="eq-ltc">—</div></button>
+                </div>
+                A unique wallet address is generated per order. Send exact amount within 30 min.
+              </div>
+
+              <div id="paypal-button-container" style="margin-bottom:12px"></div>
+              <button class="pay-btn pay-ps" id="pay-btn" onclick="triggerPayment()">🔒 Pay via Paystack</button>
+              <div class="security-note">🔒 256-bit SSL · PCI-DSS · Encrypted</div>
+            </div>
+          </div>
+
+          <!-- SUMMARY SIDEBAR -->
+          <div>
+            <div class="summary-box">
+              <h3>Order summary</h3>
+              <div class="sum-items" id="sum-items"></div>
+              <div class="sum-row"><span>Subtotal</span><span class="val" id="sum-sub">₦0</span></div>
+              <div class="sum-row"><span>Delivery (Lagos)</span><span class="val">₦2,500</span></div>
+              <div class="sum-row total"><span>Total</span><span class="val" id="sum-total">₦2,500</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<script src="../js/config.js"></script>
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/store.js"></script>
-<script src="../js/roles.js"></script>
-<script src="../js/admin-ops.js"></script>
-<script src="../js/site-settings.js"></script>
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-box"></div>
+</div>
+
+<div id="footer-mount"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/store.js"></script>
+<script src="js/payments.js"></script>
+<script src="js/site-settings.js"></script>
+<script src="js/storefront.js"></script>
 <script>
-let _posts=[],_editId=null,_cover=null,_slugEdited=false;
-document.addEventListener('DOMContentLoaded',async()=>{
-  if(!await RBAC.guard(['super_admin','marketing']))return;
-  const u=RBAC.getUser();if(u){document.getElementById('uname').textContent=u.profile?.full_name||'Editor';document.getElementById('av').textContent=(u.profile?.full_name||'B')[0].toUpperCase();
-    if(u.profile?.role==='marketing')document.getElementById('back-link').href='../marketing/index.html';}
-  document.getElementById('slug').addEventListener('input',()=>_slugEdited=true);
-  await loadPosts();
+const USD_RATE = (typeof EKRPT_CONFIG !== 'undefined' && EKRPT_CONFIG.currency?.usdRate) || 1609;
+const DELIVERY = (typeof EKRPT_CONFIG !== 'undefined' && EKRPT_CONFIG.shipping?.defaultFee) || 2500;
+const FREE_OVER = (typeof EKRPT_CONFIG !== 'undefined' && EKRPT_CONFIG.shipping?.freeThreshold) || 500000;
+let RATES = { btc:63000, eth:2400, bnb:600, sol:142, ltc:80 };
+let activeGW = 'ps';
+let activeCoin = 'btc';
+
+function fmt(n) { return '₦' + Math.round(n).toLocaleString(); }
+function fmtUSD(n) { return '$' + n.toFixed(2); }
+function deliveryFee(sub) { return sub >= FREE_OVER ? 0 : DELIVERY; }
+
+function renderCart() {
+  const items = LiveCart.all();
+  if (!items.length) {
+    document.getElementById('empty-view').style.display = 'block';
+    document.getElementById('checkout-view').style.display = 'none';
+    return;
+  }
+  document.getElementById('empty-view').style.display = 'none';
+  document.getElementById('checkout-view').style.display = 'block';
+
+  const sub = LiveCart.subtotal();
+  const ship = deliveryFee(sub);
+  const totalNgn = sub + ship;
+  const totalUSD = (sub / USD_RATE).toFixed(2);
+
+  document.getElementById('cart-items-list').innerHTML = items.map(l => `
+    <div class="cart-item-row">
+      <div class="ci-icon">${l.emoji || '📦'}</div>
+      <div style="flex:1">
+        <div class="ci-name">${l.name}</div>
+        <div class="ci-desc">${fmt(l.price)} each</div>
+      </div>
+      <div class="ci-qty">
+        <button class="qty-btn" onclick="changeQty('${l.id}',-1)">−</button>
+        <span class="qty-num">${l.qty}</span>
+        <button class="qty-btn" onclick="changeQty('${l.id}',1)">+</button>
+      </div>
+      <div class="ci-price">${fmt(l.price * l.qty)}</div>
+      <button class="ci-remove" onclick="removeItem('${l.id}')">×</button>
+    </div>`).join('');
+
+  document.getElementById('sum-items').innerHTML = items.map(l =>
+    `<div class="sum-item"><span class="sn">${l.name} ×${l.qty}</span><span style="font-family:var(--font-mono);font-size:12px">${fmt(l.price*l.qty)}</span></div>`).join('');
+  document.getElementById('sum-sub').textContent = fmt(sub);
+  document.getElementById('sum-total').textContent = fmt(totalNgn);
+  const usdEl = document.getElementById('usd-amt'); if (usdEl) usdEl.textContent = fmtUSD(parseFloat(totalUSD));
+
+  const usd = parseFloat(totalUSD);
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('eq-btc', (usd/RATES.btc).toFixed(6)+' BTC');
+  set('eq-eth', (usd/RATES.eth).toFixed(5)+' ETH');
+  set('eq-usdt', usd.toFixed(2)+' USDT');
+  set('eq-bnb', (usd/RATES.bnb).toFixed(4)+' BNB');
+  set('eq-sol', (usd/RATES.sol).toFixed(4)+' SOL');
+  set('eq-ltc', (usd/RATES.ltc).toFixed(4)+' LTC');
+}
+
+function changeQty(id, delta) { LiveCart.changeQty(id, delta); renderCart(); }
+function removeItem(id) { LiveCart.remove(id); renderCart(); }
+
+const GW_CONFIG = {
+  ps: { label:'Paystack', btnClass:'pay-ps', btnText:'🔒 Pay via Paystack' },
+  fw: { label:'Flutterwave', btnClass:'pay-fw', btnText:'🔒 Pay via Flutterwave' },
+  pp: { label:'PayPal', btnClass:'pay-pp', btnText:'🅿 Pay via PayPal (USD)' },
+  cr: { label:'Crypto', btnClass:'pay-cr', btnText:'₿ Generate Crypto Invoice' },
+};
+
+function selectGW(gw) {
+  activeGW = gw;
+  Object.keys(GW_CONFIG).forEach(k => {
+    document.getElementById('gw-'+k).classList.toggle('selected', k === gw);
+    document.getElementById('detail-'+k).classList.toggle('show', k === gw);
+  });
+  const cfg = GW_CONFIG[gw];
+  const btn = document.getElementById('pay-btn');
+  btn.className = 'pay-btn ' + cfg.btnClass;
+  btn.textContent = cfg.btnText;
+  // PayPal renders its own button; hide our button when PayPal is selected
+  document.getElementById('paypal-button-container').style.display = (gw === 'pp') ? 'block' : 'none';
+}
+
+function selectCoin(c) {
+  activeCoin = c;
+  ['btc','eth','usdt','bnb','sol','ltc'].forEach(x => document.getElementById('coin-'+x).classList.toggle('selected', x === c));
+}
+
+// Gather + validate the customer's details
+function collectShipping() {
+  const first = document.getElementById('co-first').value.trim();
+  const last  = document.getElementById('co-last').value.trim();
+  const email = document.getElementById('co-email').value.trim();
+  const phone = document.getElementById('co-phone').value.trim();
+  const address = document.getElementById('co-address').value.trim();
+  if (!first || !email.includes('@') || !phone || !address) {
+    showToast('Please fill your name, email, phone and address', 'error');
+    return null;
+  }
+  return { name: (first + ' ' + last).trim(), email, phone, address, city: 'Lagos' };
+}
+
+async function triggerPayment() {
+  const shipping = collectShipping();
+  if (!shipping) return;
+  if (!LiveCart.all().length) { showToast('Your cart is empty', 'error'); return; }
+
+  // Save guest details so the order can attach them
+  try { Auth.setGuestSession?.({ email: shipping.email, phone: shipping.phone, name: shipping.name }); } catch (e) {}
+
+  const btn = document.getElementById('pay-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Processing…'; btn.disabled = true;
+
+  try {
+    const result = await Checkout.placeOrder({
+      gateway: activeGW,
+      shipping,
+      crypto: activeCoin.toUpperCase(),
+      onSuccess: (order, ref) => {
+        showConfirmed(order);
+      },
+      onClose: () => { btn.textContent = original; btn.disabled = false; },
+    });
+
+    if (result.error) {
+      // Payment gateway not configured yet — order is saved as pending.
+      showPendingModal(result.order);
+    } else if (result.invoice) {
+      showCryptoModal(result.order, result.invoice);
+    } else if (result.note) {
+      showPendingModal(result.order);
+    }
+    // Paystack/Flutterwave/PayPal trigger their own popups; onSuccess handles the rest.
+  } catch (e) {
+    showToast(e.message || 'Could not place order', 'error');
+  } finally {
+    setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1500);
+  }
+}
+
+function showConfirmed(order) {
+  document.getElementById('modal-box').innerHTML = `
+    <div style="font-size:48px;margin-bottom:14px">✅</div>
+    <div class="modal-title">Order confirmed!</div>
+    <div class="modal-sub">Your order <strong>${order.order_number}</strong> is paid and confirmed.<br/>We've emailed your receipt. Track it in your account.</div>
+    <a class="btn btn-primary" href="account/index.html">View my orders</a>`;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function showPendingModal(order) {
+  document.getElementById('modal-box').innerHTML = `
+    <div style="font-size:48px;margin-bottom:14px">🧾</div>
+    <div class="modal-title">Order placed</div>
+    <div class="modal-sub">Your order <strong>${order.order_number}</strong> has been created. Online payment isn't fully set up yet, so our team will contact you at <strong>${order.guest_email || 'your email'}</strong> to complete payment.</div>
+    <button class="btn btn-secondary" onclick="afterOrder()">Done</button>`;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function showCryptoModal(order, invoice) {
+  const addr = invoice?.address || invoice?.wallet || '—';
+  const amt = invoice?.amount ? (invoice.amount + ' ' + (invoice.currency || activeCoin.toUpperCase())) : (document.getElementById('eq-'+activeCoin)?.textContent || '');
+  document.getElementById('modal-box').innerHTML = `
+    <div style="font-size:48px;margin-bottom:14px">₿</div>
+    <div class="modal-title">Crypto invoice — ${order.order_number}</div>
+    <div class="modal-sub">Send exactly <strong>${amt}</strong> to:<div class="wallet-addr">${addr}</div>Order confirms after network confirmation.</div>
+    <button class="btn btn-secondary" onclick="afterOrder()">Done</button>`;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function afterOrder() { LiveCart.clear(); location.href = 'account/index.html'; }
+function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
+document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+document.addEventListener('DOMContentLoaded', async () => {
+  try { SiteSettings.applyTheme(await SiteSettings.get()); } catch (e) {}
+  await Storefront.loadProducts();
+  LiveCart.migrateLegacy();
+  LiveCart.updateBadge();
+  // live crypto rates if available
+  try { if (typeof Payments !== 'undefined' && Payments.getCryptoRates) { const r = await Payments.getCryptoRates(); if (r) RATES = { ...RATES, ...r }; } } catch (e) {}
+  // load live payment keys + hide gateways the admin turned off
+  try {
+    if (typeof Payments !== 'undefined' && Payments.loadKeys) {
+      await Payments.loadKeys();
+      const map = { ps:'paystack', fw:'flutterwave', pp:'paypal', cr:'cryptomus' };
+      let firstEnabled = null;
+      Object.entries(map).forEach(([k, g]) => {
+        const on = Payments.isEnabled(g);
+        const btn = document.getElementById('gw-'+k);
+        if (btn) btn.style.display = on ? '' : 'none';
+        if (on && !firstEnabled) firstEnabled = k;
+      });
+      if (firstEnabled) selectGW(firstEnabled);
+    }
+  } catch (e) {}
+  // prefill email if logged in
+  try { const u = await Auth.getUser(); if (u) { document.getElementById('co-email').value = u.email || ''; if (u.profile?.full_name) { const parts = u.profile.full_name.split(' '); document.getElementById('co-first').value = parts[0]||''; document.getElementById('co-last').value = parts.slice(1).join(' ')||''; } if (u.profile?.phone) document.getElementById('co-phone').value = u.profile.phone; if (u.profile?.address) document.getElementById('co-address').value = u.profile.address; } } catch (e) {}
+  renderCart();
 });
-async function loadPosts(){try{_posts=await Blog.listAll();document.getElementById('pmeta').textContent=_posts.length+' posts';renderList();}catch(e){showToast('Load error: '+e.message,'error');}}
-function renderList(){
-  const s=(document.getElementById('search').value||'').toLowerCase();const st=document.getElementById('filter-status').value;
-  const list=_posts.filter(p=>(!s||p.title.toLowerCase().includes(s))&&(!st||p.status===st));
-  document.getElementById('list-body').innerHTML=list.map(p=>`<tr><td><strong>${p.title}</strong><div style="font-size:11px;color:var(--gray-300)">/blog/${p.slug}</div></td><td>${p.category||'—'}</td><td><span class="pill pill-${p.status==='published'?'active':'draft'}">${p.status}</span></td><td style="font-family:var(--font-mono)">${p.views||0}</td><td style="font-size:12px">${new Date(p.updated_at).toLocaleDateString('en-NG')}</td><td><button class="pbtn pbtn-ghost" onclick="editPost('${p.id}')">Edit</button> <button class="pbtn pbtn-danger" onclick="delPost('${p.id}','${p.title.replace(/'/g,"")}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No posts yet — click "New post"</td></tr>';
-}
-function showList(){document.getElementById('view-editor').classList.remove('active');document.getElementById('view-list').classList.add('active');document.getElementById('ptitle').textContent='All Posts';document.getElementById('top-actions').innerHTML='';loadPosts();}
-function showEditor(){document.getElementById('view-list').classList.remove('active');document.getElementById('view-editor').classList.add('active');}
-
-function newPost(){
-  _editId=null;_cover=null;_slugEdited=false;
-  ['title','slug','excerpt','category','tags','seo_title','seo_description','seo_keywords','cover_alt'].forEach(i=>document.getElementById(i).value='');
-  document.getElementById('editor').innerHTML='';document.getElementById('status').value='draft';document.getElementById('featured').checked=false;document.getElementById('no_index').checked=false;
-  document.getElementById('cover_preview').style.display='none';document.getElementById('cover_hint').style.display='block';
-  document.getElementById('slug-preview').textContent='…';
-  document.getElementById('ptitle').textContent='New Post';
-  showEditor();updateSeo();
-}
-async function editPost(id){
-  const p=await Blog.getById(id);if(!p)return;
-  _editId=id;_cover=p.cover_image;_slugEdited=true;
-  document.getElementById('title').value=p.title||'';document.getElementById('slug').value=p.slug||'';document.getElementById('slug-preview').textContent=p.slug||'';
-  document.getElementById('excerpt').value=p.excerpt||'';document.getElementById('editor').innerHTML=p.content||'';
-  document.getElementById('category').value=p.category||'';document.getElementById('tags').value=(p.tags||[]).join(', ');
-  document.getElementById('status').value=p.status||'draft';document.getElementById('featured').checked=!!p.featured;document.getElementById('no_index').checked=!!p.no_index;
-  document.getElementById('seo_title').value=p.seo_title||'';document.getElementById('seo_description').value=p.seo_description||'';document.getElementById('seo_keywords').value=p.seo_keywords||'';
-  document.getElementById('cover_alt').value=p.cover_alt||'';
-  if(p.cover_image){const c=document.getElementById('cover_preview');c.src=p.cover_image;c.style.display='block';document.getElementById('cover_hint').style.display='none';}
-  document.getElementById('ptitle').textContent='Edit Post';showEditor();updateSeo();
-}
-async function delPost(id,title){if(!confirm('Delete "'+title+'"? This cannot be undone.'))return;await Blog.remove(id);showToast('Post deleted');loadPosts();}
-
-function onTitle(){const t=document.getElementById('title').value;if(!_slugEdited){const s=Blog.slugify(t);document.getElementById('slug').value=s;document.getElementById('slug-preview').textContent=s;}updateSeo();}
-function fmt(cmd,val){document.execCommand(cmd,false,val||null);document.getElementById('editor').focus();updateSeo();}
-function addLink(){const url=prompt('Link URL:');if(url)document.execCommand('createLink',false,url);}
-async function insertImage(input){const f=input.files[0];if(!f)return;showToast('Uploading image…');try{const url=await SiteSettings.uploadImage(f,'blog','inline');document.execCommand('insertHTML',false,`<img src="${url}" alt=""/>`);showToast('Image inserted ✓');updateSeo();}catch(e){showToast('Upload failed','error');}input.value='';}
-async function uploadCover(input){const f=input.files[0];if(!f)return;showToast('Uploading cover…');try{const url=await SiteSettings.uploadImage(f,'blog','cover');_cover=url;const c=document.getElementById('cover_preview');c.src=url;c.style.display='block';document.getElementById('cover_hint').style.display='none';showToast('Cover uploaded ✓');updateSeo();}catch(e){showToast('Upload failed','error');}}
-
-function updateSeo(){
-  const title=document.getElementById('seo_title').value||document.getElementById('title').value;
-  const desc=document.getElementById('seo_description').value||document.getElementById('excerpt').value;
-  const slug=document.getElementById('slug').value;
-  const content=document.getElementById('editor').innerText||'';
-  document.getElementById('g-title').textContent=title||'Title';
-  document.getElementById('g-url').textContent='ekrpt.com/blog/'+(slug||'…');
-  document.getElementById('g-desc').textContent=(desc||'Description…').slice(0,160);
-  // SEO checks
-  const checks=[
-    {ok:title.length>=10&&title.length<=60,t:`Title length (${title.length}/60)`},
-    {ok:desc.length>=50&&desc.length<=160,t:`Description (${desc.length}/160)`},
-    {ok:!!slug&&slug.length<=70,t:'URL slug set'},
-    {ok:!!_cover,t:'Cover image added'},
-    {ok:content.split(/\s+/).filter(Boolean).length>=300,t:`Content length (${content.split(/\s+/).filter(Boolean).length} words, aim 300+)`},
-    {ok:document.getElementById('editor').querySelectorAll('h2,h3').length>0,t:'Has subheadings (H2/H3)'},
-    {ok:!!document.getElementById('cover_alt').value,t:'Cover alt text'},
-  ];
-  document.getElementById('seo-checks').innerHTML=checks.map(c=>`<div class="check">${c.ok?'✅':'⬜'} <span style="${c.ok?'':'color:var(--gray-400)'}">${c.t}</span></div>`).join('');
-  const passed=checks.filter(c=>c.ok).length;const pct=Math.round(passed/checks.length*100);
-  const badge=document.getElementById('seo-score');badge.textContent=pct+'%';badge.className='seo-score '+(pct>=80?'seo-good':pct>=50?'seo-ok':'seo-bad');
-}
-
-async function savePost(){
-  const title=document.getElementById('title').value.trim();
-  if(!title){showToast('Title required','error');return;}
-  let slug=document.getElementById('slug').value.trim()||Blog.slugify(title);
-  const post={
-    title,slug,excerpt:document.getElementById('excerpt').value,content:document.getElementById('editor').innerHTML,
-    cover_image:_cover,cover_alt:document.getElementById('cover_alt').value,
-    category:document.getElementById('category').value||'General',
-    tags:document.getElementById('tags').value.split(',').map(t=>t.trim()).filter(Boolean),
-    status:document.getElementById('status').value,featured:document.getElementById('featured').checked,no_index:document.getElementById('no_index').checked,
-    seo_title:document.getElementById('seo_title').value,seo_description:document.getElementById('seo_description').value,seo_keywords:document.getElementById('seo_keywords').value,
-    og_image:_cover,author_name:(RBAC.getUser()?.profile?.full_name)||'EKRPT Team',
-  };
-  try{
-    if(_editId)await Blog.update(_editId,post);else await Blog.create(post);
-    showToast('Post saved ✓'+(post.status==='published'?' — live now':' (draft)'));
-    showList();
-  }catch(e){showToast('Error: '+e.message,'error');}
-}
 </script>
 </body>
 </html>
