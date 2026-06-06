@@ -95,7 +95,7 @@ function renderProductCard(p, addFn) {
             ₦${p.price.toLocaleString()}
             <small>+ delivery</small>
           </div>
-          <button class="add-to-cart" onclick="${addFn}(${p.id})">Add to cart</button>
+          <button class="add-to-cart" onclick="${addFn}('${p.id}')">Add to cart</button>
         </div>
       </div>
     </div>`;
