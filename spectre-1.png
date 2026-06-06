@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════════════════
+   EKRPT — SPECTRE theme for ADMIN PORTALS
+   Load AFTER portal-core.css on every portal page.
+   Keeps dashboards readable (light content) with a deep-black
+   sidebar and SPECTRE red/blue accents to match the brand.
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root{
+  --red:        #e0202d;   /* SPECTRE performance red */
+  --red-light:  #fdeaea;
+  --blue:       #1a8fc4;
+  --blue-dark:  #0f6d9a;
+  --font-head:  'Orbitron','Syne',sans-serif;
+}
+
+/* Sidebar → matte black with a red top hairline */
+.pside{
+  background:#0a0b0d!important;
+  border-right:1px solid #1a1d23;
+  box-shadow:inset -1px 0 0 rgba(224,32,45,.15);
+}
+.pside-logo{border-bottom:1px solid rgba(255,255,255,.06)}
+.pside-brand{font-family:var(--font-head);letter-spacing:.04em}
+.pside-section{color:rgba(255,255,255,.28)}
+.pside-link{color:rgba(255,255,255,.6)}
+.pside-link:hover{background:rgba(224,32,45,.08);color:#fff}
+.pside-link.active{background:rgba(224,32,45,.14);color:#fff;border-left:2px solid var(--red)}
+.pside-link .badge{background:var(--red)}
+
+/* Topbar + headings get the display font */
+.ptop-title{font-family:var(--font-head);letter-spacing:.02em}
+.pmetric-val{font-family:var(--font-head)}
+
+/* Metric cards: red accent bar by default */
+.pmetric::before{background:var(--red)}
+
+/* Primary buttons → SPECTRE red */
+.pbtn-primary{background:var(--red)!important}
+.pbtn-primary:hover{background:#b3151f!important}
+
+/* Active pills / status accents */
+.pill-active,.pill-paid,.pill-ok,.pill-delivered{background:#0f2a18;color:#4ade80}
+
+/* Section accent line under panel titles on hover (subtle) */
+.ppanel-title{font-weight:700}
+
+/* Keep the data tables/content light & legible (no change needed) */
