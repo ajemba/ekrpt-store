@@ -98,10 +98,17 @@ const Payments = (() => {
 
   // ── PAYPAL ───────────────────────────────────────────────
   const renderPaypalButton = ({ containerSelector, amountNGN, orderId, orderNumber, onSuccess }) => {
+    const container = document.querySelector(containerSelector);
     if (!window.paypal) {
-      document.querySelector(containerSelector).innerHTML = '<p style="color:var(--gray-400);font-size:13px">PayPal loading…</p>';
+      // SDK not ready yet — wait for it (checkout.html loads it on PayPal select).
+      if (container) container.innerHTML = '<p style="color:var(--gray-400);font-size:13px">Loading PayPal…</p>';
+      if (typeof loadPaypalSDK === 'function') {
+        loadPaypalSDK().then(() => renderPaypalButton({ containerSelector, amountNGN, orderId, orderNumber, onSuccess }))
+          .catch(() => { if (container) container.innerHTML = '<p style="color:var(--red);font-size:13px">PayPal could not load.</p>'; });
+      }
       return;
     }
+    if (container) container.innerHTML = '';
     const usdAmount = toUSD(amountNGN);
     window.paypal.Buttons({
       style: { layout: 'vertical', color: 'blue', shape: 'rect', label: 'pay', height: 44 },
