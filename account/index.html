@@ -18,6 +18,15 @@
 .track-step.done .track-line{background:var(--blue)}
 .track-label{font-size:11px;color:var(--gray-400);font-family:var(--font-mono)}
 .order-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
+/* ── DARK THEME OVERRIDES (match portal dark theme) ── */
+.order-card{background:#0d0f14!important;border:1px solid rgba(255,255,255,.08)!important;color:#f4f6fb!important}
+.order-card *{color:#f4f6fb}
+.track-dot{background:#1b1f27!important;color:#8b93a3!important}
+.track-step.done .track-dot,.track-step.current .track-dot{background:var(--blue)!important;color:#fff!important}
+.track-line{background:rgba(255,255,255,.12)!important}
+.track-step.done .track-line{background:var(--blue)!important}
+.track-label{color:#8b93a3!important}
+.order-card table,.order-card td{border-color:rgba(255,255,255,.08)!important}
 </style>
 </head>
 <body class="portal">
