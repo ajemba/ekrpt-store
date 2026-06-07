@@ -16,12 +16,14 @@
     --head:'Orbitron',sans-serif; --body:'Rajdhani',sans-serif; --mono:'JetBrains Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  html,body{min-height:100%}
   body{
     background:var(--bg); color:var(--ink); font-family:var(--body);
     min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:32px 20px; position:relative; overflow:hidden;
+    padding:48px 20px; position:relative; overflow-x:hidden; overflow-y:auto;
   }
+  /* when content is taller than viewport (short desktop windows), don't clip — let it scroll from the top */
+  @media(max-height:760px){ body{justify-content:flex-start;} }
   /* atmospheric layers */
   body::before{
     content:""; position:fixed; inset:0; z-index:0;
@@ -94,7 +96,7 @@
   @media(max-width:600px){ .product-hero{max-width:340px; width:100%;} }
 
   /* countdown */
-  .cd{display:flex; justify-content:center; gap:14px; margin:38px 0 34px; flex-wrap:wrap;}
+  .cd{display:flex; justify-content:center; gap:14px; margin:28px 0 26px; flex-wrap:wrap;}
   .unit{background:var(--panel); border:1px solid var(--line); border-radius:14px;
     padding:18px 14px; min-width:92px; position:relative; overflow:hidden;}
   .unit::before{content:""; position:absolute; left:0; top:0; height:3px; width:100%;
@@ -123,7 +125,7 @@
   .proof{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:16px;}
   .proof b{color:var(--ink);}
 
-  .foot{position:relative; z-index:1; margin-top:46px; font-family:var(--mono); font-size:11px;
+  .foot{position:relative; z-index:1; margin-top:34px; font-family:var(--mono); font-size:11px;
     color:var(--muted); letter-spacing:.16em; text-align:center;}
   .foot .spec{opacity:.6; margin-top:6px;}
 
