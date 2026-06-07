@@ -391,6 +391,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (on && !firstEnabled) firstEnabled = k;
       });
       if (firstEnabled) selectGW(firstEnabled);
+
+      // Load the PayPal SDK (needs the public client id) so the button can render.
+      if (Payments.isEnabled('paypal')) {
+        const ppId = Payments.pubKey('paypal');
+        if (ppId && !document.getElementById('paypal-sdk')) {
+          const s = document.createElement('script');
+          s.id = 'paypal-sdk';
+          s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(ppId) + '&currency=USD';
+          document.head.appendChild(s);
+        }
+      }
     }
   } catch (e) {}
   // prefill email if logged in
