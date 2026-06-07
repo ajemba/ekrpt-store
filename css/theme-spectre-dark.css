@@ -277,6 +277,18 @@ label{color:var(--gray-400)!important}
   color:#aab1ba!important;
   border:1px solid rgba(255,255,255,.08)!important;
 }
+/* home "Brands We Carry" section + chips */
+.brands{background:transparent!important}
+.brand-chip{
+  background:#0d0f14!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  color:#e2e6ea!important;
+}
+.brand-chip-icon{background:rgba(26,143,196,.15)!important}
+/* home newsletter band */
+.nl-section{background:linear-gradient(135deg,#0a0f1a 0%,#0d1420 100%)!important}
+.nl-inner h2{color:#f4f6fb!important}
+.nl-inner p{color:#8b93a3!important}
 .sort-select{
   background:#11141b!important;
   border:1px solid rgba(255,255,255,.12)!important;
