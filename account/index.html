@@ -20,13 +20,20 @@
 .order-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
 /* ── DARK THEME OVERRIDES (match portal dark theme) ── */
 .order-card{background:#0d0f14!important;border:1px solid rgba(255,255,255,.08)!important;color:#f4f6fb!important}
-.order-card *{color:#f4f6fb}
+.order-card td,.order-card .ci-name,.order-card .ci-desc,.order-card strong,.order-card span:not(.pill){color:#f4f6fb}
 .track-dot{background:#1b1f27!important;color:#8b93a3!important}
 .track-step.done .track-dot,.track-step.current .track-dot{background:var(--blue)!important;color:#fff!important}
 .track-line{background:rgba(255,255,255,.12)!important}
 .track-step.done .track-line{background:var(--blue)!important}
 .track-label{color:#8b93a3!important}
 .order-card table,.order-card td{border-color:rgba(255,255,255,.08)!important}
+/* status pills — keep their own colors, just dark-mode the backgrounds */
+.pill-pending{background:#2a1c0a!important;color:#fb923c!important}
+.pill-confirmed,.pill-paid,.pill-active,.pill-ok,.pill-delivered{background:#0f2a18!important;color:#4ade80!important}
+.pill-processing{background:#0c1b3a!important;color:#60a5fa!important}
+.pill-shipped{background:#241036!important;color:#c084fc!important}
+.pill-cancelled,.pill-unpaid,.pill-suspended,.pill-out{background:#2a0f0f!important;color:#f87171!important}
+.pill-low{background:#2a1c0a!important;color:#fb923c!important}
 </style>
 </head>
 <body class="portal">
