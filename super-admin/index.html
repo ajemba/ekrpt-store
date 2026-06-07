@@ -548,7 +548,15 @@ async function loadOrders(){ try{ _orders=await Orders.getAll(); renderOrders();
 function renderOrders(){
   const s=(document.getElementById('o-search').value||'').toLowerCase(); const st=document.getElementById('o-status').value;
   const list=_orders.filter(o=>(!s||o.order_number.toLowerCase().includes(s))&&(!st||o.status===st));
-  document.getElementById('orders-body').innerHTML=list.map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-size:12px">${o.shipping_address?.name||o.guest_email||'Guest'}</td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.payment_status}">${o.payment_status}</span></td><td><span class="pill pill-${o.status}">${o.status}</span></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No orders</td></tr>';
+  document.getElementById('orders-body').innerHTML=list.map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-size:12px">${o.shipping_address?.name||o.guest_email||'Guest'}</td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.payment_status}">${o.payment_status}</span></td><td><select class="pselect" style="font-size:12px;padding:4px 8px" onchange="changeOrderStatus('${o.id}', this.value)">${['pending','confirmed','processing','shipped','delivered','cancelled'].map(s=>`<option value="${s}"${o.status===s?' selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No orders</td></tr>';
+}
+
+async function changeOrderStatus(id, status){
+  try{
+    await Orders.updateStatus(id, status, 'Status changed by admin');
+    showToast('Order status updated ✓');
+    await loadOrders();
+  }catch(e){ showToast('Error: '+(e.message||'could not update'),'error'); await loadOrders(); }
 }
 
 // ── INVENTORY ──
