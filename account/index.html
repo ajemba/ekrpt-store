@@ -97,7 +97,18 @@ async function loadOrders(){
 function renderOrdersList(){
   document.getElementById('orders-list').innerHTML=_orders.map(o=>{
     const stepIdx=STEPS.indexOf(o.status);
-    const tracker=o.status==='cancelled'?'<div class="palert palert-danger">This order was cancelled</div>:`<div class="track-steps">${STEPS.map((s,i)=>`<div class="track-step ${i<stepIdx?'done':i===stepIdx?'current':''}">${i>0?'<div class="track-line"></div>':''}<div class="track-dot">${i<stepIdx?'✓':i+1}</div><div class="track-label">${s}</div></div>`).join('')}</div>`;
+    let tracker;
+    if(o.status==='cancelled'){
+      tracker='<div class="palert palert-danger">This order was cancelled</div>';
+    }else{
+      const steps=STEPS.map((s,i)=>{
+        const cls=i<stepIdx?'done':(i===stepIdx?'current':'');
+        const line=i>0?'<div class="track-line"></div>':'';
+        const dot=i<stepIdx?'✓':(i+1);
+        return '<div class="track-step '+cls+'">'+line+'<div class="track-dot">'+dot+'</div><div class="track-label">'+s+'</div></div>';
+      }).join('');
+      tracker='<div class="track-steps">'+steps+'</div>';
+    }
     return `<div class="order-card">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
         <div><div style="font-family:var(--font-mono);font-size:14px;font-weight:700">${o.order_number}</div><div style="font-size:12px;color:var(--gray-300)">${new Date(o.created_at).toLocaleString('en-NG')}</div></div>
