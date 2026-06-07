@@ -37,7 +37,7 @@
     -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
             mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
   }
-  .wrap{position:relative; z-index:1; width:100%; max-width:760px; text-align:center;
+  .wrap{position:relative; z-index:1; width:100%; max-width:1040px; text-align:center;
     animation:rise .9s cubic-bezier(.2,.7,.2,1) both;}
   @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
@@ -46,6 +46,7 @@
   .brand .mark{display:inline-block; width:14px; height:26px; background:var(--red);
     transform:skewX(-12deg); box-shadow:0 0 18px var(--red-glow);}
   .brand .co{font-size:11px; color:var(--muted); letter-spacing:.4em; font-family:var(--mono); align-self:flex-end; margin-bottom:4px;}
+  .brand-logo{height:42px; width:auto; display:block;}
 
   .status{font-family:var(--mono); font-size:12px; letter-spacing:.32em; color:var(--red);
     text-transform:uppercase; margin:26px 0 14px; display:inline-flex; align-items:center; gap:9px;}
@@ -61,22 +62,36 @@
   .model{font-family:var(--mono); font-size:12px; color:var(--ink); letter-spacing:.22em;
     margin-top:10px; opacity:.7;}
 
-  /* product hero — faded into the dark bg */
-  .product-hero{position:relative; margin:18px auto 4px; max-width:460px;}
+  /* hero row: image + text side by side */
+  .hero-row{display:flex; align-items:center; justify-content:center; gap:24px;
+    margin:20px 0 8px; flex-wrap:nowrap;}
+  .hero-copy{flex:1; text-align:left; min-width:0;}
+  .hero-copy h1{text-align:left;}
+  .hero-copy .tagline{margin-left:0;}
+
+  /* product hero — full scene, framed as a clean card */
+  .product-hero{position:relative; flex:0 0 48%; max-width:48%;}
   .product-hero img{
-    width:100%; height:auto; display:block;
-    /* tight radial fade: keep the router center, dissolve everything else to black */
-    -webkit-mask-image:radial-gradient(ellipse 46% 42% at 50% 40%, #000 45%, rgba(0,0,0,.35) 60%, transparent 68%);
-            mask-image:radial-gradient(ellipse 46% 42% at 50% 40%, #000 45%, rgba(0,0,0,.35) 60%, transparent 68%);
-    filter:brightness(.9) contrast(1.1);
+    width:100%; height:auto; display:block; border-radius:16px;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 50px rgba(224,32,45,.12);
+    filter:contrast(1.04) saturate(1.04);
   }
   .product-hero::after{
-    content:""; position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
-    width:55%; height:55%; border-radius:50%;
-    background:radial-gradient(ellipse, rgba(224,32,45,.22), transparent 68%);
-    filter:blur(26px); z-index:-1;
+    content:""; position:absolute; inset:0; border-radius:16px;
+    background:linear-gradient(180deg, transparent 60%, rgba(13,16,20,.35) 100%);
+    pointer-events:none;
   }
-  @media(max-width:600px){ .product-hero{max-width:320px;} }
+
+  /* responsive: stack image above text on tablet/phone */
+  @media(max-width:820px){
+    .hero-row{flex-direction:column; gap:10px;}
+    .product-hero{flex:0 0 auto; max-width:420px; width:90%;}
+    .hero-copy{text-align:center;}
+    .hero-copy h1{text-align:center;}
+    .hero-copy .tagline{margin-left:auto; margin-right:auto;}
+  }
+  @media(max-width:600px){ .product-hero{max-width:340px; width:100%;} }
 
   /* countdown */
   .cd{display:flex; justify-content:center; gap:14px; margin:38px 0 34px; flex-wrap:wrap;}
@@ -124,18 +139,21 @@
 <body>
   <div class="wrap">
     <div class="brand">
-      <span class="mark"></span>EKRPT <span class="co">NETWORKING LABS</span>
+      <img src="img/logo-ekrpt.png" alt="EKRPT Networking Labs" class="brand-logo"/>
     </div>
 
     <div class="status"><span class="dot"></span><span id="status-text">Presale opening soon</span></div>
 
-    <div class="product-hero">
-      <img src="img/product/spectre-gaming-web.jpg" alt="EKRPT SPECTRE BE19000 ULTRA WiFi 7 gaming router"/>
+    <div class="hero-row">
+      <div class="product-hero">
+        <img src="img/product/spectre-gaming-web.jpg" alt="EKRPT SPECTRE BE19000 ULTRA WiFi 7 gaming router"/>
+      </div>
+      <div class="hero-copy">
+        <h1>SPECTRE <em>BE19000</em> ULTRA</h1>
+        <p class="tagline">Tri-band WiFi 7. 19,000 Mbps aggregate. Engineered for esports-grade latency and zero compromise.</p>
+        <div class="model">// PERFORMANCE NETWORKING · GLOBAL SHIPPING</div>
+      </div>
     </div>
-
-    <h1>SPECTRE <em>BE19000</em> ULTRA</h1>
-    <p class="tagline">Tri-band WiFi 7. 19,000 Mbps aggregate. Engineered for esports-grade latency and zero compromise.</p>
-    <div class="model">// PERFORMANCE NETWORKING · GLOBAL SHIPPING</div>
 
     <div class="cd" id="cd">
       <div class="unit"><div class="n" id="cd-d">00</div><div class="l">Days</div></div>
