@@ -271,6 +271,12 @@ label{color:var(--gray-400)!important}
   border:1px solid rgba(255,255,255,.12)!important;
   color:#aab1ba!important;
 }
+/* blog post page: tags + share buttons */
+.tag,.share-btn{
+  background:#11141b!important;
+  color:#aab1ba!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+}
 .sort-select{
   background:#11141b!important;
   border:1px solid rgba(255,255,255,.12)!important;
