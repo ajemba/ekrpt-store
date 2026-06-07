@@ -282,6 +282,30 @@ function selectGW(gw) {
   btn.textContent = cfg.btnText;
   // PayPal renders its own button; hide our button when PayPal is selected
   document.getElementById('paypal-button-container').style.display = (gw === 'pp') ? 'block' : 'none';
+  // Preload the PayPal SDK as soon as PayPal is selected so the button is ready.
+  if (gw === 'pp') loadPaypalSDK();
+}
+
+// Loads the PayPal JS SDK once, using the public client id. Returns a promise
+// that resolves when window.paypal is available.
+let _paypalSDKPromise = null;
+function loadPaypalSDK() {
+  if (window.paypal) return Promise.resolve();
+  if (_paypalSDKPromise) return _paypalSDKPromise;
+  const clientId = (typeof Payments !== 'undefined' && Payments.pubKey) ? Payments.pubKey('paypal') : '';
+  if (!clientId) {
+    showToast('PayPal is not configured yet', 'error');
+    return Promise.reject(new Error('no paypal client id'));
+  }
+  _paypalSDKPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.id = 'paypal-sdk';
+    s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) + '&currency=USD';
+    s.onload = () => resolve();
+    s.onerror = () => { _paypalSDKPromise = null; reject(new Error('PayPal SDK failed to load')); };
+    document.head.appendChild(s);
+  });
+  return _paypalSDKPromise;
 }
 
 function selectCoin(c) {
@@ -391,17 +415,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (on && !firstEnabled) firstEnabled = k;
       });
       if (firstEnabled) selectGW(firstEnabled);
-
-      // Load the PayPal SDK (needs the public client id) so the button can render.
-      if (Payments.isEnabled('paypal')) {
-        const ppId = Payments.pubKey('paypal');
-        if (ppId && !document.getElementById('paypal-sdk')) {
-          const s = document.createElement('script');
-          s.id = 'paypal-sdk';
-          s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(ppId) + '&currency=USD';
-          document.head.appendChild(s);
-        }
-      }
     }
   } catch (e) {}
   // prefill email if logged in
