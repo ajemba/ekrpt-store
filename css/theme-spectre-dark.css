@@ -236,3 +236,11 @@ label{color:var(--gray-400)!important}
 .about-strip p,.about-strip .about-feature-desc{color:#aab1ba!important}
 .about-card,.about-feature{background:#121419!important;border:1px solid #1d2026!important}
 .about-feature-name{color:#fff!important}
+
+/* ── Fix: the About HERO uses class .about-hero (not .about-strip) and
+   sets background:var(--gray-900), which is WHITE in dark mode → white
+   text on white. Force it dark to match the rest of the storefront. ── */
+.about-hero{background:linear-gradient(135deg,#0a0b0d 0%,#10161d 100%)!important}
+.about-hero h1{color:#fff!important}
+.about-hero h1 span{color:var(--blue-mid)!important}
+.about-hero p{color:rgba(255,255,255,.6)!important}
