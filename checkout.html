@@ -292,19 +292,24 @@ let _paypalSDKPromise = null;
 function loadPaypalSDK() {
   if (window.paypal) return Promise.resolve();
   if (_paypalSDKPromise) return _paypalSDKPromise;
-  const clientId = (typeof Payments !== 'undefined' && Payments.pubKey) ? Payments.pubKey('paypal') : '';
-  if (!clientId) {
-    showToast('PayPal is not configured yet', 'error');
-    return Promise.reject(new Error('no paypal client id'));
-  }
-  _paypalSDKPromise = new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.id = 'paypal-sdk';
-    s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) + '&currency=USD';
-    s.onload = () => resolve();
-    s.onerror = () => { _paypalSDKPromise = null; reject(new Error('PayPal SDK failed to load')); };
-    document.head.appendChild(s);
-  });
+  _paypalSDKPromise = (async () => {
+    // Make sure payment keys are loaded so pubKey('paypal') is populated.
+    try { if (typeof Payments !== 'undefined' && Payments.loadKeys) await Payments.loadKeys(); } catch (e) {}
+    const clientId = (typeof Payments !== 'undefined' && Payments.pubKey) ? Payments.pubKey('paypal') : '';
+    if (!clientId) {
+      _paypalSDKPromise = null;
+      showToast('PayPal is not configured yet', 'error');
+      throw new Error('no paypal client id');
+    }
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.id = 'paypal-sdk';
+      s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) + '&currency=USD';
+      s.onload = () => resolve();
+      s.onerror = () => { _paypalSDKPromise = null; reject(new Error('PayPal SDK failed to load')); };
+      document.head.appendChild(s);
+    });
+  })();
   return _paypalSDKPromise;
 }
 
