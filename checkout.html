@@ -412,6 +412,21 @@ function showPendingModal(order) {
   document.getElementById('modal-overlay').classList.add('show');
 }
 function showCryptoModal(order, invoice) {
+  // Cryptomus hosted invoice: send the customer to their secure pay page,
+  // where they pick a coin, see the address + QR, and a live countdown.
+  // Our cryptomus-webhook confirms the order automatically once paid.
+  const payUrl = invoice?.url;
+  if (payUrl) {
+    document.getElementById('modal-box').innerHTML = `
+      <div style="font-size:48px;margin-bottom:14px">₿</div>
+      <div class="modal-title">Crypto invoice — ${order.order_number}</div>
+      <div class="modal-sub">Your secure crypto payment page is ready. You'll choose your coin and see the wallet address there. This order confirms automatically once the network confirms your payment.</div>
+      <a class="btn btn-primary" href="${payUrl}" target="_blank" rel="noopener" onclick="setTimeout(afterOrder, 800)">Pay with crypto →</a>
+      <button class="btn btn-secondary" style="margin-top:10px" onclick="afterOrder()">I'll pay later</button>`;
+    document.getElementById('modal-overlay').classList.add('show');
+    return;
+  }
+  // Fallback (shouldn't happen): show whatever the invoice carried.
   const addr = invoice?.address || invoice?.wallet || '—';
   const amt = invoice?.amount ? (invoice.amount + ' ' + (invoice.currency || activeCoin.toUpperCase())) : (document.getElementById('eq-'+activeCoin)?.textContent || '');
   document.getElementById('modal-box').innerHTML = `
