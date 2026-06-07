@@ -39,9 +39,23 @@
 /* Primary buttons → SPECTRE red */
 .pbtn-primary{background:var(--red)!important}
 .pbtn-primary:hover{background:#b3151f!important}
+/* Other button variants — ensure visible on dark portal background */
+.pbtn-ghost{background:transparent!important;border:1.5px solid rgba(255,255,255,.18)!important;color:#e2e6ea!important}
+.pbtn-ghost:hover{border-color:var(--red)!important;color:#fff!important}
+.pbtn-danger{background:#2a0f0f!important;color:#f87171!important;border:1px solid rgba(248,113,113,.3)!important}
+.pbtn-danger:hover{background:#3a1414!important}
+.pbtn-success{background:#0f2a18!important;color:#4ade80!important}
+.pbtn-warn{background:#2a1c0a!important;color:#fbbf24!important}
 
 /* Active pills / status accents */
 .pill-active,.pill-paid,.pill-ok,.pill-delivered{background:#0f2a18;color:#4ade80}
+/* Full dark-mode pill set (so no status badge is invisible) */
+.pill-pending,.pill-low{background:#2a1c0a;color:#fb923c}
+.pill-confirmed{background:#0f2a18;color:#4ade80}
+.pill-processing{background:#0c1b3a;color:#60a5fa}
+.pill-shipped{background:#241036;color:#c084fc}
+.pill-cancelled,.pill-unpaid,.pill-suspended,.pill-out{background:#2a0f0f;color:#f87171}
+.pill-draft{background:#1b1f27;color:#8b93a3}
 
 /* Section accent line under panel titles on hover (subtle) */
 .ppanel-title{font-weight:700}
