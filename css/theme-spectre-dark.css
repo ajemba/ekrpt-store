@@ -244,3 +244,41 @@ label{color:var(--gray-400)!important}
 .about-hero h1{color:#fff!important}
 .about-hero h1 span{color:var(--blue-mid)!important}
 .about-hero p{color:rgba(255,255,255,.6)!important}
+
+/* ── Fix: .page-hero (products, contact, roadmap, etc.) has the same
+   var(--gray-900)=white-in-dark-mode problem. Force dark. ── */
+.page-hero{background:linear-gradient(135deg,#0a0b0d 0%,#10161d 100%)!important}
+.page-hero h1{color:#fff!important}
+.page-hero p{color:rgba(255,255,255,.55)!important}
+
+/* ── GLOBAL DARK OVERRIDES for storefront/blog light panels ──
+   These classes were authored with white/off-white backgrounds in
+   individual pages (about, contact, blog). Force them dark so every
+   page is consistent with the dark theme. */
+.stats-visual,.stat-box,.value-card,
+.contact-form-card,.info-card,.hours-card,
+.post-card,.featured-post{
+  background:#0d0f14!important;
+  border-color:rgba(255,255,255,.08)!important;
+  color:#f4f6fb!important;
+}
+.stat-box *,.value-card *,.info-card *,.hours-card *,
+.contact-form-card *,.post-card *,.featured-post *{
+  color:inherit;
+}
+.cat-pill{
+  background:#11141b!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  color:#aab1ba!important;
+}
+.sort-select{
+  background:#11141b!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  color:#f4f6fb!important;
+}
+/* form inputs on storefront pages */
+.contact-form-card input,.contact-form-card textarea,.contact-form-card select{
+  background:#11141b!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  color:#f4f6fb!important;
+}
