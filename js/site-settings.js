@@ -43,7 +43,10 @@ const SiteSettings = (() => {
     const root = document.documentElement.style;
     if (s.color_primary) { root.setProperty('--blue', s.color_primary); root.setProperty('--blue-dark', shade(s.color_primary, -18)); root.setProperty('--blue-mid', shade(s.color_primary, 25)); root.setProperty('--blue-light', shade(s.color_primary, 75)); }
     if (s.color_accent)  { root.setProperty('--red', s.color_accent); root.setProperty('--red-light', shade(s.color_accent, 78)); }
-    if (s.color_dark)    { root.setProperty('--gray-900', s.color_dark); }
+    // NOTE: deliberately NOT overriding --gray-900. The active theme CSS
+    // controls structural background/heading colors; the dark theme
+    // repurposes --gray-900 as white for headings, so setting it here
+    // (to color_dark) scrambles text/background and hid the hero text.
     // Branding text
     document.querySelectorAll('[data-site-name]').forEach(el => el.textContent = s.site_name || el.textContent);
     document.querySelectorAll('[data-tagline]').forEach(el => el.textContent = s.tagline || el.textContent);
