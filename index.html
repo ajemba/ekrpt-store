@@ -5,6 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>EKRPT SPECTRE — Launching Soon</title>
 <meta name="description" content="EKRPT SPECTRE BE19000 ULTRA — WiFi 7 performance networking. Reserve your place for the presale."/>
+<!-- ── Favicon ── -->
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#06070a"/>
+<!-- ── SEO / canonical ── -->
+<link rel="canonical" href="https://ekrpt.com/"/>
+<meta name="robots" content="index, follow"/>
+<!-- ── Open Graph ── -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="EKRPT Networking Labs"/>
+<meta property="og:title" content="EKRPT SPECTRE — Launching Soon"/>
+<meta property="og:description" content="EKRPT SPECTRE BE19000 ULTRA — WiFi 7 performance networking. Reserve your place for the presale."/>
+<meta property="og:url" content="https://ekrpt.com/"/>
+<meta property="og:image" content="https://ekrpt.com/img/logo-ekrpt-lg.png"/>
+<!-- ── Twitter ── -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="EKRPT SPECTRE — Launching Soon"/>
+<meta name="twitter:description" content="EKRPT SPECTRE BE19000 ULTRA — WiFi 7 performance networking. Reserve your place for the presale."/>
+<meta name="twitter:image" content="https://ekrpt.com/img/logo-ekrpt-lg.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
@@ -22,9 +44,7 @@
     min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
     padding:48px 20px; position:relative; overflow-x:hidden; overflow-y:auto;
   }
-  /* when content is taller than viewport (short desktop windows), don't clip — let it scroll from the top */
   @media(max-height:760px){ body{justify-content:flex-start;} }
-  /* atmospheric layers */
   body::before{
     content:""; position:fixed; inset:0; z-index:0;
     background:
@@ -42,20 +62,17 @@
   .wrap{position:relative; z-index:1; width:100%; max-width:1040px; text-align:center;
     animation:rise .9s cubic-bezier(.2,.7,.2,1) both;}
   @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-
   .brand{font-family:var(--head); font-weight:900; letter-spacing:.18em; font-size:30px;
     display:inline-flex; align-items:center; gap:12px; margin-bottom:8px;}
   .brand .mark{display:inline-block; width:14px; height:26px; background:var(--red);
     transform:skewX(-12deg); box-shadow:0 0 18px var(--red-glow);}
   .brand .co{font-size:11px; color:var(--muted); letter-spacing:.4em; font-family:var(--mono); align-self:flex-end; margin-bottom:4px;}
   .brand-logo{height:42px; width:auto; display:block;}
-
   .status{font-family:var(--mono); font-size:12px; letter-spacing:.32em; color:var(--red);
     text-transform:uppercase; margin:26px 0 14px; display:inline-flex; align-items:center; gap:9px;}
   .status .dot{width:8px;height:8px;border-radius:50%;background:var(--red);
     box-shadow:0 0 10px var(--red); animation:pulse 1.6s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-
   h1{font-family:var(--head); font-weight:900; line-height:1.05; letter-spacing:.02em;
     font-size:clamp(34px,7vw,68px); margin-bottom:6px;}
   h1 em{color:var(--red); font-style:normal; text-shadow:0 0 30px var(--red-glow);}
@@ -63,15 +80,11 @@
     font-weight:500;}
   .model{font-family:var(--mono); font-size:12px; color:var(--ink); letter-spacing:.22em;
     margin-top:10px; opacity:.7;}
-
-  /* hero row: image + text side by side */
   .hero-row{display:flex; align-items:center; justify-content:center; gap:24px;
     margin:20px 0 8px; flex-wrap:nowrap;}
   .hero-copy{flex:1; text-align:left; min-width:0;}
   .hero-copy h1{text-align:left;}
   .hero-copy .tagline{margin-left:0;}
-
-  /* product hero — full scene, framed as a clean card */
   .product-hero{position:relative; flex:0 0 48%; max-width:48%;}
   .product-hero img{
     width:100%; height:auto; display:block; border-radius:16px;
@@ -84,8 +97,6 @@
     background:linear-gradient(180deg, transparent 60%, rgba(13,16,20,.35) 100%);
     pointer-events:none;
   }
-
-  /* responsive: stack image above text on tablet/phone */
   @media(max-width:820px){
     .hero-row{flex-direction:column; gap:10px;}
     .product-hero{flex:0 0 auto; max-width:420px; width:90%;}
@@ -94,8 +105,6 @@
     .hero-copy .tagline{margin-left:auto; margin-right:auto;}
   }
   @media(max-width:600px){ .product-hero{max-width:340px; width:100%;} }
-
-  /* countdown */
   .cd{display:flex; justify-content:center; gap:14px; margin:28px 0 26px; flex-wrap:wrap;}
   .unit{background:var(--panel); border:1px solid var(--line); border-radius:14px;
     padding:18px 14px; min-width:92px; position:relative; overflow:hidden;}
@@ -106,8 +115,6 @@
   .unit .l{font-family:var(--mono); font-size:10px; letter-spacing:.24em; color:var(--muted);
     text-transform:uppercase; margin-top:10px;}
   @media(max-width:520px){ .unit{min-width:0; flex:1 1 40%; } }
-
-  /* reserve */
   .reserve{max-width:480px; margin:0 auto;}
   .reserve-label{font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--muted);
     text-transform:uppercase; margin-bottom:12px;}
@@ -124,12 +131,9 @@
   .field button:active{transform:translateY(0);}
   .proof{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:16px;}
   .proof b{color:var(--ink);}
-
   .foot{position:relative; z-index:1; margin-top:34px; font-family:var(--mono); font-size:11px;
     color:var(--muted); letter-spacing:.16em; text-align:center;}
   .foot .spec{opacity:.6; margin-top:6px;}
-
-  /* toast */
   #toast{position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px);
     background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--red);
     color:var(--ink); padding:13px 18px; border-radius:10px; font-weight:600; font-size:14px;
@@ -181,12 +185,10 @@
 
   <div id="toast"></div>
 
-  <!-- Backend: only config + store, for the subscriber capture. No nav/footer, no store links. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/store.js"></script>
   <script>
-    // ── Countdown to launch ──
     var TARGET = new Date('2026-07-16T12:00:00+01:00').getTime();
     function pad(n){ return String(n).padStart(2,'0'); }
     function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=pad(v); }
@@ -203,15 +205,11 @@
       set('cd-s', Math.floor((diff%60000)/1000));
     }
     tick(); setInterval(tick,1000);
-
-    // ── Toast ──
     function toast(msg, isErr){
       var t=document.getElementById('toast');
       t.textContent=msg; t.className='show'+(isErr?' err':'');
       setTimeout(function(){ t.className=''; }, 3200);
     }
-
-    // ── Reserve (writes to subscribers table via Newsletter.subscribe) ──
     async function reserve(){
       var input=document.getElementById('reserve-email');
       var email=input?input.value.trim():'';
@@ -220,7 +218,7 @@
         if(typeof Newsletter!=='undefined' && Newsletter.subscribe){
           await Newsletter.subscribe(email, '', 'presale-splash');
         }
-      }catch(e){ /* don't expose backend errors */ }
+      }catch(e){ }
       if(input) input.value='';
       toast("You're on the presale list — watch your inbox ✓");
       var p=document.getElementById('proof-count');
