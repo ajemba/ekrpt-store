@@ -229,4 +229,4 @@ footer { background:var(--gray-900);padding:60px 24px 28px; }
 }
 
 /* Nav logo image (used by SPECTRE themes; hidden by default) */
-.nav-logo-img{display:none;height:30px;width:auto}
+.nav-logo-img{display:none;height:34px;width:auto}
