@@ -15,7 +15,7 @@ const EKRPT_PRODUCTS = [
 ];
 
 const BADGE_LABELS = { new:'New', hot:'Hot', branded:'EKRPT' };
-const CAT_LABELS   = { starlink:'Starlink Hardware', router:'Router', mifi:'MiFi / Modem' };
+const CAT_LABELS   = { starlink:'Starlink Hardware', router:'Router', mifi:'MiFi / Modem', accessories:'Accessories' };
 
 /* ── CART ── */
 const Cart = (() => {
