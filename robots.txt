@@ -10,4 +10,3 @@ Disallow: /account/
 Disallow: /checkout.html
 
 Sitemap: https://ekrpt.com/sitemap.xml
-

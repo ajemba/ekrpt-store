@@ -81,7 +81,7 @@ function setActiveNav() {
 /* ── PRODUCT CARD RENDERER ── */
 function renderProductCard(p, addFn) {
   const imgArea = p.image
-    ? `<img src="${p.image}" alt="${p.name}" class="product-photo" loading="lazy"/>`
+    ? `<img src="${p.image}" alt="${p.name} — buy ${p.cat||'networking hardware'} at EKRPT Networking Labs Nigeria" class="product-photo" loading="lazy"/>`
     : `<span class="product-emoji">${p.emoji}</span>`;
   return `
     <div class="product-card">
