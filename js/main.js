@@ -80,11 +80,14 @@ function setActiveNav() {
 
 /* ── PRODUCT CARD RENDERER ── */
 function renderProductCard(p, addFn) {
+  const imgArea = p.image
+    ? `<img src="${p.image}" alt="${p.name}" class="product-photo" loading="lazy"/>`
+    : `<span class="product-emoji">${p.emoji}</span>`;
   return `
     <div class="product-card">
-      <div class="product-img">
+      <div class="product-img${p.image ? ' has-photo' : ''}">
         ${p.badge ? `<span class="product-badge badge-${p.badge}">${BADGE_LABELS[p.badge]}</span>` : ''}
-        ${p.emoji}
+        ${imgArea}
       </div>
       <div class="product-body">
         <div class="product-cat">${CAT_LABELS[p.cat] || p.cat}</div>
