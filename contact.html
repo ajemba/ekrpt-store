@@ -76,12 +76,12 @@
     <div class="contact-grid">
       <div class="contact-form-card">
         <h2>Send us a message</h2>
-        <div class="field"><label>Full name</label><input type="text" placeholder="Your name"/></div>
-        <div class="field"><label>Email address</label><input type="email" placeholder="you@example.com"/></div>
-        <div class="field"><label>Phone number</label><input type="tel" placeholder="+234 801 234 5678"/></div>
+        <div class="field"><label>Full name</label><input type="text" id="cf-name" placeholder="Your name"/></div>
+        <div class="field"><label>Email address</label><input type="email" id="cf-email" placeholder="you@example.com"/></div>
+        <div class="field"><label>Phone number</label><input type="tel" id="cf-phone" placeholder="+234 801 234 5678"/></div>
         <div class="field">
           <label>Subject</label>
-          <select>
+          <select id="cf-subject">
             <option>Sales enquiry</option>
             <option>Technical support</option>
             <option>Bulk / B2B order</option>
@@ -90,8 +90,8 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="field"><label>Message</label><textarea placeholder="Tell us what you need…"></textarea></div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendMsg()">Send message</button>
+        <div class="field"><label>Message</label><textarea id="cf-message" placeholder="Tell us what you need…"></textarea></div>
+        <button class="btn btn-primary" id="cf-btn" style="width:100%;justify-content:center" onclick="sendMsg()">Send message</button>
         <p style="font-size:11px;color:var(--gray-300);margin-top:10px;text-align:center;font-family:var(--font-mono)">Sent via mail@ekrpt.com · We reply within 2 hours</p>
       </div>
 
@@ -134,9 +134,47 @@
 </section>
 
 <div id="footer-mount"></div>
+<script src="js/config.js"></script>
 <script src="js/main.js"></script>
 <script>
-function sendMsg() { showToast('Message sent! We will reply to your email within 2 hours ✓'); }
+async function sendMsg() {
+  var name = (document.getElementById('cf-name').value || '').trim();
+  var email = (document.getElementById('cf-email').value || '').trim();
+  var phone = (document.getElementById('cf-phone').value || '').trim();
+  var subject = document.getElementById('cf-subject').value || 'Contact';
+  var message = (document.getElementById('cf-message').value || '').trim();
+
+  if (!name || !email || !message) { showToast('Please fill your name, email and message', 'error'); return; }
+  if (email.indexOf('@') === -1) { showToast('Please enter a valid email', 'error'); return; }
+
+  var btn = document.getElementById('cf-btn');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    var res = await fetch(EKRPT_CONFIG.supabase.url + '/functions/v1/send-order-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'contact_message',
+        to: 'office@ekrpt.com',
+        name: name,
+        fromEmail: email,
+        phone: phone,
+        subject: subject,
+        message: message
+      })
+    });
+    if (!res.ok) throw new Error('send failed');
+    showToast('Message sent! We will reply to your email soon ✓');
+    document.getElementById('cf-name').value = '';
+    document.getElementById('cf-email').value = '';
+    document.getElementById('cf-phone').value = '';
+    document.getElementById('cf-message').value = '';
+  } catch (e) {
+    showToast('Could not send right now — please email office@ekrpt.com', 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Send message';
+  }
+}
 </script>
 </body>
 </html>

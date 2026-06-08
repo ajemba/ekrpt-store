@@ -79,6 +79,33 @@ function buildEmail(type: string, d: Record<string, string>, site: string) {
         ${btn(acct,'Track My Order')}`),
     };
   }
+  if (type === "order_processing") {
+    return {
+      subject: `Your order is being prepared — ${d.orderNumber}`,
+      html: shell(`
+        <h1 style="color:#13151a;font-size:22px;margin:0 0 6px">We're preparing your order 📦</h1>
+        <p style="color:#5b6472;font-size:15px;line-height:1.6;margin:0 0 22px">Hi ${d.name||'there'}, your order ${d.orderNumber||''} is now being prepared for dispatch. We'll let you know the moment it ships.</p>
+        ${btn(acct,'View My Order')}`),
+    };
+  }
+  if (type === "order_delivered") {
+    return {
+      subject: `Your order has been delivered — ${d.orderNumber}`,
+      html: shell(`
+        <h1 style="color:#13151a;font-size:22px;margin:0 0 6px">Delivered ✓</h1>
+        <p style="color:#5b6472;font-size:15px;line-height:1.6;margin:0 0 22px">Hi ${d.name||'there'}, order ${d.orderNumber||''} has been marked as delivered. We hope you love your SPECTRE hardware. If anything's not right, just reply and we'll help.</p>
+        ${btn(acct,'View My Order')}`),
+    };
+  }
+  if (type === "order_cancelled") {
+    return {
+      subject: `Your order has been cancelled — ${d.orderNumber}`,
+      html: shell(`
+        <h1 style="color:#13151a;font-size:22px;margin:0 0 6px">Order cancelled</h1>
+        <p style="color:#5b6472;font-size:15px;line-height:1.6;margin:0 0 22px">Hi ${d.name||'there'}, your order ${d.orderNumber||''} has been cancelled. If you paid for this order, any refund will be processed to your original payment method. Questions? Reply to this email or contact office@ekrpt.com.</p>
+        ${btn(acct,'View My Order')}`),
+    };
+  }
   if (type === "order_shipped") {
     return {
       subject: `Your order has shipped — ${d.orderNumber}`,
@@ -87,6 +114,25 @@ function buildEmail(type: string, d: Record<string, string>, site: string) {
         <p style="color:#5b6472;font-size:15px;line-height:1.6;margin:0 0 22px">Good news ${d.name||'there'} — order ${d.orderNumber||''} from EKRPT Store has shipped.</p>
         ${d.tracking?`<table role="presentation" width="100%" style="background:#f7f8fa;border:1px solid #eef0f3;border-radius:10px;margin:0 0 22px"><tr><td style="padding:16px 18px"><p style="color:#9aa1ad;font-size:11px;letter-spacing:1px;margin:0 0 4px">TRACKING</p><p style="color:#13151a;font-size:15px;font-weight:bold;margin:0">${d.tracking}</p></td></tr></table>`:''}
         ${btn(acct,'View Order')}`),
+    };
+  }
+  if (type === "contact_message") {
+    return {
+      subject: `New contact message: ${d.subject || 'Enquiry'}`,
+      html: shell(`
+        <h1 style="color:#13151a;font-size:22px;margin:0 0 6px">New contact message</h1>
+        <p style="color:#5b6472;font-size:15px;line-height:1.6;margin:0 0 18px">A visitor sent a message via the EKRPT Store contact form.</p>
+        <table role="presentation" width="100%" style="background:#f7f8fa;border:1px solid #eef0f3;border-radius:10px;margin:0 0 18px"><tr><td style="padding:16px 18px">
+          <p style="color:#9aa1ad;font-size:11px;letter-spacing:1px;margin:0 0 4px">FROM</p>
+          <p style="color:#13151a;font-size:15px;font-weight:bold;margin:0 0 12px">${d.name||''} &lt;${d.fromEmail||''}&gt;</p>
+          ${d.phone?`<p style="color:#9aa1ad;font-size:11px;letter-spacing:1px;margin:0 0 4px">PHONE</p><p style="color:#3a4150;font-size:14px;margin:0 0 12px">${d.phone}</p>`:''}
+          <p style="color:#9aa1ad;font-size:11px;letter-spacing:1px;margin:0 0 4px">SUBJECT</p>
+          <p style="color:#3a4150;font-size:14px;margin:0 0 12px">${d.subject||''}</p>
+          <p style="color:#9aa1ad;font-size:11px;letter-spacing:1px;margin:0 0 4px">MESSAGE</p>
+          <p style="color:#13151a;font-size:14px;line-height:1.6;margin:0;white-space:pre-wrap">${(d.message||'').replace(/</g,'&lt;')}</p>
+        </td></tr></table>
+        <p style="color:#9aa1ad;font-size:12px;margin:0">Reply directly to ${d.fromEmail||'the sender'}.</p>`),
+      replyTo: d.fromEmail || undefined,
     };
   }
   return null;
@@ -114,6 +160,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         sender: { name: "EKRPT Networking Labs", email: "noreply@ekrpt.com" },
         to: [{ email: d.to, name: d.name || undefined }],
+        replyTo: email.replyTo ? { email: email.replyTo } : undefined,
         subject: email.subject,
         htmlContent: email.html,
       }),

@@ -212,8 +212,14 @@ const Orders = (() => {
       }
     }
 
-    // If shipped: email the customer (best-effort; never block the status change)
-    if (status === 'shipped') {
+    // Email the customer on meaningful status changes (best-effort; never block the change)
+    const EMAIL_FOR_STATUS = {
+      processing: 'order_processing',
+      shipped:    'order_shipped',
+      delivered:  'order_delivered',
+      cancelled:  'order_cancelled',
+    };
+    if (EMAIL_FOR_STATUS[status]) {
       try {
         const order = await getById(id);
         const ship = order?.shipping_address || {};
@@ -222,11 +228,11 @@ const Orders = (() => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              type: 'order_shipped',
+              type: EMAIL_FOR_STATUS[status],
               to: ship.email,
               name: ship.name || 'there',
               orderNumber: order.order_number,
-              tracking: note || 'Your order is on the way',
+              tracking: status === 'shipped' ? (note || 'Your order is on the way') : undefined,
             }),
           });
         }
