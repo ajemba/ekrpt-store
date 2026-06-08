@@ -211,6 +211,27 @@ const Orders = (() => {
         }
       }
     }
+
+    // If shipped: email the customer (best-effort; never block the status change)
+    if (status === 'shipped') {
+      try {
+        const order = await getById(id);
+        const ship = order?.shipping_address || {};
+        if (ship.email) {
+          await fetch(`${EKRPT_CONFIG.supabase.url}/functions/v1/send-order-email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'order_shipped',
+              to: ship.email,
+              name: ship.name || 'there',
+              orderNumber: order.order_number,
+              tracking: note || 'Your order is on the way',
+            }),
+          });
+        }
+      } catch (e) { /* email non-critical */ }
+    }
   };
 
   // Mark payment confirmed (called from webhook handler / manual)
