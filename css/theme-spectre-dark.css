@@ -328,3 +328,13 @@ label{color:var(--gray-400)!important}
 }
 .modal-title{ color:#f4f6fb; }
 .modal-sub{ color:#8b93a3; }
+
+/* ── REAL PRODUCT PHOTOS (storefront cards) ── */
+/* When a product has an uploaded image, it fills the card image area edge-to-edge. */
+.product-img.has-photo{padding:0;background:#0a0b0f}
+.product-img .product-photo{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.product-img .product-emoji{font-size:58px;line-height:1}
+/* keep the badge above the photo */
+.product-img.has-photo .product-badge{z-index:2}
