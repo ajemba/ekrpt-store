@@ -286,8 +286,14 @@
       <div class="prow"><div class="pfield"><label>Name</label><input id="prod-name"/></div><div class="pfield"><label>Category</label><select id="prod-cat"><option value="starlink">Starlink</option><option value="router">Router</option><option value="mifi">MiFi/Modem</option></select></div></div>
       <div class="pfield"><label>Description</label><textarea id="prod-desc" style="height:70px"></textarea></div>
       <div class="prow"><div class="pfield"><label>Price ₦</label><input type="number" id="prod-price"/></div><div class="pfield"><label>Stock</label><input type="number" id="prod-stock"/></div></div>
-      <div class="prow"><div class="pfield"><label>SKU</label><input id="prod-sku"/></div><div class="pfield"><label>Emoji</label><input id="prod-emoji" placeholder="📡"/></div></div>
-      <div style="display:flex;gap:10px"><button class="pbtn pbtn-primary" style="flex:1;justify-content:center" onclick="saveProduct()">Save</button><button class="pbtn pbtn-ghost" onclick="closeProduct()">Cancel</button></div>
+      <div class="prow"><div class="pfield"><label>SKU</label><input id="prod-sku"/></div><div class="pfield"><label>Emoji (fallback)</label><input id="prod-emoji" placeholder="📡"/></div></div>
+      <div class="pfield"><label>Product Image</label>
+        <input type="file" id="prod-image-file" accept="image/*" onchange="previewProductImage(this)" style="font-size:13px"/>
+        <input type="hidden" id="prod-image-url"/>
+        <div id="prod-image-preview" style="margin-top:8px;display:none"><img id="prod-image-preview-img" style="max-height:90px;border-radius:8px;border:1px solid rgba(255,255,255,.12)"/></div>
+        <div style="font-size:11px;color:var(--gray-300,#888);margin-top:4px">Real photo shown on storefront. Emoji is used only if no image.</div>
+      </div>
+      <div style="display:flex;gap:10px"><button class="pbtn pbtn-primary" id="prod-save-btn" style="flex:1;justify-content:center" onclick="saveProduct()">Save</button><button class="pbtn pbtn-ghost" onclick="closeProduct()">Cancel</button></div>
     </div>
   </div>
 </div>
@@ -573,13 +579,35 @@ function renderInventory(){
   const list=_inventory.filter(p=>!s||p.name.toLowerCase().includes(s));
   document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><span class="pill ${p.is_active?'pill-active':'pill-cancelled'}">${p.is_active?'Active':'Hidden'}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';
 }
-function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
-function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
+function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=''; document.getElementById('prod-image-preview').style.display='none'; document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
+function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=p.image_url||''; const pv=document.getElementById('prod-image-preview'); const pvi=document.getElementById('prod-image-preview-img'); if(p.image_url){ pvi.src=p.image_url; pv.style.display='block'; } else { pv.style.display='none'; } document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
 function closeProduct(){ document.getElementById('product-modal').classList.remove('show'); }
+function previewProductImage(input){
+  const f=input.files&&input.files[0]; const box=document.getElementById('prod-image-preview'); const img=document.getElementById('prod-image-preview-img');
+  if(!f){ box.style.display='none'; return; }
+  img.src=URL.createObjectURL(f); box.style.display='block';
+}
 async function saveProduct(){
   const data={name:document.getElementById('prod-name').value,description:document.getElementById('prod-desc').value,price:parseFloat(document.getElementById('prod-price').value),stock:parseInt(document.getElementById('prod-stock').value),sku:document.getElementById('prod-sku').value,emoji:document.getElementById('prod-emoji').value,category:document.getElementById('prod-cat').value};
   if(!data.name||!data.price){ showToast('Name and price required','error'); return; }
-  try{ if(_editProd)await Products.update(_editProd,data); else await Products.create(data); showToast('Product saved ✓'); closeProduct(); await loadInventory(); }catch(e){ showToast('Error: '+e.message,'error'); }
+  const btn=document.getElementById('prod-save-btn');
+  try{
+    // If a new image file was chosen, upload it to the 'products' bucket and store its URL.
+    const fileInput=document.getElementById('prod-image-file');
+    const file=fileInput&&fileInput.files&&fileInput.files[0];
+    if(file){
+      if(btn){ btn.disabled=true; btn.textContent='Uploading image…'; }
+      const url=await SiteSettings.uploadImage(file,'products','product');
+      data.image_url=url;
+    } else {
+      // keep existing image if editing and no new file chosen
+      const existing=document.getElementById('prod-image-url').value;
+      if(existing) data.image_url=existing;
+    }
+    if(_editProd)await Products.update(_editProd,data); else await Products.create(data);
+    showToast('Product saved ✓'); closeProduct(); await loadInventory();
+  }catch(e){ showToast('Error: '+e.message,'error'); }
+  finally{ if(btn){ btn.disabled=false; btn.textContent='Save'; } }
 }
 
 // ── CUSTOMERS ──
