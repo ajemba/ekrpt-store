@@ -363,9 +363,9 @@ function renderStaff(){
       <td>
         ${m.role!=='super_admin'?`
           ${m.suspended
-            ? `<button class="pbtn pbtn-success" onclick="unsuspendStaff('${m.id}','${m.email}')">Activate</button>`
-            : `<button class="pbtn pbtn-warn" onclick="suspendStaff('${m.id}','${m.email}')">Suspend</button>`}
-          <button class="pbtn pbtn-danger" onclick="deleteStaff('${m.id}','${m.email}')" style="margin-left:4px">Delete</button>
+            ? `<button class="pbtn pbtn-success" onclick="unsuspendStaff('${m.id}','${(m.full_name||m.email||'this staff member').replace(/'/g,"\\'")}')">Activate</button>`
+            : `<button class="pbtn pbtn-warn" onclick="suspendStaff('${m.id}','${(m.full_name||m.email||'this staff member').replace(/'/g,"\\'")}')">Suspend</button>`}
+          <button class="pbtn pbtn-danger" onclick="deleteStaff('${m.id}','${(m.full_name||m.email||'this staff member').replace(/'/g,"\\'")}')" style="margin-left:4px">Delete</button>
         ` : '<span style="font-size:11px;color:var(--gray-300);font-family:var(--font-mono)">YOU</span>'}
       </td>
     </tr>`;
@@ -394,9 +394,9 @@ async function saveStaff(){
     closeStaff(); await loadStaff();
   }catch(e){ showToast('Error: '+e.message,'error'); }
 }
-async function suspendStaff(id,email){ if(!confirm('Suspend '+email+'? They will be unable to log in.'))return; await Staff.suspend(id,email); showToast(email+' suspended'); await loadStaff(); }
-async function unsuspendStaff(id,email){ await Staff.unsuspend(id,email); showToast(email+' re-activated ✓'); await loadStaff(); }
-async function deleteStaff(id,email){ if(!confirm('DELETE '+email+'? This removes their access permanently.'))return; await Staff.remove(id,email); showToast(email+' deleted'); await loadStaff(); }
+async function suspendStaff(id,label){ if(!confirm('Suspend '+label+'? They will be unable to log in.'))return; await Staff.suspend(id,label); showToast(label+' suspended'); await loadStaff(); }
+async function unsuspendStaff(id,label){ await Staff.unsuspend(id,label); showToast(label+' re-activated ✓'); await loadStaff(); }
+async function deleteStaff(id,label){ if(!confirm('DELETE '+label+'? This removes their access permanently.'))return; await Staff.remove(id,label); showToast(label+' deleted'); await loadStaff(); }
 
 // ── PAYMENT KEYS ──
 const GW_META={paystack:{name:'Paystack',cls:'key-ps',ic:'⚡',fields:['public','secret']},flutterwave:{name:'Flutterwave',cls:'key-fw',ic:'🔥',fields:['public','secret']},paypal:{name:'PayPal Business',cls:'key-pp',ic:'🅿',fields:['public','secret']},cryptomus:{name:'Cryptomus',cls:'key-cr',ic:'₿',fields:['merchant','secret']}};
