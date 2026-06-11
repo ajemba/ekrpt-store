@@ -93,7 +93,7 @@ async function loadProduct(){
   const slug=getParam('slug'), id=getParam('id');
   let prod=null;
   try{
-    const sb=window.sb||(window.EKRPT_CONFIG&&supabase.createClient(EKRPT_CONFIG.supabase.url,EKRPT_CONFIG.supabase.key));
+    const sb=getSupabase();
     let q=sb.from('products').select('*');
     if(slug) q=q.eq('slug',slug); else if(id) q=q.eq('id',id);
     const {data}=await q.single();
