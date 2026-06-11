@@ -293,6 +293,13 @@
         <div id="prod-image-preview" style="margin-top:8px;display:none"><img id="prod-image-preview-img" style="max-height:90px;border-radius:8px;border:1px solid rgba(255,255,255,.12)"/></div>
         <div style="font-size:11px;color:var(--gray-300,#888);margin-top:4px">Real photo shown on storefront. Emoji is used only if no image.</div>
       </div>
+      <div class="pfield"><label>Full Description (product page)</label><textarea id="prod-longdesc" style="height:90px" placeholder="Detailed description shown on the product detail page..."></textarea></div>
+      <div class="pfield"><label>Gallery Image URLs (one per line)</label><textarea id="prod-gallery" style="height:60px" placeholder="https://...image1.jpg&#10;https://...image2.jpg"></textarea>
+        <div style="font-size:11px;color:var(--gray-300,#888);margin-top:4px">Extra images for the slider. Paste public image URLs, one per line.</div>
+      </div>
+      <div class="pfield"><label>Video URL (optional)</label><input id="prod-video" placeholder="YouTube link or .mp4 URL"/></div>
+      <div class="pfield"><label>Key Features (one per line)</label><textarea id="prod-features" style="height:80px" placeholder="Tri-band WiFi 7&#10;19,000 Mbps speed&#10;10G SFP uplink"></textarea></div>
+      <div class="pfield"><label>Specifications (one per line, format: Label: Value)</label><textarea id="prod-specs" style="height:90px" placeholder="WiFi Standard: WiFi 7&#10;Bands: Tri-band&#10;Speed: 19,000 Mbps"></textarea></div>
       <div style="display:flex;gap:10px"><button class="pbtn pbtn-primary" id="prod-save-btn" style="flex:1;justify-content:center" onclick="saveProduct()">Save</button><button class="pbtn pbtn-ghost" onclick="closeProduct()">Cancel</button></div>
     </div>
   </div>
@@ -579,8 +586,8 @@ function renderInventory(){
   const list=_inventory.filter(p=>!s||p.name.toLowerCase().includes(s));
   document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><span class="pill ${p.is_active?'pill-active':'pill-cancelled'}">${p.is_active?'Active':'Hidden'}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';
 }
-function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=''; document.getElementById('prod-image-preview').style.display='none'; document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
-function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=p.image_url||''; const pv=document.getElementById('prod-image-preview'); const pvi=document.getElementById('prod-image-preview-img'); if(p.image_url){ pvi.src=p.image_url; pv.style.display='block'; } else { pv.style.display='none'; } document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
+function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-longdesc','prod-gallery','prod-video','prod-features','prod-specs','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=''; document.getElementById('prod-image-preview').style.display='none'; document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
+function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-longdesc').value=p.long_description||''; document.getElementById('prod-gallery').value=(Array.isArray(p.gallery)?p.gallery:[]).join('\n'); document.getElementById('prod-video').value=p.video_url||''; document.getElementById('prod-features').value=(Array.isArray(p.features)?p.features:[]).join('\n'); document.getElementById('prod-specs').value=(p.specs&&typeof p.specs==='object'?Object.entries(p.specs).map(([k,v])=>`${k}: ${v}`).join('\n'):''); document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=p.image_url||''; const pv=document.getElementById('prod-image-preview'); const pvi=document.getElementById('prod-image-preview-img'); if(p.image_url){ pvi.src=p.image_url; pv.style.display='block'; } else { pv.style.display='none'; } document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
 function closeProduct(){ document.getElementById('product-modal').classList.remove('show'); }
 function previewProductImage(input){
   const f=input.files&&input.files[0]; const box=document.getElementById('prod-image-preview'); const img=document.getElementById('prod-image-preview-img');
@@ -588,7 +595,13 @@ function previewProductImage(input){
   img.src=URL.createObjectURL(f); box.style.display='block';
 }
 async function saveProduct(){
-  const data={name:document.getElementById('prod-name').value,description:document.getElementById('prod-desc').value,price:parseFloat(document.getElementById('prod-price').value),stock:parseInt(document.getElementById('prod-stock').value),sku:document.getElementById('prod-sku').value,emoji:document.getElementById('prod-emoji').value,category:document.getElementById('prod-cat').value};
+  const galleryArr=document.getElementById('prod-gallery').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const featuresArr=document.getElementById('prod-features').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const specsObj={};
+  document.getElementById('prod-specs').value.split('\n').map(s=>s.trim()).filter(Boolean).forEach(line=>{
+    const i=line.indexOf(':'); if(i>0){specsObj[line.slice(0,i).trim()]=line.slice(i+1).trim();}
+  });
+  const data={name:document.getElementById('prod-name').value,description:document.getElementById('prod-desc').value,long_description:document.getElementById('prod-longdesc').value,price:parseFloat(document.getElementById('prod-price').value),stock:parseInt(document.getElementById('prod-stock').value),sku:document.getElementById('prod-sku').value,emoji:document.getElementById('prod-emoji').value,category:document.getElementById('prod-cat').value,gallery:galleryArr,features:featuresArr,specs:specsObj,video_url:document.getElementById('prod-video').value};
   if(!data.name||!data.price){ showToast('Name and price required','error'); return; }
   const btn=document.getElementById('prod-save-btn');
   try{

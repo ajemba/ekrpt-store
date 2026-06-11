@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="EKRPT product details — full specifications, features, and pricing."/>
+<title>Product — EKRPT Networking Labs</title>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#06070a"/>
+<meta property="og:type" content="product"/>
+<meta property="og:site_name" content="EKRPT Networking Labs"/>
+<meta property="og:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
+<style>
+:root{--bg:#07080b;--panel:#0d0f14;--panel2:#11141b;--line:rgba(255,255,255,.08);--ink:#f4f6fb;--muted:#8b93a3;--soft:#c4ccd8;--red:#e0202d;--red2:#b3151f}
+body{background:var(--bg);color:var(--ink)}
+.pd-wrap{max-width:1140px;margin:0 auto;padding:32px 24px 64px}
+.pd-back{font-family:var(--font-mono,monospace);font-size:13px;color:var(--muted);text-decoration:none}
+.pd-back:hover{color:var(--red)}
+.pd-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;margin-top:24px}
+@media(max-width:880px){.pd-grid{grid-template-columns:1fr;gap:28px}}
+/* gallery */
+.pd-gallery{position:sticky;top:24px}
+.pd-main-img{background:var(--panel);border:1px solid var(--line);border-radius:18px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.pd-main-img img{width:100%;height:100%;object-fit:cover}
+.pd-main-img .emoji{font-size:120px}
+.pd-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid var(--line);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.pd-arrow:hover{background:var(--red)}
+.pd-arrow.prev{left:12px}.pd-arrow.next{right:12px}
+.pd-thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.pd-thumb{width:68px;height:68px;border-radius:10px;border:2px solid var(--line);overflow:hidden;cursor:pointer;background:var(--panel2);flex-shrink:0}
+.pd-thumb.active{border-color:var(--red)}
+.pd-thumb img{width:100%;height:100%;object-fit:cover}
+.pd-video{margin-top:16px;border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;background:#000}
+.pd-video iframe,.pd-video video{width:100%;height:100%;border:0;display:block}
+/* info */
+.pd-cat{font-family:var(--font-mono,monospace);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:700}
+.pd-title{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.02em;margin:10px 0 14px;line-height:1.1}
+.pd-price{font-size:30px;font-weight:800;color:var(--ink)}
+.pd-price small{font-size:14px;color:var(--muted);font-weight:500;margin-left:8px}
+.pd-stock{margin:10px 0 20px;font-size:13px;font-family:var(--font-mono,monospace)}
+.pd-stock.in{color:#34d399}.pd-stock.out{color:var(--red)}
+.pd-desc{color:var(--soft);line-height:1.8;font-size:16px;margin-bottom:24px}
+.pd-actions{display:flex;gap:12px;align-items:center;margin-bottom:28px}
+.pd-qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.pd-qty button{background:var(--panel);border:none;color:var(--ink);width:40px;height:46px;font-size:18px;cursor:pointer}
+.pd-qty button:hover{background:var(--panel2)}
+.pd-qty span{width:46px;text-align:center;font-weight:600}
+.pd-add{flex:1;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;border:none;border-radius:10px;height:48px;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.02em}
+.pd-add:hover{filter:brightness(1.08)}
+.pd-add:disabled{opacity:.5;cursor:not-allowed}
+.pd-section{margin-top:34px}
+.pd-section h2{font-size:20px;font-weight:700;margin-bottom:14px;color:var(--ink)}
+.pd-features{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.pd-features li{display:flex;gap:10px;color:var(--soft);font-size:15px;line-height:1.5}
+.pd-features li::before{content:"▸";color:var(--red);font-weight:700;flex-shrink:0}
+.pd-specs{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pd-specs tr{border-bottom:1px solid var(--line)}
+.pd-specs tr:last-child{border-bottom:none}
+.pd-specs td{padding:12px 16px;font-size:14px}
+.pd-specs td:first-child{color:var(--muted);width:42%;background:var(--panel)}
+.pd-specs td:last-child{color:var(--ink);font-weight:500}
+.pd-trust{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.pd-trust div{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--soft)}
+.pd-trust .ic{font-size:16px}
+.pd-loading{text-align:center;padding:80px 20px;color:var(--muted)}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TK1ELX5K0L"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TK1ELX5K0L');</script>
+</head>
+<body>
+<div id="nav-mount"></div>
+<div class="pd-wrap">
+  <a href="/products.html" class="pd-back">← Back to all products</a>
+  <div id="pd-content"><div class="pd-loading">Loading product…</div></div>
+</div>
+<div id="footer-mount"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/store.js"></script>
+<script src="js/storefront.js"></script>
+<script>
+let _gallery=[], _gIdx=0, _qty=1, _prod=null;
+
+function getParam(k){return new URLSearchParams(location.search).get(k);}
+
+async function loadProduct(){
+  const slug=getParam('slug'), id=getParam('id');
+  let prod=null;
+  try{
+    const sb=window.sb||(window.EKRPT_CONFIG&&supabase.createClient(EKRPT_CONFIG.supabase.url,EKRPT_CONFIG.supabase.key));
+    let q=sb.from('products').select('*');
+    if(slug) q=q.eq('slug',slug); else if(id) q=q.eq('id',id);
+    const {data}=await q.single();
+    prod=data;
+  }catch(e){ console.error(e); }
+  if(!prod){
+    document.getElementById('pd-content').innerHTML='<div class="pd-loading">Product not found. <a href="/products.html" style="color:#e0202d">Browse all products</a></div>';
+    return;
+  }
+  _prod=prod; render(prod);
+}
+
+function render(p){
+  document.title=`${p.name} — EKRPT Networking Labs`;
+  // gallery: image_url + gallery array
+  _gallery=[];
+  if(p.image_url) _gallery.push(p.image_url);
+  if(Array.isArray(p.gallery)) _gallery=_gallery.concat(p.gallery.filter(Boolean));
+  _gallery=[...new Set(_gallery)];
+  const hasImg=_gallery.length>0;
+  const features=Array.isArray(p.features)?p.features:[];
+  const specs=(p.specs&&typeof p.specs==='object')?p.specs:{};
+  const inStock=(p.stock===undefined||p.stock>0);
+  const cat=(p.category||'').toUpperCase();
+
+  let videoEmbed='';
+  if(p.video_url){
+    let v=p.video_url;
+    const yt=v.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/);
+    if(yt){videoEmbed=`<div class="pd-video"><iframe src="https://www.youtube.com/embed/${yt[1]}" allowfullscreen></iframe></div>`;}
+    else if(/\.(mp4|webm|mov)$/i.test(v)){videoEmbed=`<div class="pd-video"><video src="${v}" controls></video></div>`;}
+  }
+
+  document.getElementById('pd-content').innerHTML=`
+  <div class="pd-grid">
+    <div class="pd-gallery">
+      <div class="pd-main-img">
+        ${_gallery.length>1?'<button class="pd-arrow prev" onclick="slideGallery(-1)">‹</button>':''}
+        <div id="pd-main-slot">${hasImg?`<img src="${_gallery[0]}" alt="${p.name}"/>`:`<span class="emoji">${p.emoji||'📦'}</span>`}</div>
+        ${_gallery.length>1?'<button class="pd-arrow next" onclick="slideGallery(1)">›</button>':''}
+      </div>
+      ${_gallery.length>1?`<div class="pd-thumbs">${_gallery.map((g,i)=>`<div class="pd-thumb${i===0?' active':''}" onclick="setSlide(${i})"><img src="${g}" alt=""/></div>`).join('')}</div>`:''}
+      ${videoEmbed}
+    </div>
+    <div class="pd-info">
+      <div class="pd-cat">${cat}</div>
+      <h1 class="pd-title">${p.name}</h1>
+      <div class="pd-price">₦${Number(p.price).toLocaleString()}<small>+ delivery</small></div>
+      <div class="pd-stock ${inStock?'in':'out'}">${inStock?'● In stock':'● Out of stock'}</div>
+      <div class="pd-desc">${p.long_description||p.description||''}</div>
+      <div class="pd-actions">
+        <div class="pd-qty">
+          <button onclick="changeQty(-1)">−</button><span id="pd-qty">1</span><button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="pd-add" id="pd-add" ${inStock?'':'disabled'} onclick="addToCart()">${inStock?'Add to Cart':'Out of Stock'}</button>
+      </div>
+      <div class="pd-trust">
+        <div><span class="ic">🔒</span> SSL secure checkout</div>
+        <div><span class="ic">🛡️</span> Payment protected</div>
+        <div><span class="ic">📦</span> Insured worldwide shipping</div>
+        <div><span class="ic">✅</span> 1-year warranty</div>
+      </div>
+      ${features.length?`<div class="pd-section"><h2>Key Features</h2><ul class="pd-features">${features.map(f=>`<li>${f}</li>`).join('')}</ul></div>`:''}
+      ${Object.keys(specs).length?`<div class="pd-section"><h2>Specifications</h2><table class="pd-specs">${Object.entries(specs).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table></div>`:''}
+    </div>
+  </div>`;
+}
+
+function slideGallery(dir){_gIdx=(_gIdx+dir+_gallery.length)%_gallery.length;setSlide(_gIdx);}
+function setSlide(i){_gIdx=i;document.getElementById('pd-main-slot').innerHTML=`<img src="${_gallery[i]}" alt="${_prod.name}"/>`;document.querySelectorAll('.pd-thumb').forEach((t,j)=>t.classList.toggle('active',j===i));}
+function changeQty(d){_qty=Math.max(1,_qty+d);document.getElementById('pd-qty').textContent=_qty;}
+function addToCart(){
+  if(!_prod)return;
+  try{ for(let i=0;i<_qty;i++){ LiveCart.add(_prod.id); } }
+  catch(e){ if(window.Cart&&Cart.add){for(let i=0;i<_qty;i++)Cart.add(_prod.id);} }
+  const btn=document.getElementById('pd-add'); const t=btn.textContent; btn.textContent='✓ Added!'; setTimeout(()=>btn.textContent=t,1400);
+}
+document.addEventListener('DOMContentLoaded',loadProduct);
+</script>
+</body>
+</html>

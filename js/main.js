@@ -83,15 +83,16 @@ function renderProductCard(p, addFn) {
   const imgArea = p.image
     ? `<img src="${p.image}" alt="${p.name} — buy ${p.cat||'networking hardware'} at EKRPT Networking Labs Nigeria" class="product-photo" loading="lazy"/>`
     : `<span class="product-emoji">${p.emoji}</span>`;
+  const link = `/product.html?${p.slug?`slug=${encodeURIComponent(p.slug)}`:`id=${p.id}`}`;
   return `
     <div class="product-card">
-      <div class="product-img${p.image ? ' has-photo' : ''}">
+      <a href="${link}" class="product-img${p.image ? ' has-photo' : ''}" style="text-decoration:none;display:block">
         ${p.badge ? `<span class="product-badge badge-${p.badge}">${BADGE_LABELS[p.badge]}</span>` : ''}
         ${imgArea}
-      </div>
+      </a>
       <div class="product-body">
         <div class="product-cat">${CAT_LABELS[p.cat] || p.cat}</div>
-        <div class="product-name">${p.name}</div>
+        <a href="${link}" class="product-name" style="text-decoration:none;color:inherit;cursor:pointer">${p.name}</a>
         <div class="product-desc">${p.desc}</div>
         <div class="product-footer">
           <div class="product-price">
