@@ -58,7 +58,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--bbody)}
 </head>
 <body>
 <div id="announce-bar" style="display:none;background:var(--red);color:white;text-align:center;padding:8px;font-size:13px;cursor:pointer"></div>
-<nav class="nav" id="nav"></nav>
+<div id="nav-mount"></div>
 
 <div class="back-blog"><a href="./index.html">← All articles</a></div>
 <article id="article"><div style="text-align:center;padding:80px;color:var(--gray-300)">Loading…</div></article>
@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
   await SiteSettings.get(true);
   const s=await SiteSettings.get();
   SiteSettings.applyTheme(s);
-  buildBlogChrome(s);
   const slug=new URLSearchParams(location.search).get('slug');
   if(!slug){document.getElementById('article').innerHTML=err('No article specified');return;}
   await loadPost(slug);

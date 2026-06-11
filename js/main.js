@@ -127,7 +127,7 @@ const NAV_HTML = `
     <a href="/contact.html">Contact</a>
   </div>
   <div class="nav-actions">
-    <button class="cart-btn" onclick="location.href='checkout.html'">
+    <button class="cart-btn" onclick="location.href='/checkout.html'">
       🛒 Cart <span class="cart-count">0</span>
     </button>
     <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
@@ -167,14 +167,16 @@ const FOOTER_HTML = `
       <div class="footer-col">
         <h4>Support</h4>
         <a href="/checkout.html">Track Order</a>
-        <a href="#">Returns Policy</a>
-        <a href="#">Warranty Info</a>
-        <a href="#">Technical Support</a>
+        <a href="/returns.html">Return Policy</a>
+        <a href="/warranty.html">Warranty</a>
+        <a href="/shipping.html">Shipping Policy</a>
+        <a href="/documentation.html">Documentation</a>
+        <a href="/faq.html">FAQ</a>
         <a href="/contact.html">Help Centre</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2025 EKRPT Networking Labs. All rights reserved.</div>
+      <div class="footer-copy">© 2026 EKRPT Networking Labs. All rights reserved.</div>
       <div class="footer-badges">
         <span class="f-badge">CAC REGISTERED</span>
         <span class="f-badge">LICENSED</span>

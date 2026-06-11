@@ -140,13 +140,13 @@ function buildBlogChrome(s) {
   const nav = document.getElementById('nav');
   if (nav) nav.innerHTML = `
     <div style="max-width:1140px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px">
-      <a href="../index.html" style="text-decoration:none;display:flex;align-items:center;gap:8px">${logo}</a>
+      <a href="/index.html" style="text-decoration:none;display:flex;align-items:center;gap:8px">${logo}</a>
       <div style="flex:1"></div>
-      <a href="../index.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">Home</a>
-      <a href="../products.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">Shop</a>
-      <a href="./index.html" style="text-decoration:none;color:var(--blue);font-size:14px;font-weight:700">Blog</a>
-      <a href="../about.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">About</a>
-      <a href="../account/index.html" style="text-decoration:none;color:white;background:var(--blue);padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600">Account</a>
+      <a href="/index.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">Home</a>
+      <a href="/products.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">Shop</a>
+      <a href="/blog/" style="text-decoration:none;color:var(--blue);font-size:14px;font-weight:700">Blog</a>
+      <a href="/about.html" style="text-decoration:none;color:var(--gray-600);font-size:14px;font-weight:500">About</a>
+      <a href="/account/index.html" style="text-decoration:none;color:white;background:var(--blue);padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600">Account</a>
     </div>`;
   const socLinks = Object.entries({facebook:'f',instagram:'◎',twitter:'𝕏',tiktok:'♪',whatsapp:'💬',linkedin:'in',youtube:'▶'})
     .filter(([k]) => soc[k]).map(([k,ic]) => `<a href="${soc[k]}" target="_blank" style="color:rgba(255,255,255,.7);text-decoration:none;font-size:15px">${ic}</a>`).join(' ');
@@ -160,9 +160,9 @@ function buildBlogChrome(s) {
           <div style="display:flex;gap:14px;margin-top:14px">${socLinks}</div>
         </div>
         <div><div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px">Shop</div>
-          <a href="../products.html" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;margin-bottom:8px">Products</a>
-          <a href="./index.html" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;margin-bottom:8px">Blog</a>
-          <a href="../about.html" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px">About</a></div>
+          <a href="/products.html" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;margin-bottom:8px">Products</a>
+          <a href="/blog/" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;margin-bottom:8px">Blog</a>
+          <a href="/about.html" style="display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px">About</a></div>
         <div><div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px">Contact</div>
           <div style="color:rgba(255,255,255,.7);font-size:14px;margin-bottom:6px">${s.contact_email || ''}</div>
           <div style="color:rgba(255,255,255,.7);font-size:14px;margin-bottom:6px">${s.contact_phone || ''}</div>

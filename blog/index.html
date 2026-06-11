@@ -111,7 +111,6 @@ body{background:var(--bg);color:var(--ink);font-family:var(--bbody)}
 let _all=[],_activeCat='All';
 document.addEventListener('DOMContentLoaded',async()=>{
   const s=await SiteSettings.boot({title:'Blog — EKRPT Networking Labs',description:'Guides, news and tips on Starlink and networking in Nigeria.',type:'website'});
-  buildBlogChrome(s);
   await loadPosts();
 });
 async function loadPosts(){

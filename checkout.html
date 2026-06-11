@@ -91,6 +91,15 @@
 .checkout-left h2{color:#f4f6fb!important}
 .card-box,.summary-box{background:#0d0f14!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:none!important}
 .card-box h3,.summary-box h3{color:#f4f6fb!important}
+.trust-box{margin-top:16px;background:#0d0f14;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px}
+.trust-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.trust-row:last-of-type{margin-bottom:0}
+.trust-ic{font-size:18px;flex-shrink:0;line-height:1.4}
+.trust-row strong{display:block;color:#f4f6fb;font-size:13px;font-weight:600}
+.trust-row span:not(.trust-ic){display:block;color:#8b93a3;font-size:12px;line-height:1.45;margin-top:2px}
+.trust-links{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);text-align:center;font-size:12px}
+.trust-links a{color:#e0202d;text-decoration:none}
+.trust-links span{color:#444;margin:0 6px}
 .ci-icon{background:#11141b!important;border-color:rgba(255,255,255,.08)!important}
 .ci-name,.qty-num,.ci-price,.gw-name,.coin-sym{color:#f4f6fb!important}
 .ci-desc,.ci-qty,.coin-nm{color:#8b93a3!important}
@@ -214,6 +223,15 @@ input,textarea{background:#11141b!important;border-color:rgba(255,255,255,.12)!i
               <div class="sum-row"><span>Subtotal</span><span class="val" id="sum-sub">₦0</span></div>
               <div class="sum-row"><span>Delivery</span><span class="val">₦2,500</span></div>
               <div class="sum-row total"><span>Total</span><span class="val" id="sum-total">₦2,500</span></div>
+            </div>
+            <div class="trust-box">
+              <div class="trust-row"><span class="trust-ic">🔒</span><div><strong>SSL Secured Checkout</strong><span>256-bit encryption protects your data</span></div></div>
+              <div class="trust-row"><span class="trust-ic">🛡️</span><div><strong>Payment Protected</strong><span>Processed via PayPal &amp; Cryptomus — we never see your card details</span></div></div>
+              <div class="trust-row"><span class="trust-ic">📦</span><div><strong>Insured Shipping</strong><span>Tracked, insured delivery worldwide</span></div></div>
+              <div class="trust-row"><span class="trust-ic">✅</span><div><strong>1-Year Warranty</strong><span>Genuine hardware, backed by our guarantee</span></div></div>
+              <div class="trust-links">
+                <a href="/shipping.html">Shipping</a><span>·</span><a href="/returns.html">Returns</a><span>·</span><a href="/warranty.html">Warranty</a><span>·</span><a href="/faq.html">FAQ</a>
+              </div>
             </div>
           </div>
         </div>
