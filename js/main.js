@@ -112,26 +112,26 @@ document.addEventListener('click', function(e) {
 /* ── SHARED NAV HTML ── */
 const NAV_HTML = `
 <nav class="nav">
-  <a class="nav-logo" href="index.html">
-    <img class="nav-logo-img" data-logo src="img/logo-ekrpt.png" alt="EKRPT Networking Labs" />
+  <a class="nav-logo" href="/index.html">
+    <img class="nav-logo-img" data-logo src="/img/logo-ekrpt.png" alt="EKRPT Networking Labs" />
     <div class="nav-logo-mark">
       <svg viewBox="0 0 20 20"><path d="M2 4h16v2H2zM2 9h10v2H2zM2 14h13v2H2z"/></svg>
     </div>
     <span class="nav-brand">EKRPT <span>Labs</span></span>
   </a>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
+    <a href="/index.html">Home</a>
+    <a href="/products.html">Products</a>
+    <a href="/roadmap.html">Roadmap</a>
+    <a href="/about.html">About Us</a>
+    <a href="/contact.html">Contact</a>
   </div>
   <div class="nav-actions">
     <button class="cart-btn" onclick="location.href='checkout.html'">
       🛒 Cart <span class="cart-count">0</span>
     </button>
-    <a href="login.html" class="btn btn-secondary btn-sm">Sign in</a>
-    <a href="login.html#signup" class="btn btn-primary btn-sm">Get started</a>
+    <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
+    <a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>
   </div>
 </nav>`;
 
@@ -142,35 +142,35 @@ const FOOTER_HTML = `
     <div class="footer-grid">
       <div>
         <div class="footer-logo-wrap">
-          <img src="img/logo-ekrpt.png" alt="EKRPT Networking Labs" style="height:34px;width:auto"/>
+          <img src="/img/logo-ekrpt.png" alt="EKRPT Networking Labs" style="height:34px;width:auto"/>
         </div>
         <div class="footer-about">Performance networking hardware engineered for gamers, businesses, and everyone who refuses to compromise on connection.</div>
         <a class="footer-email" href="mailto:office@ekrpt.com">✉ office@ekrpt.com</a>
       </div>
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="products.html">Starlink Mini</a>
-        <a href="products.html">Starlink Gen3</a>
-        <a href="products.html">Starlink V4</a>
-        <a href="products.html">EKRPT Routers</a>
-        <a href="products.html">MiFi Devices</a>
-        <a href="products.html">Modems</a>
+        <a href="/products.html">Starlink Mini</a>
+        <a href="/products.html">Starlink Gen3</a>
+        <a href="/products.html">Starlink V4</a>
+        <a href="/products.html">EKRPT Routers</a>
+        <a href="/products.html">MiFi Devices</a>
+        <a href="/products.html">Modems</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="about.html">About Us</a>
-        <a href="about.html#mission">Our Mission</a>
-        <a href="contact.html">Contact</a>
+        <a href="/about.html">About Us</a>
+        <a href="/about.html#mission">Our Mission</a>
+        <a href="/contact.html">Contact</a>
         <a href="#">B2B / Bulk Orders</a>
         <a href="#">Become a Reseller</a>
       </div>
       <div class="footer-col">
         <h4>Support</h4>
-        <a href="checkout.html">Track Order</a>
+        <a href="/checkout.html">Track Order</a>
         <a href="#">Returns Policy</a>
         <a href="#">Warranty Info</a>
         <a href="#">Technical Support</a>
-        <a href="contact.html">Help Centre</a>
+        <a href="/contact.html">Help Centre</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -205,12 +205,12 @@ async function refreshNavAuth() {
     const cartHTML = cartBtn ? cartBtn.outerHTML : '';
     if (u) {
       actions.innerHTML = cartHTML +
-        '<a href="account/index.html" class="btn btn-secondary btn-sm">My Account</a>' +
+        '<a href="/account/index.html" class="btn btn-secondary btn-sm">My Account</a>' +
         '<button class="btn btn-primary btn-sm" onclick="Auth.signOut()">Sign out</button>';
     } else {
       actions.innerHTML = cartHTML +
-        '<a href="login.html" class="btn btn-secondary btn-sm">Sign in</a>' +
-        '<a href="login.html#signup" class="btn btn-primary btn-sm">Get started</a>';
+        '<a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>' +
+        '<a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>';
     }
     LiveCart?.updateBadge?.();
   } catch (e) {}
