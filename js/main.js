@@ -26,8 +26,10 @@ const Cart = (() => {
   const add = (id) => {
     items[id] = (items[id] || 0) + 1;
     save(); updateBadge();
-    const p = EKRPT_PRODUCTS.find(x => x.id == id);
-    showToast('Added ' + p.name + ' to cart ✓');
+    const p = (typeof EKRPT_PRODUCTS !== 'undefined' && EKRPT_PRODUCTS.find(x => x.id == id))
+           || (typeof Store !== 'undefined' && Store.find && Store.find(id))
+           || (typeof _prod !== 'undefined' && _prod && _prod.id == id ? _prod : null);
+    showToast(p && p.name ? ('Added ' + p.name + ' to cart ✓') : 'Added to cart ✓');
   };
 
   const remove = (id) => { delete items[id]; save(); updateBadge(); };

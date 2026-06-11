@@ -167,8 +167,8 @@ function setSlide(i){_gIdx=i;document.getElementById('pd-main-slot').innerHTML=`
 function changeQty(d){_qty=Math.max(1,_qty+d);document.getElementById('pd-qty').textContent=_qty;}
 function addToCart(){
   if(!_prod)return;
-  try{ for(let i=0;i<_qty;i++){ LiveCart.add(_prod.id); } }
-  catch(e){ if(window.Cart&&Cart.add){for(let i=0;i<_qty;i++)Cart.add(_prod.id);} }
+  try{ LiveCart.add(_prod.id, _qty, _prod); }
+  catch(e){ console.error(e); }
   const btn=document.getElementById('pd-add'); const t=btn.textContent; btn.textContent='✓ Added!'; setTimeout(()=>btn.textContent=t,1400);
 }
 document.addEventListener('DOMContentLoaded',loadProduct);

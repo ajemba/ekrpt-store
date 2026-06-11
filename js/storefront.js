@@ -63,8 +63,8 @@ const LiveCart = (() => {
 
   const save = () => { localStorage.setItem(KEY, JSON.stringify(lines)); updateBadge(); };
 
-  const add = (id, qty = 1) => {
-    const p = Storefront.find(id);
+  const add = (id, qty = 1, productObj = null) => {
+    const p = Storefront.find(id) || productObj;
     if (!p) { showToast('Product not found', 'error'); return; }
     if (p.stock != null && p.stock <= 0) { showToast(p.name + ' is out of stock', 'error'); return; }
     if (lines[id]) lines[id].qty += qty;
