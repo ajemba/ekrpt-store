@@ -119,10 +119,10 @@ async function loadPost(slug){
       <h1>${p.title}</h1>
       <div class="article-meta"><span>✍️ ${p.author_name||'EKRPT Team'}</span><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min read</span><span>👁️ ${p.views||0} views</span></div>
     </div>
-    ${p.cover_image?`<div class="article-cover"><img src="${p.cover_image}" alt="${p.cover_alt||p.title}"/></div>`:''}
+    ${p.cover_image?`<div class="article-cover"><img src="${p.cover_image.startsWith('http')||p.cover_image.startsWith('/')?p.cover_image:'/'+p.cover_image}" alt="${p.cover_alt||p.title}"/></div>`:''}
     <div class="article-body">${p.content||''}
       ${(p.tags&&p.tags.length)?`<div class="article-tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join('')}</div>`:''}
-      <div class="share-row"><span style="font-size:13px;color:var(--gray-400);font-family:var(--font-mono)">Share:</span>
+      <div class="share-row"><span style="font-size:13px;color:#8b93a3;font-family:var(--font-mono)">Share:</span>
         <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent(p.title+' '+url)}" target="_blank">💬</a>
         <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(p.title)}&url=${encodeURIComponent(url)}" target="_blank">𝕏</a>
         <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank">f</a>
@@ -137,7 +137,7 @@ async function loadRelated(p){
     const all=await Blog.list({category:p.category,limit:4});
     const rel=all.filter(x=>x.slug!==p.slug).slice(0,3);
     if(!rel.length)return;
-    document.getElementById('related').innerHTML=`<h3>More from ${p.category||'the blog'}</h3><div class="related-grid">${rel.map(r=>`<a class="post-card" href="./post.html?slug=${encodeURIComponent(r.slug)}" style="background:white;border:1px solid var(--gray-100);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit"><div style="height:150px;background:var(--gray-100) center/cover;${r.cover_image?`background-image:url('${r.cover_image}')`:''}"></div><div style="padding:16px"><h2 style="font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:6px">${r.title}</h2><p style="font-size:13px;color:var(--gray-400)">${(r.excerpt||'').slice(0,90)}…</p></div></a>`).join('')}</div>`;
+    document.getElementById('related').innerHTML=`<h3>More from ${p.category||'the blog'}</h3><div class="related-grid">${rel.map(r=>`<a class="post-card" href="./post.html?slug=${encodeURIComponent(r.slug)}" style="background:#0d0f14;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit"><div style="height:150px;background:#11141b center/cover;${r.cover_image?`background-image:url('${r.cover_image.startsWith('http')||r.cover_image.startsWith('/')?r.cover_image:'/'+r.cover_image}')`:''}"></div><div style="padding:16px"><h2 style="font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:6px">${r.title}</h2><p style="font-size:13px;color:#8b93a3">${(r.excerpt||'').slice(0,90)}…</p></div></a>`).join('')}</div>`;
   }catch(e){}
 }
 function fmtDate(d){return d?new Date(d).toLocaleDateString('en-NG',{year:'numeric',month:'long',day:'numeric'}):'';}

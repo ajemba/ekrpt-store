@@ -135,14 +135,14 @@ function renderPosts(){
 }
 function card(p){
   return `<a class="post-card" href="./post.html?slug=${encodeURIComponent(p.slug)}">
-    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image}')`:''}"><span class="cat">${p.category||'General'}</span></div>
+    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image.startsWith('http')||p.cover_image.startsWith('/')?p.cover_image:'/'+p.cover_image}')`:''}"><span class="cat">${p.category||'General'}</span></div>
     <div class="post-body"><h2>${p.title}</h2><p>${p.excerpt||''}</p>
       <div class="post-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min</span><span>👁️ ${p.views||0}</span></div>
     </div></a>`;
 }
 function featuredCard(p){
   return `<a class="featured-post" href="./post.html?slug=${encodeURIComponent(p.slug)}">
-    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image}')`:''}"><span class="cat">⭐ Featured</span></div>
+    <div class="post-cover" style="${p.cover_image?`background-image:url('${p.cover_image.startsWith('http')||p.cover_image.startsWith('/')?p.cover_image:'/'+p.cover_image}')`:''}"><span class="cat">⭐ Featured</span></div>
     <div class="post-body"><div style="font-family:var(--font-mono);font-size:11px;color:var(--blue);font-weight:700;margin-bottom:8px">${p.category||'General'}</div><h2>${p.title}</h2><p>${p.excerpt||''}</p>
       <div class="post-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>⏱️ ${p.reading_time||1} min read</span></div>
     </div></a>`;
