@@ -136,7 +136,25 @@ const NAV_HTML = `
     <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
     <a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>
   </div>
-</nav>`;
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="/index.html">Home</a>
+  <a href="/products.html">Products</a>
+  <a href="/roadmap.html">Roadmap</a>
+  <a href="/about.html">About Us</a>
+  <a href="/contact.html">Contact</a>
+  <a href="/faq.html">FAQ</a>
+  <div class="mobile-nav-actions">
+    <a href="/checkout.html" class="btn btn-secondary btn-sm">🛒 Cart (<span class="cart-count">0</span>)</a>
+  </div>
+  <div class="mobile-nav-actions">
+    <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
+    <a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>
+  </div>
+</div>`;
 
 /* ── SHARED FOOTER HTML ── */
 const FOOTER_HTML = `
@@ -218,5 +236,45 @@ async function refreshNavAuth() {
         '<a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>';
     }
     LiveCart?.updateBadge?.();
+    // mirror auth state into the mobile menu's second actions row
+    var mobActions=document.querySelectorAll('.mobile-nav .mobile-nav-actions');
+    var mAuth=mobActions&&mobActions[1];
+    if(mAuth){
+      mAuth.innerHTML = u
+        ? '<a href="/account/index.html" class="btn btn-secondary btn-sm">My Account</a><button class="btn btn-primary btn-sm" onclick="Auth.signOut()">Sign out</button>'
+        : '<a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a><a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>';
+    }
   } catch (e) {}
 }
+
+/* ── MOBILE NAV TOGGLE ── */
+function toggleMobileNav(){
+  var m=document.getElementById('mobile-nav');
+  var h=document.querySelector('.nav-hamburger');
+  if(!m)return;
+  var open=m.classList.toggle('open');
+  if(h)h.classList.toggle('active',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+document.addEventListener('click',function(e){
+  var m=document.getElementById('mobile-nav');
+  if(m&&m.classList.contains('open')&&e.target.closest('#mobile-nav a')){
+    m.classList.remove('open');
+    var h=document.querySelector('.nav-hamburger');if(h)h.classList.remove('active');
+    document.body.style.overflow='';
+  }
+});
+
+/* ── ADMIN/PORTAL SIDEBAR TOGGLE (mobile) ── */
+function togglePortalSidebar(){
+  var s=document.querySelector('.pside');
+  if(!s)return;
+  s.classList.toggle('open');
+}
+// close sidebar when a nav link is tapped (mobile) or when tapping outside it
+document.addEventListener('click',function(e){
+  var s=document.querySelector('.pside');
+  if(!s||!s.classList.contains('open'))return;
+  if(e.target.closest('.pside-link')){ s.classList.remove('open'); return; }
+  if(!e.target.closest('.pside')&&!e.target.closest('.ptop-burger')){ s.classList.remove('open'); }
+});

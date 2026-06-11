@@ -148,4 +148,7 @@ body.portal{display:flex;min-height:100vh;background:var(--gray-50);margin:0}
   .pside.open{left:0}
   .prow{grid-template-columns:1fr}
   .pmetrics{grid-template-columns:1fr 1fr}
+  .ptop-burger{display:flex!important}
 }
+.ptop-burger{display:none;flex-direction:column;justify-content:center;gap:4px;width:38px;height:38px;background:none;border:none;cursor:pointer;padding:0;flex-shrink:0}
+.ptop-burger span{display:block;width:20px;height:2px;background:var(--gray-900,#111);border-radius:2px;margin:0 auto}
