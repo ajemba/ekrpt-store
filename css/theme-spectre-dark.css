@@ -338,3 +338,20 @@ label{color:var(--gray-400)!important}
 .product-img .product-emoji{font-size:58px;line-height:1}
 /* keep the badge above the photo */
 .product-img.has-photo .product-badge{z-index:2}
+
+/* ── MOBILE HAMBURGER NAV ── */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;background:none;border:none;cursor:pointer;padding:0;margin-left:8px}
+.nav-hamburger span{display:block;width:24px;height:2px;background:#f4f6fb;border-radius:2px;transition:transform .25s,opacity .2s;margin:0 auto}
+.nav-hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.active span:nth-child(2){opacity:0}
+.nav-hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;background:#0d0f14;border-bottom:1px solid rgba(255,255,255,.1);flex-direction:column;padding:12px 0;z-index:999;max-height:calc(100vh - 64px);overflow-y:auto;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.mobile-nav.open{display:flex}
+.mobile-nav a{color:#c4ccd8;text-decoration:none;padding:14px 24px;font-size:16px;font-weight:500;border-bottom:1px solid rgba(255,255,255,.04)}
+.mobile-nav a:hover,.mobile-nav a:active{color:#e0202d;background:rgba(224,32,45,.06)}
+.mobile-nav-actions{display:flex;gap:10px;padding:16px 24px}
+.mobile-nav-actions .btn{flex:1;justify-content:center;text-align:center}
+@media(max-width:768px){
+  .nav-hamburger{display:flex}
+  .nav-actions{display:none}
+}

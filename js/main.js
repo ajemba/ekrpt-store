@@ -124,9 +124,10 @@ const NAV_HTML = `
   </a>
   <div class="nav-links">
     <a href="/index.html">Home</a>
-    <a href="/products.html">Products</a>
-    <a href="/roadmap.html">Roadmap</a>
-    <a href="/about.html">About Us</a>
+    <a href="/products.html">Store</a>
+    <a href="/tools.html">Tools</a>
+    <a href="/services.html">Services</a>
+    <a href="/about.html">About</a>
     <a href="/contact.html">Contact</a>
   </div>
   <div class="nav-actions">
@@ -142,11 +143,11 @@ const NAV_HTML = `
 </nav>
 <div class="mobile-nav" id="mobile-nav">
   <a href="/index.html">Home</a>
-  <a href="/products.html">Products</a>
-  <a href="/roadmap.html">Roadmap</a>
-  <a href="/about.html">About Us</a>
+  <a href="/products.html">Store</a>
+  <a href="/tools.html">Tools</a>
+  <a href="/services.html">Services</a>
+  <a href="/about.html">About</a>
   <a href="/contact.html">Contact</a>
-  <a href="/faq.html">FAQ</a>
   <div class="mobile-nav-actions">
     <a href="/checkout.html" class="btn btn-secondary btn-sm">🛒 Cart (<span class="cart-count">0</span>)</a>
   </div>
