@@ -169,7 +169,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); letter-spacing: -.02em; line-hei
 /* ── FOOTER ── */
 footer { background:var(--gray-900);padding:60px 24px 28px; }
 .footer-inner { max-width:1120px;margin:0 auto; }
-.footer-grid { display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px; }
+.footer-grid { display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px; }
 .footer-logo-wrap { display:flex;align-items:center;gap:10px;margin-bottom:14px; }
 .footer-logo-mark { width:32px;height:32px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center; }
 .footer-logo-mark svg { width:18px;height:18px;fill:white; }

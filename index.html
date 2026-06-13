@@ -131,6 +131,16 @@
 .hp-final h2{font-size:clamp(24px,3.4vw,32px);font-weight:500;letter-spacing:-.02em;margin:0 0 14px;color:var(--hp-ink)}
 .hp-final p{font-size:15px;color:var(--hp-soft);line-height:1.55;margin:0 0 28px}
 
+/* ---- learn row ---- */
+.hp-learn{padding:56px 0 8px}
+.hp-learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:620px){.hp-learn-grid{grid-template-columns:1fr}}
+.hp-learn-item{display:block;background:var(--hp-panel);border:.5px solid var(--hp-line);border-radius:10px;padding:20px 22px;transition:border-color .2s,transform .2s}
+.hp-learn-item:hover{border-color:var(--hp-line-2);transform:translateY(-2px)}
+.hp-learn-item .t{font-size:14px;font-weight:500;color:var(--hp-ink);margin:0 0 6px}
+.hp-learn-item .d{font-size:12.5px;line-height:1.5;color:var(--hp-mute);margin:0 0 12px}
+.hp-learn-item .go{font-size:12px;color:var(--hp-soft)}
+
 @media(prefers-reduced-motion:reduce){.hp *{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -193,8 +203,25 @@
           <h2>SPECTRE BE19000 ULTRA</h2>
           <p>Built for esports latency and zero compromise. Available in SIM and fibre/Ethernet versions.</p>
         </div>
-        <a href="/product.html?slug=ekrpt-spectre-be19000-ultra" class="view">View the SPECTRE &rarr;</a>
+        <a href="/flagship.html" class="view">View the SPECTRE &rarr;</a>
       </div>
+    </div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="hp-wrap hp-learn">
+    <p class="hp-kicker">Learn</p>
+    <div class="hp-learn-grid">
+      <a href="/what-is-wifi7.html" class="hp-learn-item">
+        <p class="t">What is WiFi 7?</p>
+        <p class="d">A plain-English guide to the standard - MLO, 4096-QAM, and why it matters for latency.</p>
+        <span class="go">Read the guide &rarr;</span>
+      </a>
+      <a href="/wifi7-buying-guide.html" class="hp-learn-item">
+        <p class="t">WiFi 7 Buying Guide</p>
+        <p class="d">How to choose a router in 2026 - the 5-point checklist and the BE-number decoder.</p>
+        <span class="go">Read the guide &rarr;</span>
+      </a>
     </div>
   </section>
 

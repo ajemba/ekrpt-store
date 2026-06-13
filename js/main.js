@@ -196,6 +196,13 @@ const FOOTER_HTML = `
         <a href="/faq.html">FAQ</a>
         <a href="/contact.html">Help Centre</a>
       </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="/flagship.html">SPECTRE BE19000 ULTRA</a>
+        <a href="/what-is-wifi7.html">What is WiFi 7?</a>
+        <a href="/wifi7-buying-guide.html">WiFi 7 Buying Guide</a>
+        <a href="/blog/index.html">Blog</a>
+      </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 EKRPT Networking Labs. All rights reserved.</div>
