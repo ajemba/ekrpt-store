@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="What is WiFi 7? A plain-English guide to 802.11be: Multi-Link Operation (MLO), 4K-QAM, 320MHz channels, the 6GHz band, and how WiFi 7 compares to WiFi 6 and 6E."/>
+<title>What Is WiFi 7? MLO, 4K-QAM & 6GHz Explained | EKRPT</title>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png"/>
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#06070a"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://ekrpt.com/what-is-wifi7.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="EKRPT Networking Labs"/>
+<meta property="og:title" content="What Is WiFi 7? MLO, 4K-QAM & 6GHz Explained"/>
+<meta property="og:description" content="A plain-English guide to WiFi 7 (802.11be): MLO, 4K-QAM, 320MHz channels, the 6GHz band, and how it compares to WiFi 6."/>
+<meta property="og:url" content="https://ekrpt.com/what-is-wifi7.html"/>
+<meta property="og:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="What Is WiFi 7? MLO, 4K-QAM & 6GHz Explained"/>
+<meta name="twitter:description" content="A plain-English guide to WiFi 7: MLO, 4K-QAM, 320MHz channels, and how it compares to WiFi 6."/>
+<meta name="twitter:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"What Is WiFi 7? MLO, 4K-QAM and 6GHz Explained","description":"A plain-English guide to WiFi 7 (802.11be): Multi-Link Operation, 4K-QAM, 320MHz channels, the 6GHz band, and how WiFi 7 compares to WiFi 6 and WiFi 6E.","author":{"@type":"Organization","name":"EKRPT Networking Labs"},"publisher":{"@type":"Organization","name":"EKRPT Networking Labs","logo":{"@type":"ImageObject","url":"https://ekrpt.com/img/og-ekrpt.jpg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ekrpt.com/what-is-wifi7.html"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ekrpt.com/"},{"@type":"ListItem","position":2,"name":"What Is WiFi 7","item":"https://ekrpt.com/what-is-wifi7.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is WiFi 7?","acceptedAnswer":{"@type":"Answer","text":"WiFi 7 is the marketing name for the IEEE 802.11be wireless standard. It builds on WiFi 6 and 6E with three headline upgrades: Multi-Link Operation (MLO), which lets a device use two or more bands at the same time; 4K-QAM (4096-QAM) modulation, which packs more data into each transmission; and 320MHz channels on the 6GHz band, double the widest WiFi 6 channel. Together these lower latency and raise peak throughput."}},{"@type":"Question","name":"What is MLO in WiFi 7?","acceptedAnswer":{"@type":"Answer","text":"MLO (Multi-Link Operation) is the feature that lets a single device bond two or more radio bands simultaneously, for example 5GHz and 6GHz at once. Instead of picking one band, the connection spreads across several links, which lowers latency, smooths out interference, and keeps the connection more reliable. For gaming and video calls MLO is the most meaningful WiFi 7 improvement, more so than peak speed."}},{"@type":"Question","name":"What is 4K-QAM?","acceptedAnswer":{"@type":"Answer","text":"4K-QAM, or 4096-QAM, is the modulation scheme WiFi 7 uses to encode more bits into each radio signal than WiFi 6's 1024-QAM. In practice it raises maximum throughput by roughly 20 percent over WiFi 6 under ideal, close-range conditions. The benefit is largest when your device is near the router with a clean signal."}},{"@type":"Question","name":"Is WiFi 7 better than WiFi 6 for gaming?","acceptedAnswer":{"@type":"Answer","text":"Yes, mainly because of Multi-Link Operation. By using multiple bands at once, WiFi 7 reduces latency spikes and keeps a steadier connection, which is what matters for online gaming and calls. The higher peak speeds help with large downloads, but the latency and reliability gains from MLO are the bigger deal for gamers."}},{"@type":"Question","name":"Do I need new devices to use WiFi 7?","acceptedAnswer":{"@type":"Answer","text":"To get WiFi 7 features like MLO and 4K-QAM, both the router and the device (phone, laptop, console) must support WiFi 7. WiFi 7 routers are fully backward compatible, so older WiFi 6 and WiFi 5 devices still connect and work normally — they just connect at their own standard rather than gaining WiFi 7 benefits."}},{"@type":"Question","name":"Does WiFi 7 have better range than WiFi 6?","acceptedAnswer":{"@type":"Answer","text":"Range is broadly similar, because range depends mostly on frequency and transmit power, not the WiFi generation. The 6GHz band that WiFi 7 leans on actually has shorter range than 2.4GHz. What WiFi 7 improves is performance and reliability within range — through MLO and wider channels — rather than how far the signal reaches."}}]}</script>
+<style>
+.ar-hero{background:#0d0f14;padding:64px 0 40px;border-bottom:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden}
+.ar-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 280px at 30% -20%,rgba(224,32,45,.13),transparent 65%);pointer-events:none}
+.ar-hero .container{position:relative;z-index:1}
+.ar-crumb{font-family:var(--font-mono,monospace);font-size:12px;letter-spacing:.04em;color:#8b93a3;margin-bottom:16px}
+.ar-crumb a{color:#8b93a3;text-decoration:none}.ar-crumb a:hover{color:#e0202d}
+.ar-eyebrow{font-family:var(--font-mono,monospace);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#e0202d;margin-bottom:14px}
+.ar-hero h1{font-size:clamp(28px,4.6vw,42px);font-weight:800;color:#f4f6fb;margin:0;letter-spacing:-.02em;max-width:18ch}
+.ar-lede{color:#c4ccd8;margin:18px 0 0;max-width:60ch;font-size:17px;line-height:1.6}
+.ar-lede strong{color:#f4f6fb}
+.ar-body{padding:44px 0 64px}
+.ar-wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.ar-body h2{color:#f4f6fb;font-size:24px;font-weight:800;margin:40px 0 14px;letter-spacing:-.01em}
+.ar-body h3{color:#f4f6fb;font-size:18px;font-weight:700;margin:26px 0 10px}
+.ar-body p{color:#c4ccd8;line-height:1.75;font-size:15.5px;margin:0 0 16px}
+.ar-body p strong{color:#f4f6fb}
+.ar-body a{color:#e0202d;text-decoration:none}.ar-body a:hover{text-decoration:underline}
+.ar-table{width:100%;border-collapse:collapse;margin:18px 0 8px;font-size:14.5px}
+.ar-table th,.ar-table td{text-align:left;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.ar-table th{color:#f4f6fb;font-weight:700;background:rgba(255,255,255,.03)}
+.ar-table td{color:#c4ccd8}
+.ar-table td:first-child{color:#f4f6fb;font-weight:500}
+.ar-key{background:rgba(224,32,45,.06);border:1px solid rgba(224,32,45,.2);border-radius:12px;padding:18px 20px;margin:22px 0}
+.ar-key p{margin:0;color:#f4f6fb;font-size:15.5px;line-height:1.7}
+.ar-cta{margin:36px 0 0;padding:24px;border-radius:14px;background:rgba(224,32,45,.06);border:1px solid rgba(224,32,45,.2)}
+.ar-cta h3{color:#f4f6fb;margin:0 0 8px;font-size:19px}
+.ar-cta p{color:#8b93a3;margin:0 0 16px;font-size:15px}
+.ar-cta a{display:inline-block;background:linear-gradient(135deg,#e0202d,#b3151f);color:#fff;text-decoration:none;padding:11px 26px;border-radius:8px;font-weight:600;font-size:15px}
+.ar-faq{margin-top:44px}
+.faq-item{border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:12px;background:#0d0f14;overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:#f4f6fb;font-size:16px;font-weight:600;text-align:left;padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:inherit}
+.faq-q:hover{color:#e0202d}
+.faq-icon{color:#e0202d;font-size:22px;font-weight:400;flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease}
+.faq-a p{color:#c4ccd8;line-height:1.75;font-size:15px;margin:0;padding:0 20px 20px}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TK1ELX5K0L"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TK1ELX5K0L');</script>
+</head>
+<body>
+<div id="nav-mount"></div>
+
+<section class="ar-hero"><div class="container">
+  <nav class="ar-crumb"><a href="/index.html">Home</a> / What Is WiFi 7</nav>
+  <div class="ar-eyebrow">Networking Guide</div>
+  <h1>What is WiFi 7?</h1>
+  <p class="ar-lede"><strong>WiFi 7 is the IEEE 802.11be wireless standard, the generation after WiFi 6 and 6E.</strong> It is defined by three upgrades: Multi-Link Operation (MLO), which lets a device use two or more bands at once; 4K-QAM modulation, which packs more data into every signal; and 320MHz channels on the 6GHz band. In plain terms, WiFi 7 is faster at its peak but — more importantly — lower in latency and steadier under load, because MLO stops a single congested band from dragging your whole connection down.</p>
+</div></section>
+
+<section class="ar-body"><div class="ar-wrap">
+
+  <h2>The three things that make WiFi 7 different</h2>
+  <p>WiFi 7 isn't just "faster WiFi 6." Three specific technical changes define it, and each maps to a real benefit you can feel.</p>
+
+  <table class="ar-table">
+    <thead><tr><th>Feature</th><th>What it does</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td>MLO (Multi-Link Operation)</td><td>Bonds 2+ bands simultaneously</td><td>Lower latency, more reliable connection</td></tr>
+      <tr><td>4K-QAM (4096-QAM)</td><td>Encodes more bits per signal</td><td>~20% higher peak throughput vs WiFi 6 (close range)</td></tr>
+      <tr><td>320MHz channels</td><td>Double the widest WiFi 6 channel</td><td>More bandwidth on the 6GHz band</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What is MLO?</h3>
+  <p><strong>MLO (Multi-Link Operation) is the single biggest WiFi 7 improvement.</strong> It lets one device bond two or more radio bands at the same time — for example 5GHz and 6GHz together — instead of committing to just one. Spreading the connection across multiple links lowers latency, rides out interference, and keeps the link steadier. For online gaming and video calls, this matters more than raw peak speed.</p>
+  <p><strong>A concrete example:</strong> on older WiFi, if your 5GHz band gets congested — a neighbour's network, a microwave, too many devices — your ping spikes and your game stutters, because you're stuck on that one band. With MLO, the router is already running you on 5GHz and 6GHz together, so when one band degrades the other carries the traffic. The spike is absorbed instead of felt. That's why WiFi 7 feels more "stable" rather than just "faster."</p>
+
+  <h3>What is 4K-QAM?</h3>
+  <p><strong>4K-QAM (4096-QAM) is the modulation WiFi 7 uses to pack more data into each radio signal</strong> than WiFi 6's 1024-QAM. Under ideal close-range conditions it raises maximum throughput by roughly 20% over WiFi 6. The benefit is largest when your device is near the router with a clean signal, and tapers off at distance.</p>
+
+  <h3>What is the 6GHz band and 320MHz channels?</h3>
+  <p>WiFi 7 can use 320MHz-wide channels on the 6GHz band — double the 160MHz maximum on WiFi 6. Wider channels carry more data at once, which is why the 6GHz band is where WiFi 7 hits its highest speeds. It needs WiFi 7 (or 6E) devices to use it, and works best at shorter range.</p>
+
+  <h2>WiFi 7 vs WiFi 6 vs WiFi 6E</h2>
+  <p>Here's how the three generations compare on the specs that matter most.</p>
+  <table class="ar-table">
+    <thead><tr><th></th><th>WiFi 6</th><th>WiFi 6E</th><th>WiFi 7</th></tr></thead>
+    <tbody>
+      <tr><td>Standard</td><td>802.11ax</td><td>802.11ax</td><td>802.11be</td></tr>
+      <tr><td>Bands</td><td>2.4 / 5 GHz</td><td>2.4 / 5 / 6 GHz</td><td>2.4 / 5 / 6 GHz</td></tr>
+      <tr><td>Max channel width</td><td>160 MHz</td><td>160 MHz</td><td>320 MHz</td></tr>
+      <tr><td>Modulation</td><td>1024-QAM</td><td>1024-QAM</td><td>4096-QAM (4K-QAM)</td></tr>
+      <tr><td>Multi-Link (MLO)</td><td>No</td><td>No</td><td>Yes</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ar-key">
+    <p><strong>The short version:</strong> WiFi 6E added the 6GHz band; WiFi 7 doubles the channel width on it, packs more data per signal with 4K-QAM, and — most importantly — adds MLO so your devices use several bands at once. If you care about latency and reliability (gaming, calls, lots of devices), MLO is the reason to move to WiFi 7.</p>
+  </div>
+
+  <h2>Do you need WiFi 7?</h2>
+  <p>WiFi 7 makes the most sense if you game online, run a busy multi-device home, have a multi-gig internet plan, or want hardware that won't need replacing for years. If you have a handful of devices and a sub-gigabit connection, WiFi 6 still serves well today. For a full decision walkthrough, see our <a href="/wifi7-buying-guide.html">WiFi 7 buying guide</a>.</p>
+
+  <div class="ar-cta">
+    <h3>Want WiFi 7 done right?</h3>
+    <p>The EKRPT SPECTRE BE19000 ULTRA is a tri-band WiFi 7 router with MLO, 4K-QAM and a 10G uplink — built for low-latency gaming and busy homes.</p>
+    <a href="/flagship.html">See the SPECTRE BE19000 ULTRA ▸</a>
+    <a href="/products.html" style="background:none;border:1px solid rgba(224,32,45,.4);color:#f4f6fb;margin-left:10px">Browse all routers</a>
+  </div>
+
+  <div class="ar-faq">
+    <h2>Frequently asked questions</h2>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>What is WiFi 7?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>WiFi 7 is the IEEE 802.11be standard, the generation after WiFi 6 and 6E. Its headline upgrades are Multi-Link Operation (using 2+ bands at once), 4K-QAM modulation, and 320MHz channels on 6GHz — together lowering latency and raising peak speeds.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>What is MLO in WiFi 7?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>MLO (Multi-Link Operation) lets a single device bond two or more bands simultaneously, like 5GHz and 6GHz at once. It lowers latency, rides out interference, and keeps the connection more reliable — the most meaningful WiFi 7 gain for gaming and calls.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>What is 4K-QAM?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>4K-QAM (4096-QAM) is WiFi 7's modulation scheme, packing more bits into each signal than WiFi 6's 1024-QAM. It raises peak throughput by roughly 20% under ideal close-range conditions.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Is WiFi 7 better than WiFi 6 for gaming?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Yes, mainly due to MLO. Using multiple bands at once reduces latency spikes and keeps a steadier connection — what matters most for online gaming. Higher peak speeds help with downloads, but MLO's latency and reliability gains are the bigger deal.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Do I need new devices to use WiFi 7?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>To get WiFi 7 features like MLO and 4K-QAM, both the router and the device must support WiFi 7. But WiFi 7 routers are fully backward compatible — older WiFi 6 and WiFi 5 devices still connect and work normally, just at their own standard.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Does WiFi 7 have better range than WiFi 6?</span><span class="faq-icon">+</span></button><div class="faq-a"><p>Range is broadly similar — it depends mostly on frequency and transmit power, not the WiFi generation. The 6GHz band WiFi 7 uses actually has shorter range. What WiFi 7 improves is performance and reliability within range, through MLO and wider channels.</p></div></div>
+  </div>
+
+</div></section>
+
+<div id="footer-mount"></div>
+<script src="js/main.js"></script>
+<script>
+function toggleFaq(btn){
+  var item=btn.parentElement;
+  var ans=btn.nextElementSibling;
+  var open=item.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open);
+  ans.style.maxHeight=open?ans.scrollHeight+'px':null;
+}
+</script>
+</body>
+</html>
