@@ -1,0 +1,32 @@
+/* EKRPT Cookie Consent — banner styles (on-brand dark) */
+#ekrpt-cc{
+  position:fixed; left:0; right:0; bottom:0; z-index:9000;
+  background:rgba(10,11,13,.97); backdrop-filter:blur(10px);
+  border-top:1px solid rgba(224,32,45,.4);
+  color:#e6e9ef; font-family:'Helvetica Neue',Arial,sans-serif;
+  transform:translateY(100%); transition:transform .3s ease;
+  box-shadow:0 -8px 30px rgba(0,0,0,.4);
+}
+#ekrpt-cc.cc-show{ transform:translateY(0); }
+#ekrpt-cc.cc-hide{ transform:translateY(100%); }
+#ekrpt-cc .cc-inner{
+  max-width:1140px; margin:0 auto; padding:16px 22px;
+  display:flex; align-items:center; gap:20px;
+}
+#ekrpt-cc .cc-text{ font-size:13px; line-height:1.5; color:#c5ccd8; flex:1; }
+#ekrpt-cc .cc-text a{ color:#e0483e; text-decoration:none; font-weight:600; }
+#ekrpt-cc .cc-text a:hover{ text-decoration:underline; }
+#ekrpt-cc .cc-actions{ display:flex; gap:10px; flex-shrink:0; }
+#ekrpt-cc .cc-btn{
+  font-size:13px; font-weight:600; padding:10px 20px; border-radius:8px;
+  cursor:pointer; border:1px solid transparent; white-space:nowrap; font-family:inherit;
+}
+#ekrpt-cc .cc-reject{ background:none; border-color:rgba(255,255,255,.25); color:#e6e9ef; }
+#ekrpt-cc .cc-reject:hover{ border-color:rgba(255,255,255,.5); }
+#ekrpt-cc .cc-accept{ background:linear-gradient(135deg,#e0202d,#b3151f); color:#fff; }
+#ekrpt-cc .cc-accept:hover{ filter:brightness(1.08); }
+@media(max-width:640px){
+  #ekrpt-cc .cc-inner{ flex-direction:column; align-items:stretch; gap:12px; padding:14px 16px; }
+  #ekrpt-cc .cc-actions{ justify-content:stretch; }
+  #ekrpt-cc .cc-btn{ flex:1; text-align:center; }
+}

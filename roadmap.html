@@ -83,6 +83,7 @@
 .rm-disclaimer{max-width:760px;margin:28px auto 0;font-family:var(--font-mono);font-size:11px;color:#5a626b;line-height:1.6;text-align:center}
 </style>
 <!-- Google Analytics (GA4) -->
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TK1ELX5K0L"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -90,6 +91,8 @@
   gtag('js', new Date());
   gtag('config', 'G-TK1ELX5K0L');
 </script>
+<link rel="stylesheet" href="css/cookie-consent.css"/>
+<script src="js/cookie-consent.js" defer></script>
 </head>
 <body>
 <div id="nav-mount"></div>
@@ -207,7 +210,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config.js"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=35"></script>
 <script src="js/site-settings.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => { try { SiteSettings.applyTheme(await SiteSettings.get()); } catch(e){} });

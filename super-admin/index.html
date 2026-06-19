@@ -307,7 +307,7 @@
 </div>
 
 <script src="../js/config.js"></script>
-<script src="../js/main.js"></script>
+<script src="../js/main.js?v=35"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/store.js"></script>
 <script src="../js/site-settings.js"></script>
@@ -586,7 +586,7 @@ async function loadInventory(){ try{ _inventory=await Products.getAll(); renderI
 function renderInventory(){
   const s=(document.getElementById('i-search').value||'').toLowerCase();
   const list=_inventory.filter(p=>!s||p.name.toLowerCase().includes(s));
-  document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><span class="pill ${p.is_active?'pill-active':'pill-cancelled'}">${p.is_active?'Active':'Hidden'}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';
+  document.getElementById('inventory-body').innerHTML=list.map(p=>`<tr><td>${p.emoji||''} <strong>${p.name}</strong></td><td style="font-family:var(--font-mono);font-size:11px">${p.sku||'—'}</td><td style="font-family:var(--font-mono)">${fmtNGN(p.price)}</td><td><span class="pill ${p.stock===0?'pill-out':p.stock<=5?'pill-low':'pill-ok'}">${p.stock}</span></td><td><span class="pill ${p.is_active?'pill-active':'pill-cancelled'}">${p.is_active?'Active':'Hidden'}</span></td><td><button class="pbtn pbtn-ghost" onclick="editProduct('${p.id}')">Edit</button> <button class="pbtn pbtn-danger" onclick="deleteProduct('${p.id}','${(p.name||'this product').replace(/'/g,"\\'")}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" class="pempty">No products</td></tr>';
 }
 function openProductModal(){ _editProd=null; ['prod-name','prod-desc','prod-longdesc','prod-gallery','prod-video','prod-features','prod-specs','prod-price','prod-stock','prod-sku','prod-emoji'].forEach(i=>document.getElementById(i).value=''); document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=''; document.getElementById('prod-image-preview').style.display='none'; document.getElementById('prod-modal-title').textContent='Add Product'; document.getElementById('product-modal').classList.add('show'); }
 function editProduct(id){ const p=_inventory.find(x=>x.id===id); if(!p)return; _editProd=id; document.getElementById('prod-name').value=p.name; document.getElementById('prod-desc').value=p.description||''; document.getElementById('prod-longdesc').value=p.long_description||''; document.getElementById('prod-gallery').value=(Array.isArray(p.gallery)?p.gallery:[]).join('\n'); document.getElementById('prod-video').value=p.video_url||''; document.getElementById('prod-features').value=(Array.isArray(p.features)?p.features:[]).join('\n'); document.getElementById('prod-specs').value=(p.specs&&typeof p.specs==='object'?Object.entries(p.specs).map(([k,v])=>`${k}: ${v}`).join('\n'):''); document.getElementById('prod-price').value=p.price; document.getElementById('prod-stock').value=p.stock; document.getElementById('prod-sku').value=p.sku||''; document.getElementById('prod-emoji').value=p.emoji||''; document.getElementById('prod-cat').value=p.category; document.getElementById('prod-image-file').value=''; document.getElementById('prod-image-url').value=p.image_url||''; const pv=document.getElementById('prod-image-preview'); const pvi=document.getElementById('prod-image-preview-img'); if(p.image_url){ pvi.src=p.image_url; pv.style.display='block'; } else { pv.style.display='none'; } document.getElementById('prod-modal-title').textContent='Edit Product'; document.getElementById('product-modal').classList.add('show'); }
@@ -625,6 +625,7 @@ async function saveProduct(){
   }catch(e){ showToast('Error: '+e.message,'error'); }
   finally{ if(btn){ btn.disabled=false; btn.textContent='Save'; } }
 }
+async function deleteProduct(id,name){ if(!confirm('Permanently DELETE "'+name+'"? This removes the product and its stock history and cannot be undone.'))return; try{ await Products.hardDelete(id); showToast('"'+name+'" deleted'); await loadInventory(); }catch(e){ showToast('Delete failed: '+e.message,'error'); } }
 
 // ── CUSTOMERS ──
 async function loadCustomers(){ try{ _customers=await CRM.getAll(); renderCustomers(); }catch(e){} }

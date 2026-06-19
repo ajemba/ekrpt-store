@@ -53,10 +53,19 @@ const Products = (() => {
     return data;
   };
 
-  // Admin: delete (soft delete)
+  // Admin: soft delete (hide from store, keep row)
   const remove = async (id) => {
     const sb = getSupabase();
     const { error } = await sb.from('products').update({ is_active: false }).eq('id', id);
+    if (error) throw error;
+  };
+
+  // Admin: hard delete (permanently remove the row)
+  const hardDelete = async (id) => {
+    const sb = getSupabase();
+    // Clear dependent inventory_log rows first to avoid FK constraint errors
+    await sb.from('inventory_log').delete().eq('product_id', id);
+    const { error } = await sb.from('products').delete().eq('id', id);
     if (error) throw error;
   };
 
@@ -69,7 +78,7 @@ const Products = (() => {
     await Inventory.log(id, diff, reason, null);
   };
 
-  return { getAll, getById, getBySlug, create, update, remove, updateStock };
+  return { getAll, getById, getBySlug, create, update, remove, hardDelete, updateStock };
 })();
 
 // ── INVENTORY ────────────────────────────────────────────────

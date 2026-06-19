@@ -205,7 +205,7 @@ const FOOTER_HTML = `
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 EKRPT Networking Labs. All rights reserved.</div>
+      <div class="footer-copy">© 2026 EKRPT Networking Labs. All rights reserved. &nbsp;·&nbsp; <a href="/privacy.html" style="color:inherit;opacity:.8;text-decoration:none">Privacy &amp; Cookies</a> &nbsp;·&nbsp; <a href="#" onclick="if(window.EKRPTcookies){EKRPTcookies();}return false;" style="color:inherit;opacity:.8;text-decoration:none">Cookie settings</a></div>
       <div class="footer-badges">
         <span class="f-badge">CAC REGISTERED</span>
         <span class="f-badge">LICENSED</span>
