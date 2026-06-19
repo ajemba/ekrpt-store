@@ -345,14 +345,20 @@ label{color:var(--gray-400)!important}
 .nav-hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav-hamburger.active span:nth-child(2){opacity:0}
 .nav-hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;width:100%;background:#0d0f14;border-bottom:1px solid rgba(255,255,255,.1);flex-direction:column;padding:12px 0;z-index:9500;max-height:calc(100dvh - 64px);overflow-y:auto;box-shadow:0 18px 40px rgba(0,0,0,.5);-webkit-backdrop-filter:none;backdrop-filter:none;isolation:isolate}
-.mobile-nav.open{display:flex!important}
-.mobile-nav a{color:#c4ccd8;text-decoration:none;padding:14px 24px;font-size:16px;font-weight:500;border-bottom:1px solid rgba(255,255,255,.04)}
-.mobile-nav a:hover,.mobile-nav a:active{color:#e0202d;background:rgba(224,32,45,.06)}
-.mobile-nav-actions{display:flex;gap:10px;padding:16px 24px}
-.mobile-nav-actions .btn{flex:1;justify-content:center;text-align:center}
+.mobile-nav{display:none}
 @media(max-width:768px){
-  .nav-hamburger{display:flex}
+  .nav{flex-wrap:wrap;position:relative}
+  .nav.open{height:auto!important;align-items:flex-start}
+  .nav-hamburger{display:flex;order:2;margin-left:auto}
   .nav-actions{display:none}
-  .nav-links{display:none!important}
+  /* nav-links: hidden by default, drop down full-width when nav is .open */
+  .nav-links{display:none;order:3;flex-basis:100%;width:100%;flex-direction:column;gap:0;margin:0;padding:8px 0}
+  .nav.open .nav-links{display:flex}
+  .nav.open{padding-bottom:8px}
+  .nav-links a{display:block;width:100%;padding:14px 8px;font-size:16px;font-weight:500;color:#c4ccd8;border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-links a:last-child{border-bottom:none}
+  .nav-links a:hover,.nav-links a:active{color:#e0202d;background:rgba(224,32,45,.06)}
+  /* show account actions inside the open dropdown */
+  .nav.open .nav-actions{display:flex;order:4;flex-basis:100%;width:100%;flex-direction:column;gap:10px;padding:12px 8px 4px;margin:0}
+  .nav.open .nav-actions .btn,.nav.open .nav-actions .cart-btn{width:100%;justify-content:center;text-align:center}
 }

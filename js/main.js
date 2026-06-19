@@ -114,7 +114,7 @@ document.addEventListener('click', function(e) {
 
 /* ── SHARED NAV HTML ── */
 const NAV_HTML = `
-<nav class="nav">
+<nav class="nav" id="ekrpt-nav">
   <a class="nav-logo" href="/index.html">
     <img class="nav-logo-img" data-logo src="/img/logo-ekrpt.png" alt="EKRPT Networking Labs" />
     <div class="nav-logo-mark">
@@ -122,6 +122,9 @@ const NAV_HTML = `
     </div>
     <span class="nav-brand">EKRPT <span>Labs</span></span>
   </a>
+  <button class="nav-hamburger" aria-label="Menu" onclick="this.closest('.nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
     <a href="/index.html">Home</a>
     <a href="/products.html">Store</a>
@@ -137,25 +140,7 @@ const NAV_HTML = `
     <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
     <a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>
   </div>
-  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileNav()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="mobile-nav" id="mobile-nav">
-  <a href="/index.html">Home</a>
-  <a href="/products.html">Store</a>
-  <a href="/tools.html">Tools</a>
-  <a href="/services.html">Services</a>
-  <a href="/about.html">About</a>
-  <a href="/contact.html">Contact</a>
-  <div class="mobile-nav-actions">
-    <a href="/checkout.html" class="btn btn-secondary btn-sm">🛒 Cart (<span class="cart-count">0</span>)</a>
-  </div>
-  <div class="mobile-nav-actions">
-    <a href="/login.html" class="btn btn-secondary btn-sm">Sign in</a>
-    <a href="/login.html#signup" class="btn btn-primary btn-sm">Get started</a>
-  </div>
-</div>`;
+</nav>`;
 
 /* ── SHARED FOOTER HTML ── */
 const FOOTER_HTML = `
@@ -257,19 +242,13 @@ async function refreshNavAuth() {
 
 /* ── MOBILE NAV TOGGLE ── */
 function toggleMobileNav(){
-  var m=document.getElementById('mobile-nav');
-  var h=document.querySelector('.nav-hamburger');
-  if(!m)return;
-  var open=m.classList.toggle('open');
-  if(h)h.classList.toggle('active',open);
-  document.body.style.overflow=open?'hidden':'';
+  var nav=document.getElementById('ekrpt-nav');
+  if(nav)nav.classList.toggle('open');
 }
 document.addEventListener('click',function(e){
-  var m=document.getElementById('mobile-nav');
-  if(m&&m.classList.contains('open')&&e.target.closest('#mobile-nav a')){
-    m.classList.remove('open');
-    var h=document.querySelector('.nav-hamburger');if(h)h.classList.remove('active');
-    document.body.style.overflow='';
+  var nav=document.getElementById('ekrpt-nav');
+  if(nav&&nav.classList.contains('open')&&e.target.closest('.nav-links a')){
+    nav.classList.remove('open');
   }
 });
 
