@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Sign in or create an EKRPT Networking Labs account."/>
+<title>Sign In — EKRPT Networking Labs</title>
+<!-- ── Favicon ── -->
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#06070a"/>
+<!-- ── SEO / canonical ── -->
+<link rel="canonical" href="https://ekrpt.com/login.html"/>
+<meta name="robots" content="index, follow"/>
+<!-- ── Open Graph ── -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="EKRPT Networking Labs"/>
+<meta property="og:title" content="Sign In — EKRPT Networking Labs"/>
+<meta property="og:description" content="Sign in to your EKRPT Store account to manage orders and checkout."/>
+<meta property="og:url" content="https://ekrpt.com/login.html"/>
+<meta property="og:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<!-- ── Twitter ── -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Sign In — EKRPT Networking Labs"/>
+<meta name="twitter:description" content="Sign in to your EKRPT Store account to manage orders and checkout."/>
+<meta name="twitter:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
+<link rel="stylesheet" href="css/portal-future.css"/>
+<!-- Google Analytics (GA4) -->
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'granted','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TK1ELX5K0L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TK1ELX5K0L');
+</script>
+</head>
+<body class="fx">
+<div class="fx-bg"><div class="fx-grid"></div><div class="fx-scan"></div></div>
+
+<div class="fx-auth fx-main">
+  <div class="fx-panel glow fx-auth-card fx-reveal fx-d1">
+    <span class="fx-corner tl"></span><span class="fx-corner br"></span>
+
+    <a href="index.html"><img class="fx-auth-logo" src="img/logo-ekrpt.png" alt="EKRPT Networking Labs"/></a>
+    <div class="fx-auth-sub" id="auth-sub">// Secure Access Terminal</div>
+
+    <div class="fx-tabs fx-reveal fx-d2">
+      <button class="fx-tab active" id="tab-in" onclick="switchMode('in')">Sign In</button>
+      <button class="fx-tab" id="tab-up" onclick="switchMode('up')">Create Account</button>
+    </div>
+
+    <!-- FORM VIEW -->
+    <div id="form-view">
+      <div class="fx-social fx-reveal fx-d3">
+        <button onclick="socialLogin('Google')"><span>G</span>Google</button>
+        <button onclick="socialLogin('Facebook')"><span>f</span>Facebook</button>
+        <button onclick="socialLogin('TikTok')"><span>♪</span>TikTok</button>
+      </div>
+
+      <div class="fx-divider">or authenticate with email</div>
+
+      <div class="fx-reveal fx-d4">
+        <div id="name-fields" style="display:none;gap:10px;grid-template-columns:1fr 1fr">
+          <div class="fx-field"><label>First name</label><input class="fx-input" type="text" id="first-name" placeholder="Chidi"/></div>
+          <div class="fx-field"><label>Last name</label><input class="fx-input" type="text" id="last-name" placeholder="Okafor"/></div>
+        </div>
+
+        <div class="fx-field"><label>Email Address</label><input class="fx-input" type="email" id="email-input" placeholder="you@example.com"/></div>
+
+        <div class="fx-field">
+          <label>Password</label>
+          <div style="position:relative">
+            <input class="fx-input" type="password" id="pw-input" placeholder="••••••••" style="padding-right:44px"/>
+            <button onclick="togglePw()" aria-label="Toggle password" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;opacity:.6">👁</button>
+          </div>
+        </div>
+
+        <div id="confirm-field" class="fx-field" style="display:none">
+          <label>Confirm Password</label>
+          <input class="fx-input" type="password" placeholder="••••••••"/>
+        </div>
+
+        <div id="forgot-row" class="fx-forgot"><a onclick="forgotPw()">Forgot password?</a></div>
+
+        <button class="fx-btn" id="submit-btn" onclick="handleSubmit()">Sign In to EKRPT</button>
+
+        <div id="terms-row" class="fx-terms" style="display:none">
+          By creating an account you agree to our <a href="#" style="color:var(--fx-blue)">Terms</a> &amp; <a href="#" style="color:var(--fx-blue)">Privacy Policy</a>
+        </div>
+
+        <div class="fx-switch" id="switch-text">
+          Don't have an account? <a onclick="switchMode('up')">Create one free</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div class="fx-success" id="success-view">
+      <div class="ico">✅</div>
+      <h3 id="suc-title">Access Granted</h3>
+      <p id="suc-sub">Redirecting to your terminal…</p>
+      <div id="suc-linked"></div>
+      <button class="fx-btn ghost" style="margin-top:16px" onclick="resetAuth()">Back to login</button>
+    </div>
+  </div>
+</div>
+<div id="footer-mount"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/main.js?v=35"></script>
+<script src="js/auth.js"></script>
+<script src="js/store.js"></script>
+<script src="js/roles.js"></script>
+<script src="js/site-settings.js"></script>
+<script>
+let mode = 'in';
+let pwVis = false;
+
+// Apply saved theme/branding to the login page too
+document.addEventListener('DOMContentLoaded', async () => {
+  try { SiteSettings.applyTheme(await SiteSettings.get()); } catch (e) {}
+  // If already signed in, route to the right place
+  try {
+    const u = await Auth.getUser();
+    if (u && u.profile) routeByRole(u.profile.role);
+  } catch (e) {}
+});
+
+// Where each role lands after login
+function routeByRole(role) {
+  // If the user was sent here from a gated page (e.g. checkout), go back there.
+  try {
+    const back = sessionStorage.getItem('ekrpt_redirect');
+    if (back) {
+      sessionStorage.removeItem('ekrpt_redirect');
+      location.href = back;
+      return;
+    }
+  } catch (e) {}
+  const home = (typeof ROLES !== 'undefined' && ROLES[role]) ? ROLES[role].home : '/account/index.html';
+  location.href = '.' + home; // ROLES home values start with '/', resolve from site root
+}
+
+// Check URL for #signup
+if (location.hash === '#signup') switchMode('up');
+
+function switchMode(m) {
+  mode = m;
+  document.getElementById('tab-in').classList.toggle('active', m === 'in');
+  document.getElementById('tab-up').classList.toggle('active', m === 'up');
+  document.getElementById('auth-sub').textContent = m === 'in' ? 'Welcome back' : 'Join EKRPT Networking Labs';
+  document.getElementById('name-fields').style.display = m === 'up' ? 'grid' : 'none';
+  document.getElementById('confirm-field').style.display = m === 'up' ? 'block' : 'none';
+  document.getElementById('forgot-row').style.display = m === 'in' ? 'flex' : 'none';
+  document.getElementById('terms-row').style.display = m === 'up' ? 'block' : 'none';
+  document.getElementById('submit-btn').textContent = m === 'in' ? 'Sign in to EKRPT' : 'Create my account';
+  document.getElementById('switch-text').innerHTML = m === 'in'
+    ? "Don't have an account? <a onclick=\"switchMode('up')\">Create one free</a>"
+    : "Already have an account? <a onclick=\"switchMode('in')\">Sign in</a>";
+  document.getElementById('success-view').classList.remove('show');
+  document.getElementById('form-view').style.display = 'block';
+}
+
+function togglePw() {
+  pwVis = !pwVis;
+  document.getElementById('pw-input').type = pwVis ? 'text' : 'password';
+}
+
+function forgotPw() {
+  const email = document.getElementById('email-input').value;
+  if (!email) { showToast('Enter your email first', 'error'); return; }
+  Auth.sendPasswordReset(email).then(() => showToast('Password reset email sent to ' + email))
+    .catch(e => showToast('Error: ' + e.message, 'error'));
+}
+
+async function handleSubmit() {
+  const email = document.getElementById('email-input').value;
+  const pw = document.getElementById('pw-input').value;
+  if (!email || !email.includes('@')) { showToast('Please enter a valid email', 'error'); return; }
+  if (!pw || pw.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = mode === 'in' ? 'Signing in…' : 'Creating account…';
+  btn.disabled = true;
+  try {
+    if (mode === 'up') {
+      const fn = document.getElementById('first-name')?.value || '';
+      const ln = document.getElementById('last-name')?.value || '';
+      await Auth.signUp({ email, password: pw, fullName: (fn + ' ' + ln).trim() });
+      showSuccess('Account created!', 'Welcome to EKRPT Networking Labs', null);
+      setTimeout(() => routeByRole('customer'), 1200);
+    } else {
+      await Auth.signIn({ email, password: pw });
+      // 2FA check — if this account has TOTP enrolled, require the code
+      const factors = await Auth.listMfaFactors?.();
+      if (factors && factors.length) {
+        const needs = await Auth.needsMfa?.();
+        if (needs) { promptMfa(factors[0].id); btn.disabled = false; btn.textContent = 'Sign in to EKRPT'; return; }
+      }
+      const u = await Auth.getUser();
+      showSuccess('Signed in!', 'Welcome back to EKRPT', null);
+      setTimeout(() => routeByRole(u?.profile?.role || 'customer'), 900);
+    }
+  } catch (e) {
+    showToast(e.message || 'Authentication failed', 'error');
+    btn.disabled = false;
+    btn.textContent = mode === 'in' ? 'Sign in to EKRPT' : 'Create my account';
+  }
+}
+
+// 2FA prompt (super admin / any account with TOTP)
+function promptMfa(factorId) {
+  document.getElementById('form-view').style.display = 'none';
+  const sv = document.getElementById('success-view');
+  sv.classList.add('show');
+  document.getElementById('suc-title').textContent = 'Two-factor authentication';
+  document.getElementById('suc-sub').textContent = 'Enter the 6-digit code from your authenticator app';
+  document.getElementById('suc-linked').innerHTML = `
+    <input id="mfa-code" maxlength="6" placeholder="000000" style="font-family:var(--font-mono);font-size:24px;letter-spacing:8px;text-align:center;padding:12px;width:180px;border:1.5px solid var(--gray-100);border-radius:10px;margin:10px 0"/>
+    <button class="btn btn-primary" style="display:block;margin:8px auto 0" onclick="verifyMfa('${factorId}')">Verify & continue</button>`;
+  setTimeout(() => document.getElementById('mfa-code')?.focus(), 100);
+}
+async function verifyMfa(factorId) {
+  try {
+    await Auth.verifyMfa(factorId, document.getElementById('mfa-code').value);
+    const u = await Auth.getUser();
+    showSuccess('Verified!', 'Welcome back', null);
+    setTimeout(() => routeByRole(u?.profile?.role || 'customer'), 700);
+  } catch (e) { showToast('Invalid code, try again', 'error'); }
+}
+
+async function socialLogin(provider) {
+  try {
+    if (provider === 'Google') await Auth.signInWithGoogle();
+    else if (provider === 'Facebook') await Auth.signInWithFacebook();
+    else if (provider === 'TikTok') await Auth.signInWithTikTok();
+  } catch (e) { showToast(provider + ' login not configured yet', 'error'); }
+}
+
+function showSuccess(title, sub, provider, color) {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('success-view').classList.add('show');
+  document.getElementById('suc-title').textContent = title;
+  document.getElementById('suc-sub').textContent = sub;
+  const linked = document.getElementById('suc-linked');
+  linked.innerHTML = provider ? `
+    <div class="linked-pill">
+      <div class="linked-dot" style="background:${color}"></div>
+      <span>${provider} account</span>
+      <span class="linked-status">CONNECTED</span>
+    </div>` : '';
+}
+
+function resetAuth() {
+  document.getElementById('success-view').classList.remove('show');
+  document.getElementById('form-view').style.display = 'block';
+}
+</script>
+</body>
+</html>

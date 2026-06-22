@@ -26,6 +26,9 @@ body.portal{display:flex;min-height:100vh;background:var(--gray-50);margin:0}
 .pside-urole{font-size:10px;color:rgba(255,255,255,.35);font-family:var(--font-mono)}
 .pside-out{margin-left:auto;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:17px;transition:color .15s;padding:4px}
 .pside-out:hover{color:var(--red)}
+.pside-logout{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;padding:11px 14px;background:rgba(224,32,45,.08);border:1px solid rgba(224,32,45,.35);border-radius:8px;color:#e0483e;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.pside-logout:hover{background:rgba(224,32,45,.16);border-color:rgba(224,32,45,.6)}
+.pside-logout .ic{font-size:15px}
 
 /* ── MAIN AREA ── */
 .pmain{flex:1;display:flex;flex-direction:column;min-width:0}
