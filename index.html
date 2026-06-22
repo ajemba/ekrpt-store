@@ -1,153 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>My Account — EKRPT Networking Labs</title>
-<link rel="stylesheet" href="../css/style.css"/>
-<link rel="stylesheet" href="../css/portal-core.css"/>
-<link rel="stylesheet" href="../css/theme-spectre-portal.css"/>
-<link rel="stylesheet" href="../css/portal-future-override.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>:root{--accent:#1a8fc4}.pside-logo-mark{background:var(--blue)}.role-tag{color:var(--blue-mid)}.pside-av{background:var(--blue)}
-.track-steps{display:flex;align-items:center;gap:0;margin:20px 0}
-.track-step{flex:1;text-align:center;position:relative}
-.track-dot{width:32px;height:32px;border-radius:50%;background:var(--gray-100);color:var(--gray-300);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:14px;position:relative;z-index:1}
-.track-step.done .track-dot{background:var(--blue);color:white}
-.track-step.current .track-dot{background:var(--blue);color:white;box-shadow:0 0 0 4px var(--blue-light)}
-.track-line{position:absolute;top:16px;left:-50%;width:100%;height:2px;background:var(--gray-100);z-index:0}
-.track-step.done .track-line{background:var(--blue)}
-.track-label{font-size:11px;color:var(--gray-400);font-family:var(--font-mono)}
-.order-card{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
-/* ── DARK THEME OVERRIDES (match portal dark theme) ── */
-.order-card{background:#0d0f14!important;border:1px solid rgba(255,255,255,.08)!important;color:#f4f6fb!important}
-.order-card td,.order-card .ci-name,.order-card .ci-desc,.order-card strong,.order-card span:not(.pill){color:#f4f6fb}
-.track-dot{background:#1b1f27!important;color:#8b93a3!important}
-.track-step.done .track-dot,.track-step.current .track-dot{background:var(--blue)!important;color:#fff!important}
-.track-line{background:rgba(255,255,255,.12)!important}
-.track-step.done .track-line{background:var(--blue)!important}
-.track-label{color:#8b93a3!important}
-.order-card table,.order-card td{border-color:rgba(255,255,255,.08)!important}
-/* status pills — keep their own colors, just dark-mode the backgrounds */
-.pill-pending{background:#2a1c0a!important;color:#fb923c!important}
-.pill-confirmed,.pill-paid,.pill-active,.pill-ok,.pill-delivered{background:#0f2a18!important;color:#4ade80!important}
-.pill-processing{background:#0c1b3a!important;color:#60a5fa!important}
-.pill-shipped{background:#241036!important;color:#c084fc!important}
-.pill-cancelled,.pill-unpaid,.pill-suspended,.pill-out{background:#2a0f0f!important;color:#f87171!important}
-.pill-low{background:#2a1c0a!important;color:#fb923c!important}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EKRPT Networking Labs — Networking Technology, Tools & Web Development</title>
+<meta name="description" content="EKRPT Networking Labs is a networking technology company. We build performance networking hardware, free network tools, and custom web development — engineered for speed, low latency, and reliability."/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png"/>
+<link rel="manifest" href="site.webmanifest"/>
+<meta name="theme-color" content="#08080a"/>
+<link rel="canonical" href="https://ekrpt.com/"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="EKRPT Networking Labs"/>
+<meta property="og:title" content="EKRPT Networking Labs — Networking Technology Company"/>
+<meta property="og:description" content="Performance networking hardware, free network tools, and custom web development. Engineered for speed, low latency, and reliability."/>
+<meta property="og:url" content="https://ekrpt.com/"/>
+<meta property="og:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="EKRPT Networking Labs — Networking Technology Company"/>
+<meta name="twitter:description" content="Performance networking hardware, free network tools, and custom web development."/>
+<meta name="twitter:image" content="https://ekrpt.com/img/og-ekrpt.jpg"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ekrpt.com/#org","name":"EKRPT Networking Labs","url":"https://ekrpt.com","logo":"https://ekrpt.com/img/og-ekrpt.jpg","description":"Networking technology company building performance hardware, free network tools, and custom web development.","email":"office@ekrpt.com","knowsAbout":["WiFi 7 routers","Starlink","networking hardware","network speed testing","web development"]},{"@type":"WebSite","@id":"https://ekrpt.com/#website","url":"https://ekrpt.com","name":"EKRPT Networking Labs","publisher":{"@id":"https://ekrpt.com/#org"}}]}</script>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/theme-spectre-dark.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"/>
+<style>
+/* ============================================================
+   HOMEPAGE - refined company-first design (scoped to .hp)
+   Monochrome foundation, one clean sans, red used scarcely.
+   All styles namespaced under .hp so nothing else on the
+   site is affected, and the loud theme defaults are overridden
+   locally (no glows, no gradient buttons, no display fonts).
+   ============================================================ */
+.hp{
+  --hp-bg:#08080a;
+  --hp-panel:#101013;
+  --hp-line:rgba(255,255,255,.07);
+  --hp-line-2:rgba(255,255,255,.12);
+  --hp-ink:#ffffff;
+  --hp-soft:rgba(255,255,255,.55);
+  --hp-mute:rgba(255,255,255,.42);
+  --hp-faint:rgba(255,255,255,.35);
+  --hp-red:#e0483e;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--hp-bg);
+  color:var(--hp-ink);
+  -webkit-font-smoothing:antialiased;
+}
+.hp *{box-sizing:border-box}
+.hp-wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+
+/* ---- hero ---- */
+.hp-hero{position:relative;overflow:hidden;border-bottom:.5px solid var(--hp-line)}
+.hp-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(680px 340px at 22% -8%,rgba(224,72,62,.10),transparent 68%);
+}
+.hp-hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:36px 36px;
+  -webkit-mask-image:radial-gradient(120% 90% at 30% 10%,#000 30%,transparent 80%);
+  mask-image:radial-gradient(120% 90% at 30% 10%,#000 30%,transparent 80%);
+}
+.hp-hero-inner{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:96px 24px 84px}
+.hp-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--hp-soft);margin-bottom:26px}
+.hp-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--hp-red);animation:hp-pulse 2.4s ease-in-out infinite}
+@keyframes hp-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hp-hero h1{
+  font-size:clamp(34px,5.4vw,56px);font-weight:500;line-height:1.06;letter-spacing:-.025em;
+  margin:0 0 20px;max-width:16ch;color:var(--hp-ink);
+}
+.hp-hero h1 em{font-style:normal;color:var(--hp-red)}
+.hp-hero .lead{font-size:clamp(15px,1.7vw,18px);color:var(--hp-soft);max-width:54ch;line-height:1.55;margin:0 0 34px}
+.hp-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hp-btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-size:14px;font-weight:500;border-radius:8px;padding:11px 22px;transition:all .15s ease;line-height:1}
+.hp-btn-solid{background:#fff;color:#08080a;border:.5px solid #fff}
+.hp-btn-solid:hover{background:rgba(255,255,255,.88)}
+.hp-btn-text{color:var(--hp-ink);padding:11px 6px;border:.5px solid transparent}
+.hp-btn-text:hover{color:var(--hp-soft)}
+
+/* ---- divisions ---- */
+.hp-sec{padding:78px 0 8px}
+.hp-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--hp-faint);margin:0 0 22px}
+.hp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.hp-grid{grid-template-columns:1fr}}
+.hp-card{
+  background:var(--hp-panel);border:.5px solid var(--hp-line);border-radius:12px;
+  padding:24px 22px 22px;text-decoration:none;color:inherit;display:flex;flex-direction:column;
+  transition:border-color .18s ease,transform .18s ease;position:relative;
+}
+.hp-card:hover{border-color:var(--hp-line-2);transform:translateY(-2px)}
+.hp-card .rule{width:28px;height:2px;background:var(--hp-red);margin-bottom:18px}
+.hp-card h3{font-size:15px;font-weight:500;margin:0 0 7px;color:var(--hp-ink)}
+.hp-card p{font-size:13px;line-height:1.55;color:var(--hp-mute);margin:0 0 18px;flex:1}
+.hp-card .go{font-size:12.5px;color:var(--hp-soft)}
+.hp-card .tag{position:absolute;top:20px;right:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--hp-faint);border:.5px solid var(--hp-line);border-radius:4px;padding:3px 8px}
+
+/* ---- spec rail + flagship band ---- */
+.hp-flag{padding:46px 0 86px}
+.hp-flag-box{border:.5px solid var(--hp-line);border-radius:14px;overflow:hidden;position:relative}
+.hp-flag-box::before{
+  content:"";position:absolute;top:-30%;right:-6%;width:380px;height:380px;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(224,72,62,.09),transparent 66%);
+}
+.hp-rail,.hp-band{position:relative;z-index:1}
+.hp-rail{display:grid;grid-template-columns:repeat(4,1fr);background:#0b0b0e;border-bottom:.5px solid var(--hp-line)}
+@media(max-width:620px){.hp-rail{grid-template-columns:1fr 1fr}}
+.hp-stat{padding:22px 22px;border-right:.5px solid var(--hp-line)}
+.hp-rail .hp-stat:last-child{border-right:none}
+@media(max-width:620px){.hp-stat{border-right:none;border-bottom:.5px solid var(--hp-line)}}
+.hp-stat .n{font-size:21px;font-weight:500;letter-spacing:-.01em;color:var(--hp-ink);margin-bottom:5px}
+.hp-stat .l{font-size:11.5px;letter-spacing:.02em;color:var(--hp-mute)}
+.hp-band{background:var(--hp-panel);padding:30px 26px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+@media(max-width:620px){.hp-band{flex-direction:column;align-items:flex-start}}
+.hp-band .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--hp-faint);margin:0 0 9px}
+.hp-band h2{font-size:19px;font-weight:500;letter-spacing:-.01em;margin:0 0 6px;color:var(--hp-ink)}
+.hp-band p{font-size:13px;color:var(--hp-mute);margin:0;max-width:46ch;line-height:1.5}
+.hp-band .view{background:var(--hp-red);color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:11px 20px;border-radius:8px;white-space:nowrap;transition:filter .15s ease}
+.hp-band .view:hover{filter:brightness(1.08)}
+
+/* ---- final cta ---- */
+.hp-final{border-top:.5px solid var(--hp-line);padding:82px 0}
+.hp-final-inner{max-width:640px}
+.hp-final h2{font-size:clamp(24px,3.4vw,32px);font-weight:500;letter-spacing:-.02em;margin:0 0 14px;color:var(--hp-ink)}
+.hp-final p{font-size:15px;color:var(--hp-soft);line-height:1.55;margin:0 0 28px}
+
+/* ---- learn row ---- */
+.hp-learn{padding:56px 0 8px}
+.hp-learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:620px){.hp-learn-grid{grid-template-columns:1fr}}
+.hp-learn-item{display:block;background:var(--hp-panel);border:.5px solid var(--hp-line);border-radius:10px;padding:20px 22px;transition:border-color .2s,transform .2s}
+.hp-learn-item:hover{border-color:var(--hp-line-2);transform:translateY(-2px)}
+.hp-learn-item .t{font-size:14px;font-weight:500;color:var(--hp-ink);margin:0 0 6px}
+.hp-learn-item .d{font-size:12.5px;line-height:1.5;color:var(--hp-mute);margin:0 0 12px}
+.hp-learn-item .go{font-size:12px;color:var(--hp-soft)}
+
+@media(prefers-reduced-motion:reduce){.hp *{animation:none!important;transition:none!important}}
 </style>
-<!-- Google Analytics (GA4) -->
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'granted','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TK1ELX5K0L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TK1ELX5K0L');
-</script>
 </head>
-<body class="portal">
-<aside class="pside">
-  <div class="pside-logo"><img src="../img/logo-ekrpt.png" alt="EKRPT" style="height:26px;width:auto"/><div class="pside-brand" style="margin-top:8px;font-size:11px;color:#6b7280;font-family:var(--fx-mono);letter-spacing:.12em">// MY ACCOUNT</div></div>
-  <nav class="pside-nav">
-    <div class="pside-section">Account</div>
-    <button class="pside-link active" onclick="nav('dashboard',this)"><span class="ic">📊</span>Dashboard</button>
-    <button class="pside-link" onclick="nav('orders',this)"><span class="ic">📦</span>My Orders</button>
-    <button class="pside-link" onclick="nav('profile',this)"><span class="ic">👤</span>Profile</button>
-    <a class="pside-link" href="../products.html"><span class="ic">🛒</span>Shop More</a>
-    <a class="pside-link" href="../index.html"><span class="ic">🌐</span>Back to Store</a>
-  </nav>
-  <div class="pside-foot"><div class="pside-user"><div class="pside-av" id="av">U</div><div><div class="pside-uname" id="uname">Customer</div><div class="pside-urole">Member</div></div></div><button class="pside-logout" onclick="Auth.signOut()"><span class="ic">⏻</span>Log Out</button></div>
-</aside>
-<div class="pmain">
-  <div class="ptop"><button class="ptop-burger" aria-label="Menu" onclick="togglePortalSidebar()"><span></span><span></span><span></span></button><div class="ptop-title" id="ptitle">Dashboard</div><span class="ptop-meta" id="pmeta"></span></div>
-  <div class="pcontent">
+<body>
+<div id="nav-mount"></div>
 
-    <div id="v-dashboard" class="pview active">
-      <div class="pmetrics">
-        <div class="pmetric"><div class="pmetric-label">Total Orders</div><div class="pmetric-val" id="u-orders">0</div><div class="pmetric-ic">📦</div></div>
-        <div class="pmetric" style="--accent:#16a34a"><div class="pmetric-label">Total Spent</div><div class="pmetric-val" id="u-spent">₦0</div><div class="pmetric-ic">💰</div></div>
-        <div class="pmetric" style="--accent:#ca8a04"><div class="pmetric-label">In Transit</div><div class="pmetric-val" id="u-transit">0</div><div class="pmetric-ic">🚚</div></div>
+<main class="hp">
+
+  <!-- HERO -->
+  <section class="hp-hero">
+    <div class="hp-hero-inner">
+      <span class="hp-eyebrow"><span class="dot"></span> Networking technology company</span>
+      <h1>The infrastructure behind <em>faster</em> connections</h1>
+      <p class="lead">We engineer performance networking hardware - WiFi 7 routers and Starlink kits - build free network tools, and deliver custom web development.</p>
+      <div class="hp-cta">
+        <a href="/flagship.html" class="hp-btn hp-btn-solid">Shop SPECTRE</a>
+        <a href="/tools.html" class="hp-btn hp-btn-text">Explore tools &rarr;</a>
       </div>
-      <div class="ppanel"><div class="ppanel-head"><span class="ppanel-title">Recent Orders</span><button class="pbtn pbtn-ghost" onclick="nav('orders',document.querySelectorAll('.pside-link')[1])">View all</button></div><div class="ppanel-body flush"><table class="ptable"><thead><tr><th>Order #</th><th>Date</th><th>Total</th><th>Status</th></tr></thead><tbody id="recent-body"></tbody></table></div></div>
     </div>
+  </section>
 
-    <div id="v-orders" class="pview">
-      <div id="orders-list"></div>
+  <!-- DIVISIONS -->
+  <section class="hp-wrap hp-sec">
+    <p class="hp-kicker">One company, three divisions</p>
+    <div class="hp-grid">
+      <a href="/products.html" class="hp-card">
+        <div class="rule"></div>
+        <h3>Store</h3>
+        <p>SPECTRE WiFi 7 routers, official Starlink kits, MiFi, and gaming-grade connectivity equipment - engineered and shipped worldwide.</p>
+        <span class="go">Browse products &rarr;</span>
+      </a>
+      <a href="/tools.html" class="hp-card">
+        <span class="tag">Free</span>
+        <div class="rule"></div>
+        <h3>Tools</h3>
+        <p>Free network tools for everyone - PING WARS speed testing for gamers and streamers, a DNS tester, and a growing suite built on our own data engine.</p>
+        <span class="go">Open the tools &rarr;</span>
+      </a>
+      <a href="/services.html" class="hp-card">
+        <div class="rule"></div>
+        <h3>Services</h3>
+        <p>Custom web development and networking solutions. We build fast, modern platforms and help businesses get their infrastructure right.</p>
+        <span class="go">See services &rarr;</span>
+      </a>
     </div>
+  </section>
 
-    <div id="v-profile" class="pview">
-      <div class="ppanel" style="max-width:520px"><div class="ppanel-head"><span class="ppanel-title">My Profile</span></div><div class="ppanel-body">
-        <div class="pfield"><label>Full Name</label><input id="pf-name"/></div>
-        <div class="pfield"><label>Phone</label><input id="pf-phone"/></div>
-        <div class="pfield"><label>Delivery Address</label><input id="pf-address"/></div>
-        <div class="pfield"><label>City</label><input id="pf-city"/></div>
-        <button class="pbtn pbtn-primary" onclick="saveProfile()">Save changes</button>
-      </div></div>
-      <div class="ppanel" style="max-width:520px"><div class="ppanel-head"><span class="ppanel-title">Security</span></div><div class="ppanel-body">
-        <div class="pfield"><label>New Password</label><input type="password" id="pf-pw" placeholder="••••••••"/></div>
-        <button class="pbtn pbtn-ghost" onclick="changePw()">Update password</button>
-      </div></div>
-    </div>
-
-  </div>
-</div>
-
-<script src="../js/config.js"></script>
-<script src="../js/main.js?v=35"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/store.js"></script>
-<script src="../js/roles.js"></script>
-<script>
-let _orders=[];const STEPS=['confirmed','processing','shipped','delivered'];
-document.addEventListener('DOMContentLoaded',async()=>{
-  if(!await Auth.requireAuth())return;
-  const u=await Auth.getUser();
-  if(u){document.getElementById('uname').textContent=u.profile?.full_name||u.email;document.getElementById('av').textContent=(u.profile?.full_name||u.email||'U')[0].toUpperCase();
-    document.getElementById('pf-name').value=u.profile?.full_name||'';document.getElementById('pf-phone').value=u.profile?.phone||'';document.getElementById('pf-address').value=u.profile?.address||'';document.getElementById('pf-city').value=u.profile?.city||'';}
-  await loadOrders();
-});
-function nav(v,btn){document.querySelectorAll('.pview').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pside-link').forEach(x=>x.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');if(btn)btn.classList.add('active');document.getElementById('ptitle').textContent={dashboard:'Dashboard',orders:'My Orders',profile:'Profile'}[v];}
-
-async function loadOrders(){
-  try{_orders=await Orders.getMyOrders();
-    const spent=_orders.filter(o=>o.payment_status==='paid').reduce((s,o)=>s+o.total,0);
-    const transit=_orders.filter(o=>['confirmed','processing','shipped'].includes(o.status)).length;
-    document.getElementById('u-orders').textContent=_orders.length;
-    document.getElementById('u-spent').textContent=fmtNGN(spent);
-    document.getElementById('u-transit').textContent=transit;
-    document.getElementById('recent-body').innerHTML=_orders.slice(0,5).map(o=>`<tr><td style="font-family:var(--font-mono);font-size:11px"><strong>${o.order_number}</strong></td><td style="font-size:12px">${new Date(o.created_at).toLocaleDateString('en-NG')}</td><td style="font-family:var(--font-mono)">${fmtNGN(o.total)}</td><td><span class="pill pill-${o.status}">${o.status}</span></td></tr>`).join('')||'<tr><td colspan="4" class="pempty">No orders yet — <a href="../products.html" style="color:var(--blue)">start shopping</a></td></tr>';
-    renderOrdersList();
-  }catch(e){console.error(e);}
-}
-function renderOrdersList(){
-  document.getElementById('orders-list').innerHTML=_orders.map(o=>{
-    const stepIdx=STEPS.indexOf(o.status);
-    let tracker;
-    if(o.status==='cancelled'){
-      tracker='<div class="palert palert-danger">This order was cancelled</div>';
-    }else{
-      const steps=STEPS.map((s,i)=>{
-        const cls=i<stepIdx?'done':(i===stepIdx?'current':'');
-        const line=i>0?'<div class="track-line"></div>':'';
-        const dot=i<stepIdx?'✓':(i+1);
-        return '<div class="track-step '+cls+'">'+line+'<div class="track-dot">'+dot+'</div><div class="track-label">'+s+'</div></div>';
-      }).join('');
-      tracker='<div class="track-steps">'+steps+'</div>';
-    }
-    return `<div class="order-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-        <div><div style="font-family:var(--font-mono);font-size:14px;font-weight:700">${o.order_number}</div><div style="font-size:12px;color:var(--gray-300)">${new Date(o.created_at).toLocaleString('en-NG')}</div></div>
-        <span class="pill pill-${o.status}">${o.status}</span>
+  <!-- SPEC RAIL + FLAGSHIP -->
+  <section class="hp-wrap hp-flag">
+    <div class="hp-flag-box">
+      <div class="hp-rail">
+        <div class="hp-stat"><div class="n">WiFi 7</div><div class="l">Tri-band flagship</div></div>
+        <div class="hp-stat"><div class="n">19,000</div><div class="l">Mbps aggregate</div></div>
+        <div class="hp-stat"><div class="n">10G</div><div class="l">SFP fibre uplink</div></div>
+        <div class="hp-stat"><div class="n">QoS</div><div class="l">Gaming-grade engine</div></div>
       </div>
-      ${tracker}
-      <table class="ptable" style="margin-top:12px">${(o.items||[]).map(i=>`<tr><td>${i.emoji||''} ${i.name}</td><td>×${i.qty}</td><td style="font-family:var(--font-mono);text-align:right">${fmtNGN(i.price*i.qty)}</td></tr>`).join('')}</table>
-      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-100);font-weight:700"><span>Total</span><span style="font-family:var(--font-mono)">${fmtNGN(o.total)}</span></div>
-    </div>`;
-  }).join('')||'<div class="pempty"><div class="pempty-ic">📦</div><p>No orders yet</p><a href="../products.html" class="pbtn pbtn-primary" style="margin-top:12px">Start shopping</a></div>';
-}
+      <div class="hp-band">
+        <div>
+          <p class="label">Flagship hardware</p>
+          <h2>SPECTRE BE19000 ULTRA</h2>
+          <p>Built for esports latency and zero compromise. Available in SIM and fibre/Ethernet versions.</p>
+        </div>
+        <a href="/flagship.html" class="view">View the SPECTRE &rarr;</a>
+      </div>
+    </div>
+  </section>
 
-async function saveProfile(){try{await Auth.updateProfile({full_name:document.getElementById('pf-name').value,phone:document.getElementById('pf-phone').value,address:document.getElementById('pf-address').value,city:document.getElementById('pf-city').value});showToast('Profile saved ✓');}catch(e){showToast('Error: '+e.message,'error');}}
-async function changePw(){const pw=document.getElementById('pf-pw').value;if(pw.length<6){showToast('Password must be 6+ characters','error');return;}try{await Auth.updatePassword(pw);document.getElementById('pf-pw').value='';showToast('Password updated ✓');}catch(e){showToast('Error: '+e.message,'error');}}
-</script>
+  <!-- LEARN -->
+  <section class="hp-wrap hp-learn">
+    <p class="hp-kicker">Learn</p>
+    <div class="hp-learn-grid">
+      <a href="/what-is-wifi7.html" class="hp-learn-item">
+        <p class="t">What is WiFi 7?</p>
+        <p class="d">A plain-English guide to the standard - MLO, 4096-QAM, and why it matters for latency.</p>
+        <span class="go">Read the guide &rarr;</span>
+      </a>
+      <a href="/wifi7-buying-guide.html" class="hp-learn-item">
+        <p class="t">WiFi 7 Buying Guide</p>
+        <p class="d">How to choose a router in 2026 - the 5-point checklist and the BE-number decoder.</p>
+        <span class="go">Read the guide &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="hp-final">
+    <div class="hp-wrap hp-final-inner">
+      <h2>Building something that needs to move fast?</h2>
+      <p>Whether you need hardware, a custom platform, or want to use our free tools - EKRPT is built to grow with you.</p>
+      <div class="hp-cta">
+        <a href="/contact.html" class="hp-btn hp-btn-solid">Get in touch</a>
+        <a href="/about.html" class="hp-btn hp-btn-text">About EKRPT &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="footer-mount"></div>
+<script src="js/config.js"></script>
+<script src="js/main.js?v=35"></script>
+<script src="js/codasms-redirect.js?v=1"></script>
 </body>
 </html>
