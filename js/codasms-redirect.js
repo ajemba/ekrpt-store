@@ -72,8 +72,8 @@
       '<div class="cds-modal" role="dialog" aria-label="SMS verification has moved to CodaSMS">' +
         '<div class="cds-ic">✉️</div>' +
         '<div class="cds-kicker">SMS VERIFICATION HAS MOVED</div>' +
-        '<h2 class="cds-h">Looking for virtual numbers &amp; OTP verification?</h2>' +
-        '<p class="cds-p">EKRPT\u2019s SMS verification service is now <b>CodaSMS</b> \u2014 rebranded, faster, and fully upgraded. EKRPT.com is now our networking hardware &amp; tools store.</p>' +
+        '<h2 class="cds-h">Looking for phone numbers &amp; SMS verification?</h2>' +
+        '<p class="cds-p">EKRPT\u2019s EkrptSMS verification service is now <b>CodaSMS</b> \u2014 rebranded, faster, and fully upgraded. EKRPT.com is now our networking hardware &amp; tools store.</p>' +
         '<a class="cds-go" href="' + URL + '">Go to CodaSMS.com \u2192</a>' +
         '<button class="cds-no" type="button">No thanks, I\u2019m here for networking gear</button>' +
       '</div>';
